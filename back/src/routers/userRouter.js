@@ -5,12 +5,13 @@ import { userAuthService } from "../services/userService";
 
 const userAuthRouter = Router();
 
+// 새로운 유저정보 등록
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
+      ); 
     }
 
     // req (request) 에서 데이터 가져오기
@@ -35,7 +36,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/login", async function (req, res, next) {
+userAuthRouter.post("/login", async function (req, res, next) {
   try {
     // req (request) 에서 데이터 가져오기
     const email = req.body.email;
@@ -54,12 +55,14 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
   }
 });
 
+// 로그인 된 유저만 유저 목록은 가져올 수 있음
 userAuthRouter.get(
   "/userlist",
   login_required,
   async function (req, res, next) {
     try {
       // 전체 사용자 목록을 얻음
+
       const users = await userAuthService.getUsers();
       res.status(200).send(users);
     } catch (error) {
@@ -74,7 +77,9 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
+      // console.log(req);
       const user_id = req.currentUserId;
+
       const currentUserInfo = await userAuthService.getUserInfo({
         user_id,
       });
@@ -92,9 +97,11 @@ userAuthRouter.get(
 
 userAuthRouter.put(
   "/users/:id",
-  login_required,
+  // login_required,
   async function (req, res, next) {
     try {
+      // 로그인 한 유저가 변경하려는 유저정보의 소유자인지 확인해야함!!!
+
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
@@ -121,7 +128,7 @@ userAuthRouter.put(
 
 userAuthRouter.get(
   "/users/:id",
-  login_required,
+  // login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.id;
@@ -139,12 +146,12 @@ userAuthRouter.get(
 );
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
-  res
-    .status(200)
-    .send(
-      `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
-    );
-});
+// userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
+//   res
+//     .status(200)
+//     .send(
+//       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
+//     );
+// });
 
 export { userAuthRouter };

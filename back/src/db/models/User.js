@@ -1,4 +1,5 @@
 import { UserModel } from "../schemas/user";
+import { CertificateModel } from "../schemas/certificate";
 
 class User {
   static async create({ newUser }) {
