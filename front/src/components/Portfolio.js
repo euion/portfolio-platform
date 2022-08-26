@@ -60,9 +60,9 @@ function Portfolio() {
   return (
     <>
       <Container center>
-        <h1>Portfolio</h1>
         <Row>
-          <Col md="3" lg="3">
+          <h1>Portfolio</h1>
+          <Col md="4" lg="4">
             <User
               // portfolioOwnerId={portfolioOwner.id}
               // isEditable={portfolioOwner.id === userState.user?.id}

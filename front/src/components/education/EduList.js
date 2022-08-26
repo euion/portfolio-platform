@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import EduUpdate from "./EduUpdate";
 
 /**  학력정보 한단위로 나타냄 */
@@ -36,22 +36,14 @@ function EduCard({
   return (
     <>
       <Row>
-        <Row>
+        <Col sm={8}>
           <h5>{edu.school}</h5>
           <p>
             {edu.major}, {edu.position}
           </p>
-        </Row>
+        </Col>
+        <Col md="auto"></Col>
         <Col>
-          <Button
-            className="ms-2 mb-3"
-            variant="outline-danger"
-            onClick={() =>
-              setEducations(educations.filter((e) => e.id !== edu.id))
-            }
-          >
-            삭제
-          </Button>
           {isEditable && (
             <Button
               onClick={() => setIsEditing(!isEditing)}
@@ -61,6 +53,15 @@ function EduCard({
               {isEditing ? "취소" : "수정"}
             </Button>
           )}
+          <Button
+            className="ms-2 mb-3"
+            variant="outline-danger"
+            onClick={() =>
+              setEducations(educations.filter((e) => e.id !== edu.id))
+            }
+          >
+            삭제
+          </Button>
         </Col>
       </Row>
     </>
