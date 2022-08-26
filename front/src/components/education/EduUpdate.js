@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
 function EduUpdate({ setIsEditing, edu }) {
@@ -17,6 +17,7 @@ function EduUpdate({ setIsEditing, edu }) {
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
+          <p></p>
           <Form.Control
             name="school"
             placeholder="학교 이름"
@@ -85,17 +86,24 @@ function EduUpdate({ setIsEditing, edu }) {
           </div>
         </Form.Group>
         <div style={{ textAlign: "center" }}>
+          {school && major && position ? (
+            <Button
+              className="ms-2 mb-3"
+              variant="primary"
+              type="submit"
+              // style={{ margin: " 5px 5px" }}
+            >
+              확인
+            </Button>
+          ) : (
+            <Button className="ms-2 mb-3" variant="primary" disabled>
+              확인
+            </Button>
+          )}
+
           <Button
             className="ms-2 mb-3"
-            variant="primary"
-            type="submit"
-            // style={{ margin: " 5px 5px" }}
-          >
-            확인
-          </Button>
-          <Button
-            className="ms-2 mb-3"
-            variant="secondary"
+            variant="outline-primary"
             onClick={() => {
               setIsEditing(false);
             }}

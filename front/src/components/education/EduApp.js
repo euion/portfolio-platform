@@ -1,7 +1,6 @@
-import React, { useCallback, useReducer, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card } from "react-bootstrap";
 import EduInputForm from "./EduInputForm";
-import { Container, Col, Row } from "react-bootstrap";
 import EduList from "./EduList";
 
 const initialState = {
@@ -38,9 +37,9 @@ function EduApp({ portfolioOwnerId, isEditable }) {
 
   return (
     <>
-      <Card className="ml-5">
+      <Card className="ml-5 p-3">
         <Card.Body>
-          <h2>학력</h2>
+          <h3>📚학력</h3>
           {educations.map((edu) => (
             <EduList
               key={edu.id}
