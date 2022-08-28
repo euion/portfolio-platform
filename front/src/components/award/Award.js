@@ -41,8 +41,12 @@ function Award() {
                 ) : (
                   <div>
                     <div>{value.title}</div>
-                    <div style={{ color: "rgb(100,100,100)" }}>{value.content}</div>
-                    <Button onClick={() => setSelectedIndex(index)}>edit</Button>{" "}
+                    <div style={{ color: "rgb(100,100,100)" }}>
+                      {value.content}
+                    </div>
+                    <Button onClick={() => setSelectedIndex(index)}>
+                      edit
+                    </Button>{" "}
                     <Button
                       onClick={() => {
                         setList(

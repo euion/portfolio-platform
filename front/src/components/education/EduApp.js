@@ -38,36 +38,30 @@ function EduApp({ portfolioOwnerId, isEditable }) {
 
   return (
     <>
-      <Container center>
-        <Row>
-          <Col lg="8">
-            <Card>
-              <Card.Body>
-                <h3>학력</h3>
-                {educations.map((edu) => (
-                  <EduList
-                    key={edu.id}
-                    edu={edu}
-                    setEducations={setEducations}
-                    educations={educations}
-                    isEditable={isEditable}
-                  />
-                ))}
-                <div style={{ textAlign: "center", margin: "5px" }}>
-                  {isEditable && (
-                    <EduInputForm
-                      setIsAdding={setIsAdding}
-                      isAdding={isAdding}
-                      educations={educations}
-                      setEducations={setEducations}
-                    />
-                  )}
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <Card className="ml-5">
+        <Card.Body>
+          <h2>학력</h2>
+          {educations.map((edu) => (
+            <EduList
+              key={edu.id}
+              edu={edu}
+              setEducations={setEducations}
+              educations={educations}
+              isEditable={isEditable}
+            />
+          ))}
+          <div style={{ textAlign: "center", margin: "5px" }}>
+            {isEditable && (
+              <EduInputForm
+                setIsAdding={setIsAdding}
+                isAdding={isAdding}
+                educations={educations}
+                setEducations={setEducations}
+              />
+            )}
+          </div>
+        </Card.Body>
+      </Card>
     </>
   );
 }

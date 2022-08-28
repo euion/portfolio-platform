@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import EduUpdate from "./EduUpdate";
 
 /**  학력정보 한단위로 나타냄 */
@@ -7,7 +7,6 @@ function EduList({ edu, setEducations, educations, isEditable }) {
   const [isEditing, setIsEditing] = useState(false);
   return (
     <>
-      {console.log(edu.school)}
       {isEditing ? (
         <EduUpdate key={edu.id} setIsEditing={setIsEditing} edu={edu} />
       ) : (
@@ -36,24 +35,34 @@ function EduCard({
 }) {
   return (
     <>
-      <div>
-        <h5>{edu.school}</h5>
-        <p>
-          {edu.major}, {edu.position}
-        </p>
-        <Button
-          onClick={() =>
-            setEducations(educations.filter((e) => e.id !== edu.id))
-          }
-        >
-          삭제
-        </Button>
-        {isEditable && (
-          <Button onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? "취소" : "수정"}
+      <Row>
+        <Row>
+          <h5>{edu.school}</h5>
+          <p>
+            {edu.major}, {edu.position}
+          </p>
+        </Row>
+        <Col>
+          <Button
+            className="ms-2 mb-3"
+            variant="outline-danger"
+            onClick={() =>
+              setEducations(educations.filter((e) => e.id !== edu.id))
+            }
+          >
+            삭제
           </Button>
-        )}
-      </div>
+          {isEditable && (
+            <Button
+              onClick={() => setIsEditing(!isEditing)}
+              className="ms-2 mb-3"
+              variant="outline-warning"
+            >
+              {isEditing ? "취소" : "수정"}
+            </Button>
+          )}
+        </Col>
+      </Row>
     </>
   );
 }

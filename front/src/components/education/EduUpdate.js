@@ -86,9 +86,10 @@ function EduUpdate({ setIsEditing, edu }) {
         </Form.Group>
         <div style={{ textAlign: "center" }}>
           <Button
+            className="ms-2 mb-3"
             variant="primary"
             type="submit"
-            style={{ margin: " 5px 5px" }}
+            // style={{ margin: " 5px 5px" }}
           >
             확인
           </Button>

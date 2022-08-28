@@ -59,8 +59,8 @@ function Portfolio() {
 
   return (
     <>
-      <h1>Portfolio</h1>
-      <Container fluid>
+      <Container center>
+        <h1>Portfolio</h1>
         <Row>
           <Col md="3" lg="3">
             <User
@@ -70,18 +70,11 @@ function Portfolio() {
               isEditable={true}
             />
           </Col>
-          <Col>
-            <div>
-              <EduApp
-                // portfolioOwnerId={portfolioOwner.id}
-                // isEditable={portfolioOwner.id === userState.user?.id}
-                portfolioOwnerId={1}
-                isEditable={true}
-              />
-            </div>
-            <Award />
-            <Project />
-            <Certificates />
+          <Col lg="7">
+            <EduApp portfolioOwnerId={1} isEditable={true} />
+            <Award portfolioOwnerId={1} isEditable={true} />
+            <Project portfolioOwnerId={1} isEditable={true} />
+            <Certificates portfolioOwnerId={1} isEditable={true} />
           </Col>
         </Row>
       </Container>
