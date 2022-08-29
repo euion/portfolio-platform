@@ -6,13 +6,14 @@ function AwardAdd({ setIsAdd, setList, list }) {
   const [content, setContent] = useState("");
   const nextId = useRef(3);
 
-  function submit() {
+  function onSubmit(e) {
+    console.log("ok");
+    e.preventDefault();
     if (title && content) {
       setList([...list, { id: nextId.current, title, content }]);
       setTitle("");
       setContent("");
       nextId.current += 1;
-      alert("추가 되었습니다.");
     } else alert("내용을 입력해주세요.");
     setIsAdd(false);
   }
@@ -22,7 +23,7 @@ function AwardAdd({ setIsAdd, setList, list }) {
   }
 
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       <Form.Group>
         <Form.Label>제목</Form.Label>
         <Form.Control
@@ -46,7 +47,7 @@ function AwardAdd({ setIsAdd, setList, list }) {
       <Form.Group as={Col} className="text-center m-3">
         <Row>
           <Col>
-            <Button variant="primary" onClick={submit}>
+            <Button variant="primary" type="submit">
               확인
             </Button>{" "}
             <Button variant="secondary" onClick={cancel}>

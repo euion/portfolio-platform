@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
+import { modeReducer } from "./reducer";
 
 import Header from "./components/Header";
 import LoginForm from "./components/user/LoginForm";
@@ -16,12 +17,12 @@ export const DispatchContext = createContext(null);
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
-  const moveTop = () => {
-    // TOP버튼 펑션
-    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
-  };
   const [userState, dispatch] = useReducer(loginReducer, {
     user: null,
+  });
+
+  const [modeState, modedispatch] = useReducer(modeReducer, {
+    mode: "light",
   });
 
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
@@ -57,6 +58,25 @@ function App() {
     return "loading...";
   }
 
+  const moveTop = () => {
+    // TOP버튼 펑션
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
+
+  // const [mode, setmode] = useState("Light"); //State about dark-mode
+
+  // const toggleMode = () => {
+  //   if (mode === "Light") {
+  //     setmode("Dark");
+  //     document.body.style.backgroundColor = "#202020"; //'#042743'
+  //     document.body.style.color = "#ffffff"; //'#042743'
+  //   } else {
+  //     setmode("Light");
+  //     document.body.style.backgroundColor = "white";
+  //     document.body.style.color = "#000000"; //'#042743'
+  //   }
+  // };
+
   return (
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
@@ -72,6 +92,9 @@ function App() {
           </Routes>
         </Router>
       </UserStateContext.Provider>
+      {/* <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
+        MODE
+      </Button> */}
       <Button className="position-fixed bottom-0 end-0 m-5" onClick={moveTop}>
         TOP
       </Button>

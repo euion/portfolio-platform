@@ -4,7 +4,7 @@ import { Card } from "react-bootstrap";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
-function Certificates({ portfolioOwnerId, isEditable }) {
+function Certificates({ portfolioOwnerId, isEditable, mode }) {
   const [certificateList, setCertificateList] = useState([
     {
       id: 0, //자격증 하나당 아이디
@@ -16,7 +16,11 @@ function Certificates({ portfolioOwnerId, isEditable }) {
   const [isAdding, setIsAdding] = useState(false);
 
   return (
-    <Card>
+    <Card
+      className="mt-3"
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
       <Card.Body>
         <Card.Title className="mb-3 ms-3 mt-3">자격증</Card.Title>
 

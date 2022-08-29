@@ -32,13 +32,17 @@ const initialState = {
   ],
 };
 
-function EduApp({ portfolioOwnerId, isEditable }) {
+function EduApp({ portfolioOwnerId, isEditable, mode }) {
   const [educations, setEducations] = useState(initialState.users);
   const [isAdding, setIsAdding] = useState(false);
 
   return (
     <>
-      <Card className="ml-5">
+      <Card
+        className="ml-5"
+        bg={mode.toLowerCase()}
+        text={mode.toLowerCase() === "light" ? "dark" : "white"}
+      >
         <Card.Body>
           <h2>학력</h2>
           {educations.map((edu) => (

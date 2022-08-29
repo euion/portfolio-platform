@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Button } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
@@ -57,26 +57,44 @@ function Portfolio() {
   //   return "loading...";
   // }
 
+  const [mode, setmode] = useState("Light"); //State about dark-mode
+
+  const toggleMode = () => {
+    if (mode === "Light") {
+      setmode("Dark");
+      document.body.style.backgroundColor = "#202020"; //'#042743'
+      document.body.style.color = "#ffffff"; //'#042743'
+    } else {
+      setmode("Light");
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "#000000"; //'#042743'
+    }
+  };
+
   return (
     <>
       <Container center>
         <h1>Portfolio</h1>
         <Row>
-          <Col md="3" lg="3">
+          <Col md="4" lg="4">
             <User
               // portfolioOwnerId={portfolioOwner.id}
               // isEditable={portfolioOwner.id === userState.user?.id}
               portfolioOwnerId={1}
               isEditable={true}
+              mode={mode}
             />
           </Col>
           <Col lg="7">
-            <EduApp portfolioOwnerId={1} isEditable={true} />
-            <Award portfolioOwnerId={1} isEditable={true} />
-            <Project portfolioOwnerId={1} isEditable={true} />
-            <Certificates portfolioOwnerId={1} isEditable={true} />
+            <EduApp portfolioOwnerId={1} isEditable={true} mode={mode} />
+            <Award portfolioOwnerId={1} isEditable={true} mode={mode} />
+            <Project portfolioOwnerId={1} isEditable={true} mode={mode} />
+            <Certificates portfolioOwnerId={1} isEditable={true} mode={mode} />
           </Col>
         </Row>
+        <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
+          MODE
+        </Button>
       </Container>
     </>
   );
