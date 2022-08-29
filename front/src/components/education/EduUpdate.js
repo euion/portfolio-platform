@@ -110,6 +110,15 @@ function EduUpdate({ setIsEditing, edu }) {
           >
             취소
           </Button>
+          <Button
+            className="ms-2 mb-3"
+            variant="secondary"
+            onClick={() => {
+              setIsEditing(false);
+            }}
+          >
+            취소
+          </Button>
         </div>
       </Form>
     </>
