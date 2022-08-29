@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import * as API from '../../api';
 
@@ -67,77 +68,72 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
     }
 
     return (
-        <div className='p-3 border w-75'>
-            {!addToggle &&
-                <>
-                    <h2>🧑🏻‍💻 프로젝트</h2>
-                    <div className="dropdown-divider"></div>
-                    <Accordion className='mt-3' defaultActiveKey={0}>
-                        {projects?.map((v, i) =>
-                            <Accordion.Item eventKey={i} key={'item' + v.name + v.text}>
-                                <Accordion.Header onClick={() => { setEditToggle(false) }}>
-                                    <h5 style={{ fontWeight: '600' }}>{v.name}</h5>
-                                    {v.link && <a style={{ textDecoration: 'none' }}
-                                        className='ms-2'
-                                        href={v.link}
-                                        target='_blank'
-                                        rel="noreferrer">🔗</a>}
-                                </Accordion.Header>
-                                <Accordion.Body>
-                                    {/* 이미지 처리 구현되면 활성화 */}
-                                    <h5 className='mt-4 mb-3'>🖥 프로젝트 이미지</h5>
-                                    <ProjectImages />
-                                    <h5 className='mt-5 mb-3'>📄 프로젝트 설명</h5>
-                                    <div className='mt-3'>{v.text.split('\n').map(v => <>{v}<br></br></>)}</div>
-                                    <div className='mt-3 mb-3'>
-                                        {
-                                            // 메소드를 사용하는 객체가 존하는지 확인!
-                                            // v.skill이 없을때 split 메소드 사용시 에러발생, 반드시 존재하는지 확인부터!!
-                                            v?.skill?.split(' ').map(v => <Badge className='me-1' pill bg="primary">{v}</Badge>)}
-                                    </div>
-                                    <div className='mt-3' style={{ textAlign: 'center' }}>
-                                        {!editToggle ?
-                                            <div className='mt-5 mb-5'>
-                                                <Button
-                                                    onClick={() => { setEditToggle(true) }}
-                                                    variant="outline-warning">수정</Button>
-                                                <Button
-                                                    className='ms-3'
-                                                    onClick={() => { deleteProjectHandleer(v.name, i) }}
-                                                    variant="outline-danger">삭제</Button>
-                                            </div>
-                                            : <EditProjectForm
-                                                index={i}
-                                                name={v.name}
-                                                text={v.text}
-                                                skill={v.skill}
-                                                link={v.link}
-                                                projects={projects}
-                                                setProjects={setProjects}
-                                                setEditToggle={(boolean) => { setEditToggle(boolean) }} />}
-                                    </div>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        )}
-                    </Accordion>
-                    <div className='mt-3 mb-3' style={{ textAlign: 'center' }}>
-                        <Button style={{
-                            fontSize: '1.5em',
-                            fontWeight: '800',
-                            textAlign: 'center',
-                            width: '50px',
-                            height: '50px',
-                            borderRadius: '50%'
-                        }} className='mt-3' onClick={() => { setAddToggle(true) }}>+</Button>
-                    </div>
-                </>
-            }
-            {addToggle && <AddProjectForm
-                projects={projects}
-                setProjects={setProjects}
-                setAddToggle={e => { setAddToggle(e) }}
-            />}
-        </div>
+        <Card className='p-3 border'>
+            <Card.Body>
+                {!addToggle &&
+                    <>
+                        <h2>🧑🏻‍💻 프로젝트</h2>
+                        <div className="dropdown-divider"></div>
+                        <Accordion className='mt-3' defaultActiveKey={0}>
+                            {projects?.map((v, i) =>
+                                <Accordion.Item eventKey={i} key={'item' + v.name + v.text}>
+                                    <Accordion.Header onClick={() => { setEditToggle(false) }}>
+                                        <h5 style={{ fontWeight: '600' }}>{v.name}</h5>
+                                        {v.link && <a style={{ textDecoration: 'none' }}
+                                            className='ms-2'
+                                            href={v.link}
+                                            target='_blank'
+                                            rel="noreferrer">🔗</a>}
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        {/* 이미지 처리 구현되면 활성화 */}
+                                        {/* <h5 className='mt-4 mb-3'>프로젝트 이미지</h5> */}
+                                        {/* <ProjectImages /> */}
+                                        {/* <h5 className='mt-5 mb-3'>프로젝트 설명</h5> */}
+                                        <div className='mt-3'>{v.text.split('\n').map(v => <>{v}<br></br></>)}</div>
+                                        <div className='mt-3 mb-3'>
+                                            {
+                                                // 메소드를 사용하는 객체가 존하는지 확인!
+                                                // v.skill이 없을때 split 메소드 사용시 에러발생, 반드시 존재하는지 확인부터!!
+                                                v?.skill?.split(' ').map(v => <Badge className='me-1' pill bg="primary">{v}</Badge>)}
+                                        </div>
+                                        <div className='mt-3' style={{ textAlign: 'center' }}>
+                                            {!editToggle ?
+                                                <div className='mt-5 mb-5'>
+                                                    <Button
+                                                        onClick={() => { setEditToggle(true) }}
+                                                        variant="outline-warning">수정</Button>
+                                                    <Button
+                                                        className='ms-3'
+                                                        onClick={() => { deleteProjectHandleer(v.name, i) }}
+                                                        variant="outline-danger">삭제</Button>
+                                                </div>
+                                                : <EditProjectForm
+                                                    index={i}
+                                                    name={v.name}
+                                                    text={v.text}
+                                                    skill={v.skill}
+                                                    link={v.link}
+                                                    projects={projects}
+                                                    setProjects={setProjects}
+                                                    setEditToggle={(boolean) => { setEditToggle(boolean) }} />}
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            )}
+                        </Accordion>
+                        <div className='mt-3 mb-3' style={{ textAlign: 'center' }}>
+                            <Button className='mt-3' onClick={() => { setAddToggle(true) }}>+</Button>
+                        </div>
+                    </>
+                }
+                {addToggle && <AddProjectForm
+                    projects={projects}
+                    setProjects={setProjects}
+                    setAddToggle={e => { setAddToggle(e) }}
+                />}
+            </Card.Body>
+        </Card >
     );
 }
 
