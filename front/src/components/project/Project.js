@@ -84,7 +84,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                                         rel="noreferrer">🔗</a>}
                                 </Accordion.Header>
                                 <Accordion.Body>
-                                    이미지 처리 구현되면 활성화
+                                    {/* 이미지 처리 구현되면 활성화 */}
                                     <h5 className='mt-4 mb-3'>🖥 프로젝트 이미지</h5>
                                     <ProjectImages />
                                     <h5 className='mt-5 mb-3'>📄 프로젝트 설명</h5>
