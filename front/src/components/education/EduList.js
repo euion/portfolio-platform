@@ -68,7 +68,7 @@ function EduCard({
             variant="outline-danger"
             onClick={async (e) => {
               e.preventDefault();
-              await Api.delete(`educations/${edu.id}/delete`).then((res) =>
+              await Api.delete(`educations/${edu.id}`).then((res) =>
                 console.log(res.data)
               );
               setEducations(educations.filter((e) => e.id !== edu.id));
