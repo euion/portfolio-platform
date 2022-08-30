@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 import InputForm from './InputForm';
 
+//bootstrap
+import Button from 'react-bootstrap/Button';
+import * as API from '../../api';
+
+
 const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
+
     // input 받기위한 state
     const [project, setProject] = useState(
         {
@@ -10,6 +16,7 @@ const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
             skill: '',
             text: '',
             link: '',
+            imagePaths: [],
         }
     );
 
@@ -25,6 +32,11 @@ const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
         axios.put('/uesr/project/', 데이터 객체)
         아마 이런식으로 서버에 요청
         */
+        const res = await API.post('project', {
+            title: 'test t',
+            description: 'test d'
+        });
+        console.log(res);
 
         //추가 요청 응답이 성공이라면
         //dispatch로 프로젝트를 추가하도록 userState를 업데이트 합니다.
@@ -42,7 +54,9 @@ const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
                 project={project}
                 setProject={setProject}
                 submitHandler={addProject}
-                setVisibleToggle={setAddToggle} />
+                setVisibleToggle={setAddToggle}
+            />
+
         </div>
     );
 }

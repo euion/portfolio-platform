@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useCallback } from 'react';
+import axios from 'axios';
 
-
+//bootstrap component
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -8,13 +9,51 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
 
     //input handler
     const changeHandler = (e) => {
-        // console.log(e.target.value);
         const { name, value } = e.target;
         const tempProject = { ...project }
 
         tempProject[name] = value;
         setProject(tempProject);
     }
+
+
+    //image 관련 함수들
+    const imageInput = useRef();
+
+    const onClickImageUpload = useCallback(() => {
+        imageInput.current.click();
+    }, [imageInput]);
+
+    const onChangeImages = async (e) => {
+        //선택한 이미지를 폼데이터 형식으로 만든다
+        const imageFormData = new FormData();
+        //[].forEach.call ? : e.target.files가 배열과 유사하게 생겼으나 배열이 아니다. 따라서 [].forEach.call를 통해 배열 메소드를 이용가능하다.
+        [].forEach.call(e.target.files, (f) => {
+            //imageFormData의 값추가 - key값 : 'image' , value : input 태그로 입력한 파일
+            imageFormData.append('image', f);
+        });
+        //파일을 입력해 생성한 FormData를 서버에 올리도록 요청
+        axios.post('http://localhost:3333/images', imageFormData)
+            .then(res => res.data)
+            .then(data => {
+                const temp = [...project?.imagePaths, data];
+                setProject({ ...project, imagePaths: temp });
+            });
+        //똑같은 파일을 올렸을때 onChange가 인식 못하는걸 방지
+        e.target.value = "";
+    };
+    const onRemoveImage = (index) => {
+        //index, filter 메소드 이용
+        setProject(
+            {
+                ...project,
+                imagePaths: [...project.imagePaths.filter((v, i) => (index !== i))]
+            });
+    };
+
+    const onRemoveImageAll = () => {
+        setProject({ ...project, imagePaths: [] });
+    };
 
     return (
         <>
@@ -70,10 +109,34 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
                         placeholder="https://" />
                 </Form.Group>
 
-                <div style={{ textAlign: 'center' }}>
-                    <Button variant="primary" className='me-3' type="submit">확인</Button>
-                    <Button variant="outline-primary" onClick={() => { setVisibleToggle(false) }}>취소</Button>
+                {/* 업로드된 이미지 미리보기 */}
+                {project.imagePaths?.length > 0 ? <div className="dropdown-divider"></div> : null}
+                <div style={{ display: 'flex', overflowX: 'scroll', alignItems: 'flex-end' }}>
+                    {project.imagePaths?.map((v, i) => (
+                        <div key={v} className='me-2' style={{ display: 'flex', flexDirection: 'column' }}>
+                            <img className='mt-2' src={`http://localhost:3333/${v}`} alt={v} style={{ width: '180px', height: '200px', objectFit: 'cover' }}></img>
+                            <Button className='mt-2 mb-2' variant="outline-danger" onClick={() => { onRemoveImage(i) }}>삭제</Button>
+                        </div>
+                    ))}
                 </div>
+                {project.imagePaths?.length > 0 ? <div className="dropdown-divider"></div> : null}
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                        {/* 이미지 첨부 버튼 */}
+                        <input type='file' name='image' hidden ref={imageInput} onChange={onChangeImages} />
+                        <Button className='me-2' onClick={onClickImageUpload}>이미지 업로드</Button>
+                        {project.imagePaths?.length > 0 ?
+                            <Button variant="danger" onClick={onRemoveImageAll}>
+                                모든 이미지 삭제
+                            </Button> : null}
+                    </div>
+
+                    <div>
+                        <Button variant="primary" className='me-2' type="submit">확인</Button>
+                        <Button variant="outline-primary" onClick={() => { setVisibleToggle(false) }}>취소</Button>
+                    </div>
+                </div>
+
             </Form>
         </>
     );

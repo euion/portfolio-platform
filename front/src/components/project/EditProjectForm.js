@@ -2,15 +2,16 @@ import { useState } from 'react';
 
 import InputForm from './InputForm';
 
-const EditProjectForm = ({ index, name, text, skill, link, projects, setProjects, setEditToggle }) => {
+const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
     //여기서 state 선언하고 하위 input form에서 수정하도록 
     const [project, setProject] = useState(
         {
             index,
-            name,
-            text,
-            skill,
-            link,
+            name: projects[index].name,
+            text: projects[index].text,
+            skill: projects[index].skill,
+            link: projects[index].link,
+            imagePaths: projects[index].imagePaths,
         }
     );
 
@@ -45,7 +46,8 @@ const EditProjectForm = ({ index, name, text, skill, link, projects, setProjects
                 project={project}
                 setProject={setProject}
                 submitHandler={editProject}
-                setVisibleToggle={setEditToggle} />
+                setVisibleToggle={setEditToggle}
+            />
         </div>
     );
 }
