@@ -1,11 +1,12 @@
 import { Schema, model } from "mongoose";
-const id = require("./types/id");
+import id from "./types/id";
 
 const ProjectSchema = new Schema(
   {
     user_id: {
       type: String,
       required: true,
+      index: true,
     },
     id,
     title: {
@@ -30,6 +31,6 @@ const ProjectSchema = new Schema(
   }
 );
 
-const ProjectModel = model("project", ProjectSchema);
+const ProjectModel = model("Project", ProjectSchema);
 
 export { ProjectModel };

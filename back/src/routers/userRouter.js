@@ -117,7 +117,6 @@ userAuthRouter.put(
 
 userAuthRouter.get("/users/:id", async function (req, res, next) {
   try {
-    console.log("/users/:id", req);
     const user_id = req.params.id;
     const currentUserInfo = await userAuthService.getUserInfo({ user_id });
 

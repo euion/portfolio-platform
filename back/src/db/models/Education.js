@@ -6,23 +6,18 @@ class Education {
     return createdNewEducation;
   }
 
-  static async findByEduId({ edu_id }) {
-    // edu_id로 검색
-    const education = await EducationModel.findOne({ id: edu_id });
+  static async findByEducationId({ education_id }) {
+    const education = await EducationModel.findOne({ id: education_id });
     return education;
   }
 
-  // findAll vs find - findAll이 속도는 느릴 수 있지만 확실하게 모든 것을 찾아서 반환
-  static async findByUserId({ user_id }) {
-    // 전체 학력 list를 불러옴 (pl.)
-    console.log(user_id);
+  static async findAllByUserId({ user_id }) {
     const educations = await EducationModel.find({ user_id: user_id });
     return educations;
   }
 
-  static async update({ edu_id, fieldToUpdate, newValue }) {
-    // 변경하고자 하는 특정 학력의 id로 filtering
-    const filter = { id: edu_id };
+  static async update({ education_id, fieldToUpdate, newValue }) {
+    const filter = { id: education_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 

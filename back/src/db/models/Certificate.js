@@ -6,12 +6,12 @@ class Certificate {
     return createdNewCertificate;
   }
 
-  static async findById({ certificate_id }) {
+  static async findByCertificateId({ certificate_id }) {
     const certificate = await CertificateModel.findOne({ id: certificate_id });
     return certificate;
   }
 
-  static async findAll({ user_id }) {
+  static async findAllByUserId({ user_id }) {
     const certificates = await CertificateModel.find({ user_id: user_id });
     return certificates;
   }
@@ -30,8 +30,7 @@ class Certificate {
   }
 
   static async delete({ certificate_id }) {
-    const certificate = await CertificateModel.deleteOne({ id: certificate_id })
-    return certificate
+    await CertificateModel.deleteOne({ id: certificate_id })
   }
 }
 

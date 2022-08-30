@@ -9,4 +9,4 @@ const id = {
   index: true,
 };
 
-module.exports = id;
+export default  id;

@@ -5,7 +5,9 @@ import { Education } from "../db";
 
 const educationRouter = Router();
 
-educationRouter.post("/education", async (req, res, next) => {
+educationRouter.post(
+  "/education",
+  async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -15,12 +17,7 @@ educationRouter.post("/education", async (req, res, next) => {
 
     const { school, major, position } = req.body;
 
-    // user_id를 request에서 가져옴 (check login_required)
     const user_id = req.currentUserId;
-
-    if (!user_id) {
-      throw new Error("No User");
-    }
 
     // 위 데이터를 학력 db에 추가하기
     const newEducation = await educationService.addEducation({
@@ -40,20 +37,37 @@ educationRouter.post("/education", async (req, res, next) => {
   }
 });
 
-educationRouter.put("/educations/:id", async (req, res, next) => {
+// 특정 user의 모든 학력 내역 get
+educationRouter.get(
+  "/users/:user_id/educations",
+  async (req, res, next) => {
   try {
-    // req에서 데이터 가져오기
-    const edu_id = req.params.id;
+    const user_id = req.params.user_id;
+    const userEducations = await educationService.getEducations({ user_id });
 
-    // 해당 id를 사용하는 education정보가 있는지 확인
-    const education = await Education.findByEduId({ edu_id });
+    if (userEducations.errorMessage) {
+      throw new Error(userEducations.errorMessage);
+    }
+    res.status(200).json(userEducations);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+educationRouter.put(
+  "/educations/:id",
+  async (req, res, next) => {
+  try {
+    const education_id = req.params.id;
+
+    const education = await Education.findByEducationId({ education_id });
 
     // !!!
     if (education.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }
 
-    // 있는 경우 update할 정보를 추출
     const school = req.body.school ?? null;
     const major = req.body.major ?? null;
     const position = req.body.position ?? null;
@@ -62,7 +76,7 @@ educationRouter.put("/educations/:id", async (req, res, next) => {
 
     // 수정 후 db에 업데이트
     const updatedEducation = await educationService.setEducation({
-      edu_id,
+      education_id,
       toUpdate,
     });
 
@@ -76,32 +90,20 @@ educationRouter.put("/educations/:id", async (req, res, next) => {
   }
 });
 
-// 특정 user의 모든 학력 내역 get
-educationRouter.get("/users/:user_id/educations", async (req, res, next) => {
+educationRouter.delete(
+  "/educations/:id",
+  async (req, res, next) => {
   try {
-    const user_id = req.params.user_id;
-    const userEducationInfo = await educationService.getEducationInfo({
-      user_id,
-    });
+    const education_id = req.params.id;
+    const education = Education.findByEduId({ education_id });
 
-    if (userEducationInfo.errorMessage) {
-      throw new Error(userEducationInfo.errorMessage);
-    }
-    res.status(200).json(userEducationInfo);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-educationRouter.delete("/educations/:id", async (req, res, next) => {
-  try {
-    const edu_id = req.params.id;
-    const education = Education.findByEduId({ edu_id });
+    // !!!
     if (education.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }
-    await educationService.deleteEducation({ edu_id });
+
+    await educationService.deleteEducation({ education_id });
+
     res.sendStatus(204);
   } catch (error) {
     next(error);

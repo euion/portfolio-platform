@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-const id = require("./types/id");
+import id from "./types/id";
 
 const EducationSchema = new Schema(
   {

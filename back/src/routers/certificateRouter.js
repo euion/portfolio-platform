@@ -5,19 +5,19 @@ import { Certificate } from "../db";
 
 const certificateRouter = Router();
 
-certificateRouter.post("/certificate", async function (req, res, next) {
+certificateRouter.post(
+  "/certificate",
+  async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
-    // req (request) 에서 데이터 가져오기
-    const user_id = req.currentUserId;
 
-    const title = req.body.title;
-    const description = req.body.description;
-    const when_date = req.body.when_date;
+    const { title, description, when_date} = req.body.title;
+
+    const user_id = req.currentUserId;
 
     // 위 데이터를 자격증 db에 추가하기
     const newCertificate = await certificateService.addCertificate({
@@ -32,33 +32,34 @@ certificateRouter.post("/certificate", async function (req, res, next) {
     }
 
     res.status(201).json(newCertificate);
-    // res.redirect(`/certificatelist/${user_id}`)
   } catch (error) {
     next(error);
   }
 });
 
+// 특정 user의 모든 자격증내역 get
 certificateRouter.get(
   "/users/:user_id/certificates",
-  async function (req, res, next) {
-    try {
-      console.log(req.currentUserId);
-      // 전체 자격증 목록을 얻음
-      const user_id = req.params.id;
-      const certificates = await certificateService.getCertificates({
-        user_id,
-      });
-      res.status(200).send(certificates);
-    } catch (error) {
-      next(error);
+  async (req, res, next) => {
+  try {
+    const user_id = req.params.id;
+    const usercertificates = await certificateService.getCertificates({ user_id });
+    
+    if (usercertificates.errorMessage) {
+      throw new Error(usercertificates.errorMessage);
     }
+    res.status(200).send(usercertificates);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-certificateRouter.put("/certificates/:id", async function (req, res, next) {
+certificateRouter.put(
+  "/certificates/:id",
+  async (req, res, next) => {
   try {
     const certificate_id = req.params.id;
-    // body data 로부터 업데이트할 사용자 정보를 추출함.
+
     const certificate = await Certificate.findById({ certificate_id });
 
     // !!!
@@ -72,7 +73,6 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
 
     const toUpdate = { title, description, when_date };
 
-    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedCertificate = await certificateService.setCertificate({
       certificate_id,
       toUpdate,
@@ -83,34 +83,17 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
     // }
 
     res.status(200).json(updatedCertificate);
-    // res.redirect(`/certificatelist/${user_id}`)
   } catch (error) {
     next(error);
   }
 });
 
-certificateRouter.get("/certificates/:id", async function (req, res, next) {
-  try {
-    const user_id = req.params.id;
-    const currentCertificateInfo = await certificateService.getCertificateInfo({
-      user_id,
-    });
-
-    if (currentCertificateInfo.errorMessage) {
-      throw new Error(currentCertificateInfo.errorMessage);
-    }
-
-    res.status(200).send(currentCertificateInfo);
-  } catch (error) {
-    next(error);
-  }
-});
-
-//req.body에 자격증 id를 받아 자격증을 삭제
-certificateRouter.delete("/certificates/:id", async function (req, res, next) {
+certificateRouter.delete(
+  "/certificates/:id",
+  async (req, res, next) => {
   try {
     const certificate_id = req.params.id;
-    const certificate = await Certificate.findById({ certificate_id });
+    const certificate = await Certificate.findByCertificateId({ certificate_id });
 
     // !!!
     if (certificate.user_id !== req.currentUserId) {
