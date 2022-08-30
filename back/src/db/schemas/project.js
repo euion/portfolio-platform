@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-
+const id = require("./types/id");
 
 const ProjectSchema = new Schema(
   {
@@ -7,10 +7,7 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
-    id: {
-        type: String,
-        required: true,
-      },
+    id,
     title: {
       type: String,
       required: true,
@@ -26,7 +23,7 @@ const ProjectSchema = new Schema(
     to_date: {
       type: Date,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

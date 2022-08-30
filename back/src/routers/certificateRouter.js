@@ -4,7 +4,7 @@ import { certificateService } from "../services/certificateService";
 
 const certificateRouter = Router();
 
-certificateRouter.post("/certificate/create", async function (req, res, next) {
+certificateRouter.post("/certificate", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -37,17 +37,22 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
   }
 });
 
-certificateRouter.get("/certificatelist/:id", async function (req, res, next) {
-  try {
-    // console.log(req.currentUserId);
-    // 전체 자격증 목록을 얻음
-    const user_id = req.params.id;
-    const certificates = await certificateService.getCertificates({ user_id });
-    res.status(200).send(certificates);
-  } catch (error) {
-    next(error);
+certificateRouter.get(
+  "/users/:user_id/certificates",
+  async function (req, res, next) {
+    try {
+      console.log(req.currentUserId);
+      // 전체 자격증 목록을 얻음
+      const user_id = req.params.id;
+      const certificates = await certificateService.getCertificates({
+        user_id,
+      });
+      res.status(200).send(certificates);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 certificateRouter.put("/certificates/:id", async function (req, res, next) {
   try {
@@ -94,19 +99,16 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
 });
 
 //req.body에 자격증 id를 받아 자격증을 삭제
-certificateRouter.delete(
-  "/certificate/:id/delete",
-  async function (req, res, next) {
-    try {
-      const certificate_id = req.params.id;
+certificateRouter.delete("/certificates/:id", async function (req, res, next) {
+  try {
+    const certificate_id = req.params.id;
 
-      await certificateService.deleteCertificate({ certificate_id });
+    await certificateService.deleteCertificate({ certificate_id });
 
-      res.sendStatus(204);
-    } catch (error) {
-      next(error);
-    }
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 export { certificateRouter };

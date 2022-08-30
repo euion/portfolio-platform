@@ -1,16 +1,14 @@
 import { Schema, model } from "mongoose";
+const id = require("./types/id");
 
 const CertificateSchema = new Schema(
   {
     user_id: {
-        type: String,
-        required: true,
-        ref: "User"
-      },
-    id: {
       type: String,
       required: true,
+      ref: "User",
     },
+    id,
     title: {
       type: String,
       required: true,
