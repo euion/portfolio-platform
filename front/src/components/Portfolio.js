@@ -33,29 +33,29 @@ function Portfolio() {
     setIsFetchCompleted(true);
   };
 
-  //useEffect(() => {
-  // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
-  // if (!userState.user) {
-  //   navigate("/login", { replace: true });
-  //   return;
-  // }
+  useEffect(() => {
+    //전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
+    if (!userState.user) {
+      navigate("/login", { replace: true });
+      return;
+    }
 
-  //   if (params.userId) {
-  //     // 만약 현재 URL이 "/users/:userId" 라면, 이 userId를 유저 id로 설정함.
-  //     const ownerId = params.userId;
-  //     // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
-  //     fetchPorfolioOwner(ownerId);
-  //   } else {
-  //     // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
-  //     const ownerId = userState.user.id;
-  //     // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
-  //     fetchPorfolioOwner(ownerId);
-  //   }
-  // }, [params, userState, navigate]);
+    if (params.userId) {
+      // 만약 현재 URL이 "/users/:userId" 라면, 이 userId를 유저 id로 설정함.
+      const ownerId = params.userId;
+      // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
+      fetchPorfolioOwner(ownerId);
+    } else {
+      // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
+      const ownerId = userState.user.id;
+      // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
+      fetchPorfolioOwner(ownerId);
+    }
+  }, [params, userState, navigate]);
 
-  // if (!isFetchCompleted) {
-  //   return "loading...";
-  // }
+  if (!isFetchCompleted) {
+    return "loading...";
+  }
 
   return (
     <>
@@ -64,17 +64,27 @@ function Portfolio() {
         <Row>
           <Col md="3" lg="3">
             <User
-              // portfolioOwnerId={portfolioOwner.id}
-              // isEditable={portfolioOwner.id === userState.user?.id}
-              portfolioOwnerId={1}
-              isEditable={true}
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
             />
           </Col>
           <Col lg="7">
-            <EduApp portfolioOwnerId={1} isEditable={true} />
-            <Award portfolioOwnerId={1} isEditable={true} />
-            <Project portfolioOwnerId={1} isEditable={true} />
-            <Certificates portfolioOwnerId={1} isEditable={true} />
+            <EduApp
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+            <Award
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+            <Project
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+            <Certificates
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
           </Col>
         </Row>
       </Container>

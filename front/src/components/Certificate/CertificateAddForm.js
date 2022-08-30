@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
+import * as Api from "../../api";
+
 function CertificateAddForm({
+  portfolioOwnerId,
   isAdding,
   setIsAdding,
   certificateList,
@@ -13,17 +16,28 @@ function CertificateAddForm({
   const [date, setDate] = useState(new Date());
 
   //event객체만 ..
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const stringDate = date.toISOString().split("T")[0];
-    const newCertificate = {
-      id: certificateList.length + 1,
-      title: title,
-      description: description,
-      date: stringDate,
-    };
+    const user_id = portfolioOwnerId;
+    const when_date = date.toISOString().split("T")[0];
+    // date.toISOString().split("T")[0];
+    // const newCertificate = {
+    //   id: certificateList.length + 1,
+    //   title: title,
+    //   description: description,
+    //   when_date,
+    // };
+    await Api.post("certificate/create", {
+      user_id,
+      title,
+      description,
+      when_date,
+    }).then((res) => console.log(res));
 
-    setCertificateList([...certificateList, newCertificate]);
+    const res = await Api.get("certificatelist", user_id);
+    setCertificateList(res.data);
+
+    // setCertificateList([...certificateList, newCertificate]);
     setTitle("");
     setDescription("");
     setDate(new Date());
@@ -64,8 +78,8 @@ function CertificateAddForm({
                 <DatePicker
                   className="mb-3"
                   selected={date}
-                  mask={"____-__-__"}
-                  type="date"
+                  // mask={"____-__-__"}
+
                   shouldCloseOnSelect={true}
                   onChange={(value) => {
                     setDate(value);

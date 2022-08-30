@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
+import * as Api from "../../api";
+import Certificates from "./Certificates";
+
 function CertificateEditForm({
   setIsEditing,
   certificate,
@@ -11,25 +14,37 @@ function CertificateEditForm({
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
   const [date, setDate] = useState(new Date(certificate.date));
-  //함수 내에서 state..
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // certificate.title = title;
-    // certificate.description = description;
-    // certificate.date = stringDate;
-    const stringDate = date.toISOString().split("T")[0];
-    const current = {
-      id: certificate.id,
+
+    const when_date = date;
+    // .toISOString().split("T")[0]
+    const user_id = certificate.user_id;
+    const certificate_id = certificate.id;
+    // const current = {
+    //   id: certificate.id,
+    //   title,
+    //   description,
+    //   when_date,
+    // };
+    // const newList = [...certificateList];
+    // console.log(newList);
+
+    // const findIndex = newList.findIndex((element) => element.id === current.id);
+    // console.log(findIndex);
+
+    // newList[findIndex] = current;
+    // setCertificateList(newList);
+
+    await Api.put(`certificates/${certificate_id}`, {
+      // certificate_id,
       title,
       description,
-      date: stringDate,
-    };
-    const newList = [...certificateList];
-    console.log(newList);
-    const findIndex = newList.findIndex((element) => element.id === current.id);
-    console.log(findIndex);
-    newList[findIndex] = current;
-    setCertificateList(newList);
+      when_date,
+    });
+    const res = await Api.get("certificatelist", certificate_id);
+    setCertificateList(res.data);
 
     setIsEditing(false);
   };
