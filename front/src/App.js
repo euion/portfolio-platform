@@ -9,12 +9,17 @@ import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
+import { Button } from "react-bootstrap";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
+  const moveTop = () => {
+    // TOP버튼 펑션
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
   const [userState, dispatch] = useReducer(loginReducer, {
     user: null,
   });
@@ -67,6 +72,19 @@ function App() {
           </Routes>
         </Router>
       </UserStateContext.Provider>
+      <Button
+        onClick={moveTop}
+        className="position-fixed bottom-0 end-0 m-5"
+        variant="outline-primary"
+        style={{
+          width: "70px",
+          height: "70px",
+          borderRadius: "50%",
+          margin: "2%",
+        }}
+      >
+        TOP
+      </Button>
     </DispatchContext.Provider>
   );
 }
