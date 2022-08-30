@@ -9,7 +9,7 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await Api.post("education/create", {
+    await Api.post("education", {
       school,
       major,
       position,
