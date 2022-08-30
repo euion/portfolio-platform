@@ -45,20 +45,15 @@ awardRouter.post("/award", async (req, res, next) => {
 
 awardRouter.put("/awards/:id", async (req, res, next) => {
   try {
-    // award의 user_id와 요청을 보낸 user의 id가 동일한지 체크!!!
-    // if (award.user_id !== req.currentUserId) {
-    //   throw new Error("Not Authorized");
-    // }
-
     // req에서 데이터 가져오기
     const award_id = req.params.id;
 
     // 해당 id를 사용하는 award정보가 있는지 확인
     const award = await Award.findByAwardId({ award_id });
 
-    //없으면 에러
-    if (!award) {
-      throw new Error(award.errorMessage);
+    // !!!
+    if (award.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
     }
 
     // 있는 경우 update할 정보를 추출
@@ -98,6 +93,12 @@ awardRouter.get("/users/:user_id/awards", async (req, res, next) => {
 awardRouter.delete("/awards/:id", async (req, res, next) => {
   try {
     const award_id = req.params.id;
+    const award = await Award.findByAwardId({ award_id });
+
+    // !!!
+    if (award.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
     await awardService.deleteAward({ award_id });
 
     res.sendStatus(204);

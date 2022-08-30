@@ -48,13 +48,9 @@ educationRouter.put("/educations/:id", async (req, res, next) => {
     // 해당 id를 사용하는 education정보가 있는지 확인
     const education = await Education.findByEduId({ edu_id });
 
-    // 작성자와 로그인된 사용자가 일치하는지 확인
-    // if (education.user_id !== req.currentUserId) {
-    //   throw new Error("Not Authorized");
-    // }
-    //없으면 에러
-    if (!education) {
-      throw new Error(education.errorMessage);
+    // !!!
+    if (education.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
     }
 
     // 있는 경우 update할 정보를 추출
@@ -101,6 +97,10 @@ educationRouter.get("/users/:user_id/educations", async (req, res, next) => {
 educationRouter.delete("/educations/:id", async (req, res, next) => {
   try {
     const edu_id = req.params.id;
+    const education = Education.findByEduId({ edu_id });
+    if (education.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
     await educationService.deleteEducation({ edu_id });
     res.sendStatus(204);
   } catch (error) {

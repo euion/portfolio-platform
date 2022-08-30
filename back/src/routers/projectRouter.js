@@ -1,11 +1,11 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
 import { projectService } from "../services/projectService";
+import { Project } from "../db";
 
 const projectRouter = Router();
 
-projectRouter.post("/project", login_required, async function (req, res, next) {
+projectRouter.post("/project", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -58,6 +58,12 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
   try {
     const project_id = req.params.id;
 
+    const project = await Project.findById({ project_id });
+
+    // !!!
+    if (project.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
     const from_date = req.body.from_date ?? null;
@@ -84,6 +90,12 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
 projectRouter.delete("/projects/:id", async function (req, res, next) {
   try {
     const project_id = req.params.id;
+    const project = await Project.findById({ project_id });
+
+    // !!!
+    if (project.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
 
     await projectService.deleteProject({ project_id });
 

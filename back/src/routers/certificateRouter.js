@@ -1,6 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { certificateService } from "../services/certificateService";
+import { Certificate } from "../db";
 
 const certificateRouter = Router();
 
@@ -58,6 +59,13 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
   try {
     const certificate_id = req.params.id;
     // body data 로부터 업데이트할 사용자 정보를 추출함.
+    const certificate = await Certificate.findById({ certificate_id });
+
+    // !!!
+    if (certificate.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
+
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
     const when_date = req.body.when_date ?? null;
@@ -102,6 +110,12 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
 certificateRouter.delete("/certificates/:id", async function (req, res, next) {
   try {
     const certificate_id = req.params.id;
+    const certificate = await Certificate.findById({ certificate_id });
+
+    // !!!
+    if (certificate.user_id !== req.currentUserId) {
+      throw new Error("권한이 없습니다.");
+    }
 
     await certificateService.deleteCertificate({ certificate_id });
 
