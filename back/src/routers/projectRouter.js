@@ -5,7 +5,7 @@ import { projectService } from "../services/projectService";
 
 const projectRouter = Router();
 
-projectRouter.post("/project/create", login_required, async function (req, res, next) {
+projectRouter.post("/project", login_required, async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -14,7 +14,7 @@ projectRouter.post("/project/create", login_required, async function (req, res, 
     }
 
     // req (request) 에서 데이터 가져오기
-    const user_id = req.currentUserId
+    const user_id = req.currentUserId;
     const title = req.body.title;
     const description = req.body.description;
     const from_date = req.body.from_date;
@@ -40,12 +40,12 @@ projectRouter.post("/project/create", login_required, async function (req, res, 
 });
 
 projectRouter.get(
-  "/projectlist/:id",
+  ":users/:user_id/projects",
 
   async function (req, res, next) {
     try {
       // 전체 프로젝트 목록을 얻음
-      const user_id = req.params.id
+      const user_id = req.params.id;
       const projects = await projectService.getProjects({ user_id });
       res.status(200).send(projects);
     } catch (error) {
@@ -54,46 +54,43 @@ projectRouter.get(
   }
 );
 
-projectRouter.put(
-  "/projects/:id",
-  async function (req, res, next) {
-    try {
-      const project_id = req.params.id;
-      
-      const title = req.body.title ?? null;
-      const description = req.body.description ?? null;
-      const from_date = req.body.from_date ?? null;
-      const to_date = req.body.to_date ?? null;
+projectRouter.put("/projects/:id", async function (req, res, next) {
+  try {
+    const project_id = req.params.id;
 
-      const toUpdate = { title, description, from_date, to_date };
+    const title = req.body.title ?? null;
+    const description = req.body.description ?? null;
+    const from_date = req.body.from_date ?? null;
+    const to_date = req.body.to_date ?? null;
 
-      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await projectService.setProject({ project_id, toUpdate });
+    const toUpdate = { title, description, from_date, to_date };
 
-      if (updatedProject.errorMessage) {
-        throw new Error(updatedProject.errorMessage);
-      }
+    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+    const updatedProject = await projectService.setProject({
+      project_id,
+      toUpdate,
+    });
 
-      res.status(200).json(updatedProject);
-    } catch (error) {
-      next(error);
+    if (updatedProject.errorMessage) {
+      throw new Error(updatedProject.errorMessage);
     }
+
+    res.status(200).json(updatedProject);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-projectRouter.delete(
-  "/project/:id/delete",
-  async function (req, res, next) {
-    try {
-      const project_id = req.params.id
+projectRouter.delete("/projects/:id", async function (req, res, next) {
+  try {
+    const project_id = req.params.id;
 
-      await projectService.deleteProject({ project_id })
+    await projectService.deleteProject({ project_id });
 
-      res.sendStatus(204)
-    } catch (error) {
-      next(error)
-    }
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
   }
-)
+});
 
 export { projectRouter };
