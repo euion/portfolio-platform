@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
-function EduUpdate({ setIsEditing, edu }) {
+function EduUpdate({ setIsEditing, edu, key }) {
   const [school, setSchool] = useState(edu.school);
   const [major, setMajor] = useState(edu.major);
   const [position, setPosition] = useState(edu.position);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await Api.put(`educations/${edu.id}`, {
+      school,
+      major,
+      position,
+    });
     edu.school = school;
     edu.major = major;
     edu.position = position;
     setIsEditing(false);
   };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -21,7 +28,7 @@ function EduUpdate({ setIsEditing, edu }) {
           <Form.Control
             name="school"
             placeholder="학교 이름"
-            value={school}
+            defaultValue={edu.school}
             onChange={(e) => {
               setSchool(e.target.value);
             }}
@@ -31,7 +38,7 @@ function EduUpdate({ setIsEditing, edu }) {
           <Form.Control
             name="major"
             placeholder="전공"
-            value={major}
+            defaultValue={edu.major}
             onChange={(e) => {
               setMajor(e.target.value);
             }}
@@ -104,15 +111,6 @@ function EduUpdate({ setIsEditing, edu }) {
           <Button
             className="ms-2 mb-3"
             variant="outline-primary"
-            onClick={() => {
-              setIsEditing(false);
-            }}
-          >
-            취소
-          </Button>
-          <Button
-            className="ms-2 mb-3"
-            variant="secondary"
             onClick={() => {
               setIsEditing(false);
             }}
