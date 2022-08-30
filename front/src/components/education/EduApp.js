@@ -1,8 +1,8 @@
-import React, { useCallback, useReducer, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
 import EduInputForm from "./EduInputForm";
-import { Container, Col, Row } from "react-bootstrap";
 import EduList from "./EduList";
+import * as Api from "../../api";
 
 const initialState = {
   inputs: {
@@ -10,46 +10,34 @@ const initialState = {
     major: "",
     position: "재학중",
   },
-  users: [
-    {
-      id: 1,
-      school: "엘리스 대학교",
-      major: "컴퓨터공학과",
-      position: "재학중",
-    },
-    {
-      id: 2,
-      school: "엘리스 대학교",
-      major: "기계공학과",
-      position: "박사졸업",
-    },
-    {
-      id: 3,
-      school: "체셔 대학교",
-      major: "생명공학과",
-      position: "석사졸업",
-    },
-  ],
+  users: [],
 };
 
 function EduApp({ portfolioOwnerId, isEditable }) {
-  const [educations, setEducations] = useState(initialState.users);
-  const [isAdding, setIsAdding] = useState(false);
+  const [educations, setEducations] = useState(null);
+  const [isAdding, setIsAdding] = useState(initialState.users);
+  useEffect(() => {
+    Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
+      setEducations(res.data)
+    );
+  }, []);
 
   return (
     <>
-      <Card className="ml-5">
+      <Card className="ml-5 p-3">
         <Card.Body>
-          <h2>학력</h2>
-          {educations.map((edu) => (
-            <EduList
-              key={edu.id}
-              edu={edu}
-              setEducations={setEducations}
-              educations={educations}
-              isEditable={isEditable}
-            />
-          ))}
+          <h3>📚학력</h3>
+          {educations &&
+            educations.map((edu) => (
+              <EduList
+                key={edu.id}
+                edu={edu}
+                setEducations={setEducations}
+                educations={educations}
+                isEditable={isEditable}
+                portfolioOwnerId={portfolioOwnerId}
+              />
+            ))}
           <div style={{ textAlign: "center", margin: "5px" }}>
             {isEditable && (
               <EduInputForm
