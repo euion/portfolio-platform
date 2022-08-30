@@ -1,13 +1,13 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Card, Row, Col, Button, Form } from "react-bootstrap";
 import AwardAdd from "./AwardAdd.js";
 import AwardEdit from "./AwardEdit.js";
+import * as Api from "../../api";
 
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 // import { modeReducer } from "../../reducer";
 
-function Award({ mode }) {
+function Award({ portfolioOwnerId, isEditable, mode }) {
   const [isAdd, setIsAdd] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [list, setList] = useState([]);
@@ -25,9 +25,9 @@ function Award({ mode }) {
 
   // 목데이터를 불러와 list에 저장하는 함수
   async function data() {
-    const response = await axios.get("http://localhost:3000/data/award.json");
+    const response = await Api.get(`awardList/${portfolioOwnerId}`);
     const result = await response.data;
-    setList(result);
+    // setList(result);
   }
 
   useEffect(() => {
@@ -43,6 +43,13 @@ function Award({ mode }) {
     );
   };
 
+  // const handleDelete = async (value) => {
+  //   alert(`${value.title} 수상내역을 지우시겠습니까?`);
+  //   const response = await Api.delete(`awards/${value.id}`);
+  //   const result = response.data;
+  //   console.log(result);
+  // };
+
   return (
     <Card
       className="p-3 mt-3"
@@ -54,7 +61,7 @@ function Award({ mode }) {
           <h3>🏆 수상 이력</h3>
           {/* 목데이터에서 불러온 리스트를 .map함수를 활용하여 각각의 수상 이력을 출력 */}
           {list.map((value, index) => (
-            <div style={{ margin: "20px 0px" }}>
+            <div style={{ margin: "20px 0px" }} key={index}>
               {/* isEdit이 false일 경우 수상이력출력, true일 경우 수정 컴포넌트 출력 */}
               {selectedIndex === index ? (
                 <AwardEdit
@@ -90,7 +97,16 @@ function Award({ mode }) {
           ))}
         </Form.Group>
         {/* isAdd이 true일 경우 추가 컴포넌트 출력 */}
-        {isAdd ? <AwardAdd setIsAdd={setIsAdd} list={list} setList={setList} /> : <> </>}
+        {isAdd ? (
+          <AwardAdd
+            setIsAdd={setIsAdd}
+            list={list}
+            setList={setList}
+            portfolioOwnerId={portfolioOwnerId}
+          />
+        ) : (
+          <> </>
+        )}
         <Form.Group as={Row} className="mt-3 text-center">
           <Col>
             <Button onClick={() => setIsAdd(true)}>+</Button>

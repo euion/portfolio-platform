@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
 function AwardEdit({ setIsEdit, list, setList, value, index }) {
   const [editTitle, setEditTitle] = useState(value.title);
@@ -9,6 +10,16 @@ function AwardEdit({ setIsEdit, list, setList, value, index }) {
     title: value.title,
     content: value.content,
   });
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const response = await Api.put(`/awards/${value.id}`, {
+      title: editTitle,
+      description: editContent,
+    });
+    const result = await response.data;
+    console.log(result);
+  };
 
   function cancel() {
     setIsEdit(false);
@@ -24,7 +35,7 @@ function AwardEdit({ setIsEdit, list, setList, value, index }) {
   }, [editTitle, editContent]);
 
   return (
-    <Form>
+    <Form onSubmit={handleEdit}>
       <Form.Group>
         <Form.Label>제목</Form.Label>
         <Form.Control
@@ -52,15 +63,7 @@ function AwardEdit({ setIsEdit, list, setList, value, index }) {
       <Form.Group as={Col} className="text-center m-3">
         <Row>
           <Col>
-            <Button
-              variant="primary"
-              onClick={() => {
-                const tempList = [...list];
-                tempList[index] = { ...editObj };
-                setList(tempList);
-                setIsEdit(false);
-              }}
-            >
+            <Button type="submit" variant="primary">
               확인
             </Button>{" "}
             <Button variant="secondary" onClick={cancel}>

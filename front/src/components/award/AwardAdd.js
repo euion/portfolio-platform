@@ -1,29 +1,29 @@
 import { useState, useRef } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
-function AwardAdd({ setIsAdd, setList, list }) {
+function AwardAdd({ setIsAdd, setList, list, portfolioOwnerId }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const nextId = useRef(3);
 
-  function onSubmit(e) {
-    console.log("ok");
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title && content) {
-      setList([...list, { id: nextId.current, title, content }]);
-      setTitle("");
-      setContent("");
-      nextId.current += 1;
-    } else alert("내용을 입력해주세요.");
-    setIsAdd(false);
-  }
+    const response = await Api.post("awardList", {
+      title: title,
+      description: content,
+    });
+    const result = response.data;
+    setTitle(""); // 제목필드 버튼 클릭 후 제목필드 초기화
+    setContent(""); // 내용필드 버튼 클릭 후 내용필드 초기화
+    console.log(result);
+  };
 
   function cancel() {
     setIsAdd(false);
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>제목</Form.Label>
         <Form.Control
