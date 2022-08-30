@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { Form, Button, Row } from "react-bootstrap";
+import * as Api from "../../api";
 
 function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
   const [position, setPosition] = useState("재학중");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await Api.post("education/create", {
+      school,
+      major,
+      position,
+    });
     const newEducation = {
-      id: educations.length,
       school: school,
       major: major,
       position: position,
@@ -19,7 +24,6 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
     setMajor("");
     setPosition("재학중");
     setIsAdding(false);
-    return;
   };
 
   return (
