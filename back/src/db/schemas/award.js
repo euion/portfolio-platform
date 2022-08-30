@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+const id = require("./types/id");
 
 const AwardSchema = new Schema(
   {
@@ -8,10 +9,7 @@ const AwardSchema = new Schema(
       required: true,
       index: true,
     },
-    id: {
-      type: String,
-      required: true,
-    },
+    id,
     title: {
       type: String,
       required: true,

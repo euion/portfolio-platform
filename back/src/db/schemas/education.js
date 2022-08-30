@@ -1,7 +1,5 @@
 import { Schema, model } from "mongoose";
-import { id } from "./types/id";
-
-//model은 schema 객체로 만든 instance 객체
+const id = require("./types/id");
 
 const EducationSchema = new Schema(
   {
