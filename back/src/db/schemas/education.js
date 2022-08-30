@@ -1,20 +1,14 @@
 import { Schema, model } from "mongoose";
-
-//model은 schema 객체로 만든 instance 객체
+const id = require("./types/id");
 
 const EducationSchema = new Schema(
   {
     user_id: {
       type: String,
-      // UserModel의 이름인 User를 사용
-      ref: "User",
       required: true,
       index: true,
     },
-    id: {
-      type: String,
-      required: true,
-    },
+    id,
     school: {
       type: String,
       required: true,

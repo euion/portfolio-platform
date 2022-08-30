@@ -1,15 +1,10 @@
 import { Education, User } from "../db";
-import { v4 as uuidv4 } from "uuid";
 
 class educationService {
   // 새로운 학력 추가
   static async addEducation({ user_id, school, major, position }) {
-    // id에 unique value부여
-    const id = uuidv4();
-
     const newEducation = {
       user_id,
-      id,
       school,
       major,
       position,
@@ -67,7 +62,6 @@ class educationService {
 
   static async deleteEducation({ edu_id }) {
     await Education.delete({ edu_id });
-  
   }
 }
 
