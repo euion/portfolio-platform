@@ -11,7 +11,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
-      ); 
+      );
     }
 
     // req (request) 에서 데이터 가져오기
@@ -36,7 +36,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/login", async function (req, res, next) {
+userAuthRouter.post("/user/login", async function (req, res, next) {
   try {
     // req (request) 에서 데이터 가져오기
     const email = req.body.email;

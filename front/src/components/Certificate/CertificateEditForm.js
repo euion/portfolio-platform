@@ -2,17 +2,34 @@ import React, { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
-function CertificateEditForm({ setIsEditing, certificate }) {
+function CertificateEditForm({
+  setIsEditing,
+  certificate,
+  certificateList,
+  setCertificateList,
+}) {
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
   const [date, setDate] = useState(new Date(certificate.date));
-
+  //함수 내에서 state..
   const handleSubmit = (e) => {
     e.preventDefault();
-    certificate.title = title;
-    certificate.description = description;
-
-    certificate.date = date.toISOString().split("T")[0];
+    // certificate.title = title;
+    // certificate.description = description;
+    // certificate.date = stringDate;
+    const stringDate = date.toISOString().split("T")[0];
+    const current = {
+      id: certificate.id,
+      title,
+      description,
+      date: stringDate,
+    };
+    const newList = [...certificateList];
+    console.log(newList);
+    const findIndex = newList.findIndex((element) => element.id === current.id);
+    console.log(findIndex);
+    newList[findIndex] = current;
+    setCertificateList(newList);
 
     setIsEditing(false);
   };
@@ -53,7 +70,7 @@ function CertificateEditForm({ setIsEditing, certificate }) {
               </Button>
               <Button
                 className="ms-2 mb-3"
-                variant="secondary"
+                variant="outline-primary"
                 onClick={() => {
                   setIsEditing(false);
                 }}

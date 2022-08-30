@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row, Button, Card } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 
 //자격증 내역 (이름, 설명, 날짜) isEditable이면 편집 버튼
 
@@ -10,36 +10,39 @@ function CertificateCard({
   setCertificateList,
   certificateList,
 }) {
+  const handleDeleteClick = (title) => {
+    const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
+    if (notice) {
+      setCertificateList(
+        certificateList.filter((certif) => certif.id !== certificate.id)
+      );
+    }
+  };
   return (
     <Row>
-      <Col sm={10} className="mb-3 ms-3">
-        <Card.Subtitle className="mb-2">{certificate.title}</Card.Subtitle>
-        <Card.Text className="mb-2">
+      <Col>
+        <h5>{certificate.title}</h5>
+        <p>
           {certificate.description}
-          <br />
-          {certificate.date}
-        </Card.Text>
+          <br /> {certificate.date}
+        </p>
       </Col>
 
       {isEditable && (
-        <Col sm className="mb-3">
+        <Col md={{ offset: 6 }} className="mb-3">
           <Button
-            variant="outline-primary"
-            size="sm"
+            variant="outline-warning"
             onClick={() => {
               setIsEditing(true);
             }}
           >
-            편집
+            수정
           </Button>
           <Button
-            variant="outline-danger"
-            size="sm"
             className="ms-2"
+            variant="outline-danger"
             onClick={() => {
-              setCertificateList(
-                certificateList.filter((certif) => certif.id !== certificate.id)
-              );
+              handleDeleteClick(certificate.title);
             }}
           >
             삭제

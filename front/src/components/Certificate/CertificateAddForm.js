@@ -17,7 +17,7 @@ function CertificateAddForm({
     e.preventDefault();
     const stringDate = date.toISOString().split("T")[0];
     const newCertificate = {
-      id: certificateList.length,
+      id: certificateList.length + 1,
       title: title,
       description: description,
       date: stringDate,
@@ -28,7 +28,6 @@ function CertificateAddForm({
     setDescription("");
     setDate(new Date());
     setIsAdding(false);
-    return;
   };
 
   //컨테이너로 센터
@@ -81,7 +80,7 @@ function CertificateAddForm({
                     )}
                     <Button
                       className="ms-1"
-                      variant="secondary"
+                      variant="outline-primary"
                       type="button"
                       onClick={() => {
                         setIsAdding(false);
