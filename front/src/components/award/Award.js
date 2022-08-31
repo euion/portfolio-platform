@@ -20,8 +20,10 @@ function Award({ portfolioOwnerId, isEditable }) {
   }
 
   useEffect(() => {
-    data();
-  }, [list.length]);
+    Api.get(`users/${portfolioOwnerId}/awards`).then((res) => {
+      setList(res.data);
+    });
+  }, []);
   // isAdd가 바뀔 때 재렌더링 하여 갱신된 값을 보여주는데 처음에 클릭할때도 재렌더링이 되어서 불필요한 렌더링이 아닐까 생각한다.
   // 이 부분에 대해서 코치님께 여쭈어보자
 
