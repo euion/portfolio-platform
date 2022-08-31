@@ -1,21 +1,28 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState, forwardRef } from 'react';
 import axios from 'axios';
 
 //bootstrap component
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+import DatePicker from "react-datepicker";
+
+import { Card } from 'react-bootstrap';
+
 const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => {
 
+    const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
+        <Button variant="outline-primary" className="example-custom-input w-100" onClick={onClick} ref={ref}>{value}</Button>
+    ));
     //input handler
     const changeHandler = (e) => {
         const { name, value } = e.target;
         const tempProject = { ...project }
-
         tempProject[name] = value;
-        setProject(tempProject);
+        setProject({
+            ...tempProject,
+        });
     }
-
 
     //image 관련 함수들
     const imageInput = useRef();
@@ -50,7 +57,6 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
                 imagePaths: [...project.imagePaths.filter((v, i) => (index !== i))]
             });
     };
-
     const onRemoveImageAll = () => {
         setProject({ ...project, imagePaths: [] });
     };
@@ -61,26 +67,59 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
                 submitHandler(e);
                 setVisibleToggle(false);
             }}>
+                <span>프로젝트 기간</span>
+                <Card body className='mt-2 mb-3' style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }}>
+                        <DatePicker
+                            customInput={<CustomDatepickerInput />}
+
+                            showPopperArrow={false}
+                            fixedHeight
+                            type="date"
+
+                            shouldCloseOnSelect={true}
+                            selected={project.start}
+                            onChange={(start) => {
+                                setProject({ ...project, start });
+                            }}
+                        />
+                        <span className='w-25' style={{ fontSize: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>～</span>
+                        <DatePicker
+                            customInput={<CustomDatepickerInput />}
+
+                            showPopperArrow={false}
+                            fixedHeight
+                            type="date"
+
+                            shouldCloseOnSelect={true}
+                            selected={project.end}
+                            onChange={(end) => {
+                                setProject({ ...project, end });
+                            }}
+                        />
+                    </div>
+                </Card>
+
+
                 <Form.Group className="mb-3" controlId="projectNameInput">
                     <Form.Label>프로젝트 이름</Form.Label>
                     <Form.Control
                         required
-                        name='name'
+                        name='title'
                         onChange={changeHandler}
-                        value={project.name}
+                        value={project.title}
                         type="text"
-                        placeholder="Project Name" />
+                        placeholder="프로젝트 이름" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="projectSkillInput">
                     <Form.Label>사용 기술</Form.Label>
                     <Form.Control
-                        required
                         name='skill'
                         onChange={changeHandler}
                         value={project.skill}
                         type="text"
-                        placeholder="Project Skill" />
+                        placeholder="사용 기술" />
                     <Form.Text className="text-muted">
                         프로젝트에서 사용한 기술을 스페이스바로 구분하여 입력해주세요 :)
                     </Form.Text>
@@ -90,12 +129,12 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
                     <Form.Label>프로젝트 설명</Form.Label>
                     <Form.Control
                         required
-                        name='text'
+                        name='description'
                         onChange={changeHandler}
-                        value={project.text}
+                        value={project.description}
                         as="textarea"
                         rows={3}
-                        placeholder="Project description" />
+                        placeholder="프로젝트 설명" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="projectLInkInput">

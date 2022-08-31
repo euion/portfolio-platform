@@ -2,36 +2,43 @@ import { useState } from 'react';
 
 import InputForm from './InputForm';
 
+import * as API from '../../api';
+
+
 const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
     //여기서 state 선언하고 하위 input form에서 수정하도록 
     const [project, setProject] = useState(
         {
-            index,
-            name: projects[index].name,
-            text: projects[index].text,
+            id: projects[index].id,
+            title: projects[index].title,
+            description: projects[index].description,
+            start: new Date(),
+            end: new Date(),
+
             skill: projects[index].skill,
             link: projects[index].link,
             imagePaths: projects[index].imagePaths,
         }
     );
 
-    const editProject = (e) => {
+    const editProject = async (e) => {
         e.preventDefault();
         //서버요청
-
-        const resOk = true;
-        /* 
-        요청 응답을 받고 성공일때 
-        아래에서 userState 업데이트 할것이기 때문에
-        await 사용해야 한다.
-        axios.put('/uesr/project/', 데이터 객체)
-        아마 이런식으로 서버에 요청
-        */
+        const res = await API.put(`projects/${project.id}`, {
+            title: project.title,
+            description: project.description,
+            from_date: project.start,
+            to_date: project.end,
+            //아래는 백엔드 필드 구현 예정
+            skill: project.skill,
+            link: project.link,
+            imagePaths: project.imagePaths, //배열 값
+        })
 
         //정상 응답이면 리듀서로 상태관리
-        if (resOk) {
+        if (res) {
             const tempProjects = [...projects]
-            tempProjects[index] = { ...project };
+            tempProjects[index] = { ...res.data };
 
             setProjects(tempProjects);
             setEditToggle(false)

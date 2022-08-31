@@ -21,55 +21,32 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
     //state
     const [addToggle, setAddToggle] = useState(false);
     const [editToggle, setEditToggle] = useState(false);
-    const [projects, setProjects] = useState([
-        // {
-        //     name: '',
-        //     text: '',
-        //     skill: '',
-        //     link: null,
-        //     imagePaths: [],
-        // }
-    ]);
+    const [projects, setProjects] = useState([]);
 
 
     // get요청으로 dummy파일에서 불러온 값들을 이용하면 각자의 dummy파일 형식이 달라서 
     // 브랜치 머지할때 컴포넌트 에러 발생할수 있기때문에 일단 그냥 여기서 더미데이터 넣었습니다.
     useEffect(() => {
-        // API.get('dummy.json').then(v => console.log(v));
-        // API.get(`users/${portfolioOwnerId}/projects`).then(res => setProjects(res));
-        // API.get(`projectlist/${portfolioOwnerId}`).then(setProjects);
-        // API.delete(`project/bfe36de9-33e8-4e96-bf5a-ea020643e28a/delete`).then(setProjects);
-        // API.put(`projects/3f38c7d8-1a1d-43a9-b93b-fec0431321ed`, { title: '수정 테스트', description: '수정 테스트 내용' }).then(setProjects);
-        setProjects([
-            {
-                "name": "더미 프로젝트 2",
-                "text": "더미 프로젝트 2의 설명 내용 입니다...",
-                "skill": "JS React.JS Mongo.DB Bootstrap",
-                "link": null,
-                "imagePaths": [],
-            },
-            {
-                "name": "더미 프로젝트 1",
-                "text": "더미 프로젝트 1의 설명 내용 입니다...",
-                "skill": "TS React.JS Mongo.DB AntDesign",
-                "link": null,
-                "imagePaths": [],
-            }
-        ]);
+        API.get(`users/${portfolioOwnerId}/projects`).then(v => setProjects(v.data));
     }, []);
 
-    const deleteProjectHandleer = (name, index) => {
-        const ans = window.confirm(`[${name}] 프로젝트를 지우시겠습니까?`);
+    const deleteProjectHandleer = async (title, id) => {
+        const ans = window.confirm(`[${title}] 프로젝트를 지우시겠습니까?`);
         if (ans) {
-            console.log('delete ditpatch, index', index);
-
-            //filter는 비파괴형 메소드;;
-            const tempProjects = [...projects].filter((v, i) => i !== index);
-            setProjects(tempProjects);
+            console.log(`삭제요청, id : ${id}`, id);
+            const res = await API.delete(`projects/${id}`);
+            if (res.status === 204) {
+                console.log('삭제 완료');
+                //filter는 비파괴형 메소드;;
+                const tempProjects = [...projects].filter((v) => v.id !== id);
+                setProjects(tempProjects);
+            }
         }
     }
+
     useEffect(() => {
         console.log(projects);
+        // console.log(typeof (projects[0].from_date))
     }, [projects]);
     return (
         <Card className='p-3 border'>
@@ -78,23 +55,25 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                     <>
                         <h2>🧑🏻‍💻 프로젝트</h2>
                         <div className="dropdown-divider"></div>
+                        {projects.length === 0 ? <h5 className="mt-5 mb-5" style={{ textAlign: 'center' }}>프로젝트를 등록해주세요 😃</h5> : null}
                         <Accordion className='mt-3' defaultActiveKey={0}>
                             {projects?.map((v, i) => {
-                                console.log(v.name, v.text);
-                                return <Accordion.Item eventKey={i} key={v.name}>
+                                return <Accordion.Item eventKey={i} key={v.id}>
                                     <Accordion.Header onClick={() => { setEditToggle(false) }}>
-                                        <h5 style={{ fontWeight: '600' }}>{v.name}</h5>
-                                        {v.link && <a style={{ textDecoration: 'none' }}
-                                            className='ms-2'
-                                            href={v.link}
-                                            target='_blank'
-                                            rel="noreferrer">🔗</a>}
+                                        <div>
+                                            <h5 style={{ fontWeight: '600' }}>{v.title}</h5>
+                                            {v?.link && <a style={{ textDecoration: 'none' }}
+                                                className='ms-2'
+                                                href={v.link}
+                                                target='_blank'
+                                                rel="noreferrer">🔗</a>}
+                                            <span style={{ color: 'grey' }}>[{v?.from_date.slice(0, 10)}~{v?.to_date.slice(0, 10)}]</span>
+                                        </div>
                                     </Accordion.Header>
                                     <Accordion.Body>
                                         {/* 이미지 처리 구현되면 활성화 */}
-                                        <ProjectImages imagePaths={v.imagePaths} />
-
-                                        <div className='mt-3'>{v.text.split('\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)}</div>
+                                        {v.imagePaths && <ProjectImages imagePaths={v?.imagePaths} />}
+                                        <div className='mt-3'>{v?.description?.split('\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)}</div>
                                         <div className='mt-3 mb-3'>
                                             {
                                                 // 메소드를 사용하는 객체가 존하는지 확인!
@@ -109,7 +88,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                                                         variant="outline-warning">수정</Button>
                                                     <Button
                                                         className='ms-3'
-                                                        onClick={() => { deleteProjectHandleer(v.name, i) }}
+                                                        onClick={() => { deleteProjectHandleer(v.title, v.id) }}
                                                         variant="outline-danger">삭제</Button>
                                                 </div>
                                                 : <EditProjectForm
@@ -131,7 +110,8 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                 {addToggle && <AddProjectForm
                     projects={projects}
                     setProjects={setProjects}
-                    setAddToggle={e => { setAddToggle(e) }}
+                    setAddToggle={e => { setEditToggle(false); setAddToggle(e) }}
+                    setEditToggle={(boolean) => { setEditToggle(boolean) }}
                 />}
             </Card.Body>
         </Card >
