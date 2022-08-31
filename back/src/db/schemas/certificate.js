@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
-const id = require("./types/id");
+import id from "./types/id";
 
 const CertificateSchema = new Schema(
   {
     user_id: {
       type: String,
       required: true,
-      ref: "User",
+      index: true,
     },
     id,
     title: {
@@ -27,6 +27,6 @@ const CertificateSchema = new Schema(
   }
 );
 
-const CertificateModel = model("certificate", CertificateSchema);
+const CertificateModel = model("Certificate", CertificateSchema);
 
 export { CertificateModel };

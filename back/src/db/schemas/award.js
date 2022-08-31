@@ -1,11 +1,10 @@
 import { Schema, model } from "mongoose";
-const id = require("./types/id");
+import id from "./types/id";
 
 const AwardSchema = new Schema(
   {
     user_id: {
       type: String,
-      ref: "User",
       required: true,
       index: true,
     },
