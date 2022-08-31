@@ -17,7 +17,7 @@ function CertificateEditForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const when_date = date.toISOString().split("T")[0];
+    // const when_date = date.toISOString().split("T")[0];
 
     const user_id = certificate.user_id;
     const certificate_id = certificate.id;

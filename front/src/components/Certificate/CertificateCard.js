@@ -10,14 +10,14 @@ function CertificateCard({
   setCertificateList,
   certificateList,
 }) {
-  const handleDeleteClick = (title) => {
+  const handleDeleteClick = async (title) => {
     const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
     if (notice) {
       //Api.delete 사용하기
-      Api.delete("certificates", certificate.id);
-      // setCertificateList(
-      //   certificateList.filter((certif) => certif.id !== certificate.id)
-      // );
+      await Api.delete("certificates", certificate.id);
+      await Api.get(`users/${certificate.user_id}/certificates`).then((res) =>
+        setCertificateList(res.data)
+      );
     }
   };
   return (

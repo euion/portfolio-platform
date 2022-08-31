@@ -11,11 +11,9 @@ function Certificates({ portfolioOwnerId, isEditable }) {
   const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
-    //get 작동 안함.
     Api.get(`users/${portfolioOwnerId}/certificates`).then((res) => {
       setCertificateList(res.data);
       console.log(res.data);
-      console.log(certificateList);
     });
   }, []);
 

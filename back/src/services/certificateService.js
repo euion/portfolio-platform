@@ -5,7 +5,7 @@ class certificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
     const newCertificate = {
       user_id,
-      id,
+      // id,
       title,
       description,
       when_date,
