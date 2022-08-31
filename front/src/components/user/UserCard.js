@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import { modeContext } from "../../App";
+import React, { useContext } from "react";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork, mode }) {
+function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
+  const mode = useContext(modeContext);
   return (
     <Card
       className="mb-2 ms-3 mr-5"

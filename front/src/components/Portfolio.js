@@ -1,8 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Col, Row, Button } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
+import { modeContext } from "../App";
+
 import * as Api from "../api";
 import User from "./user/User";
 import EduInputForm from "./education/EduInputForm";
@@ -13,6 +15,7 @@ import Award from "./award/Award";
 import Certificates from "./Certificate/Certificates";
 
 function Portfolio() {
+  const mode = useContext(modeContext);
   const navigate = useNavigate();
   const params = useParams();
   // useState 훅을 통해 portfolioOwner 상태를 생성함.
@@ -20,7 +23,6 @@ function Portfolio() {
   // fetchPorfolioOwner 함수가 완료된 이후에만 (isFetchCompleted가 true여야) 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면, isFetchCompleted가 false이면 "loading..."만 반환되어서, 화면에 이 로딩 문구만 뜨게 됨.
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-  const [mode, setmode] = useState("Light"); //State about dark-mode
   const userState = useContext(UserStateContext);
 
   const fetchPorfolioOwner = async (ownerId) => {
@@ -58,18 +60,6 @@ function Portfolio() {
     return "loading...";
   }
 
-  const toggleMode = () => {
-    if (mode === "Light") {
-      setmode("Dark");
-      document.body.style.backgroundColor = "#202020"; //'#042743'
-      document.body.style.color = "#ffffff"; //'#042743'
-    } else {
-      setmode("Light");
-      document.body.style.backgroundColor = "white";
-      document.body.style.color = "#000000"; //'#042743'
-    }
-  };
-
   return (
     <>
       <Container center>
@@ -93,9 +83,6 @@ function Portfolio() {
             {/* <Certificates portfolioOwnerId={1} isEditable={true} mode={mode} /> */}
           </Col>
         </Row>
-        <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
-          MODE
-        </Button>
       </Container>
     </>
   );

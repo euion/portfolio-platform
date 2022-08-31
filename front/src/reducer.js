@@ -16,22 +16,3 @@ export function loginReducer(userState, action) {
       return userState;
   }
 }
-
-export function modeReducer(modeState, action) {
-  switch (action.type) {
-    case "DARK_MODE":
-      console.log("다크 모드");
-      return {
-        ...modeState,
-        user: "dark",
-      };
-    case "LIGHT_MODE":
-      console.log("일반 모드");
-      return {
-        ...modeState,
-        user: "light",
-      };
-    default:
-      return modeState;
-  }
-}
