@@ -10,6 +10,7 @@ function CertificateCard({
   setCertificateList,
   certificateList,
 }) {
+  const whenDate = certificate.when_date.split("T")[0];
   const handleDeleteClick = async (title) => {
     const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
     if (notice) {
@@ -22,16 +23,16 @@ function CertificateCard({
   };
   return (
     <Row>
-      <Col>
+      <Col className="mb-3" sm={8}>
         <h5>{certificate.title}</h5>
         <span>
           {certificate.description}
-          <br /> {certificate.when_date}
+          <br /> {whenDate}
         </span>
       </Col>
 
       {isEditable && (
-        <Col md={{ offset: 6 }} className="mb-3">
+        <Col className="mb-3">
           <Button
             variant="outline-warning"
             onClick={() => {
