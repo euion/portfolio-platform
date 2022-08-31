@@ -48,7 +48,7 @@ certificateRouter.get(
     if (usercertificates.errorMessage) {
       throw new Error(usercertificates.errorMessage);
     }
-    res.status(200).send(usercertificates);
+    res.status(200).json(usercertificates);
   } catch (error) {
     next(error);
   }

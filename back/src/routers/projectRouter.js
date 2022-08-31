@@ -46,7 +46,7 @@ projectRouter.get(
       const user_id = req.params.user_id;
       const projects = await projectService.getProjects({ user_id });
       
-      res.status(200).send(projects);
+      res.status(200).json(projects);
     } catch (error) {
       next(error);
     }
