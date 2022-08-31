@@ -13,7 +13,7 @@ projectRouter.post("/project", async (req, res, next) => {
       );
     }
 
-    const { title, description, from_date, to_date } = req.currentUserId;
+    const { title, description, skill, link, imagePath, from_date, to_date } = req.body;
 
     const user_id = req.currentUserId;
 
@@ -22,6 +22,9 @@ projectRouter.post("/project", async (req, res, next) => {
       user_id,
       title,
       description,
+      skill,
+      link,
+      imagePath,
       from_date,
       to_date,
     });
@@ -61,10 +64,13 @@ projectRouter.put("/projects/:id", async (req, res, next) => {
 
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
+    const skill = req.body.skill ?? null;
+    const link = req.body.link ?? null;
+    const imagePath = req.body.imagePath ?? null;
     const from_date = req.body.from_date ?? null;
     const to_date = req.body.to_date ?? null;
 
-    const toUpdate = { title, description, from_date, to_date };
+    const toUpdate = { title, description, skill, link, imagePath, from_date, to_date };
 
     const updatedProject = await projectService.setProject({
       project_id,

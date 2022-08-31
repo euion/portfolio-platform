@@ -5,7 +5,6 @@ class certificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
     const newCertificate = {
       user_id,
-      // id,
       title,
       description,
       when_date,
@@ -27,6 +26,13 @@ class certificateService {
   // 자격증 수정
   static async setCertificate({ certificate_id, toUpdate }) {
     let certificate = await Certificate.findByCertificateId({ certificate_id });
+
+    // db에서 찾지 X, 에러
+    if (!award) {
+      const errorMessage =
+        "해당 자격증내역이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
 
     // 업데이트 대상을 확인 : title, description, when_date
     if (toUpdate.title) {

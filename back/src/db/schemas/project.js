@@ -17,6 +17,18 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
+    skill: {
+      type: String,
+      required: false,
+    },
+    link: {
+      type: String,
+      required: false,
+    },
+    imagePath: {
+      type: Array,
+      required: false,
+    },
     from_date: {
       type: Date,
       required: true,

@@ -13,7 +13,7 @@ certificateRouter.post("/certificate", async (req, res, next) => {
       );
     }
 
-    const { title, description, when_date } = req.body.title;
+    const { title, description, when_date } = req.body;
 
     const user_id = req.currentUserId;
 
