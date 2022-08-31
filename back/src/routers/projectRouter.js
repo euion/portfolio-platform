@@ -1,96 +1,116 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
 import { projectService } from "../services/projectService";
+import { Project } from "../db";
 
 const projectRouter = Router();
 
-projectRouter.post("/project", login_required, async function (req, res, next) {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
-
-    // req (request) 에서 데이터 가져오기
-    const user_id = req.currentUserId;
-    const title = req.body.title;
-    const description = req.body.description;
-    const from_date = req.body.from_date;
-    const to_date = req.body.to_date;
-
-    // 위 데이터를 유저 db에 추가하기
-    const newProject = await projectService.addProject({
-      user_id,
-      title,
-      description,
-      from_date,
-      to_date,
-    });
-
-    if (newProject.errorMessage) {
-      throw new Error(newProject.errorMessage);
-    }
-
-    res.status(201).json(newProject);
-  } catch (error) {
-    next(error);
-  }
-});
-
-projectRouter.get(
-  ":users/:user_id/projects",
-
-  async function (req, res, next) {
+projectRouter.post(
+  "/project",
+  async (req, res, next) => {
     try {
-      // 전체 프로젝트 목록을 얻음
-      const user_id = req.params.id;
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          "headers의 Content-Type을 application/json으로 설정해주세요"
+        );
+      }
+
+      const { title, description, imagePath, skill, link, from_date, to_date } = req.currentUserId;
+
+      const user_id = req.currentUserId;
+
+      // 위 데이터를 프로젝트 db에 추가하기
+      const newProject = await projectService.addProject({
+        user_id,
+        title,
+        description,
+        skill,
+        link,
+        imagePath,
+        from_date,
+        to_date,
+      });
+
+      if (newProject.errorMessage) {
+        throw new Error(newProject.errorMessage);
+      }
+
+      res.status(201).json(newProject);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+// 특정 user의 모든 프로젝트내역 get
+projectRouter.get(
+  "/users/:user_id/projects",
+  async (req, res, next) => {
+    try {
+      const user_id = req.params.user_id;
       const projects = await projectService.getProjects({ user_id });
-      res.status(200).send(projects);
+      res.status(200).json(projects);
     } catch (error) {
       next(error);
     }
   }
 );
 
-projectRouter.put("/projects/:id", async function (req, res, next) {
-  try {
-    const project_id = req.params.id;
+projectRouter.put(
+  "/projects/:id",
+  async (req, res, next) => {
+    try {
+      const project_id = req.params.id;
 
-    const title = req.body.title ?? null;
-    const description = req.body.description ?? null;
-    const from_date = req.body.from_date ?? null;
-    const to_date = req.body.to_date ?? null;
+      const project = await Project.findByProjectId({ project_id });
 
-    const toUpdate = { title, description, from_date, to_date };
+      // !!!
+      if (project.user_id !== req.currentUserId) {
+        throw new Error("권한이 없습니다.");
+      }
 
-    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-    const updatedProject = await projectService.setProject({
-      project_id,
-      toUpdate,
-    });
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const skill = req.body.skill ?? null;
+      const link = req.body.link ?? null;
+      const imagePath = req.body.imagePath ?? null;
+      const from_date = req.body.from_date ?? null;
+      const to_date = req.body.to_date ?? null;
 
-    if (updatedProject.errorMessage) {
-      throw new Error(updatedProject.errorMessage);
+      const toUpdate = { title, description, skill, link, imagePath, from_date, to_date };
+
+      const updatedProject = await projectService.setProject({
+        project_id,
+        toUpdate,
+      });
+
+      if (updatedProject.errorMessage) {
+        throw new Error(updatedProject.errorMessage);
+      }
+
+      res.status(200).json(updatedProject);
+    } catch (error) {
+      next(error);
     }
+  });
 
-    res.status(200).json(updatedProject);
-  } catch (error) {
-    next(error);
-  }
-});
+projectRouter.delete(
+  "/projects/:id",
+  async (req, res, next) => {
+    try {
+      const project_id = req.params.id;
+      const project = await Project.findByProjectId({ project_id });
 
-projectRouter.delete("/projects/:id", async function (req, res, next) {
-  try {
-    const project_id = req.params.id;
+      // !!!
+      if (project.user_id !== req.currentUserId) {
+        throw new Error("권한이 없습니다.");
+      }
 
-    await projectService.deleteProject({ project_id });
+      await projectService.deleteProject({ project_id });
 
-    res.sendStatus(204);
-  } catch (error) {
-    next(error);
-  }
-});
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 export { projectRouter };
