@@ -15,7 +15,7 @@ projectRouter.post(
       );
     }
 
-    const { title, description, text, skill, link, from_date, to_date } = req.currentUserId;
+    const { title, description, skill, link, imagePath, from_date, to_date } = req.currentUserId;
 
     const user_id = req.currentUserId;
 
