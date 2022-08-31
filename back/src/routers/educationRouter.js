@@ -87,7 +87,7 @@ educationRouter.put("/educations/:id", async (req, res, next) => {
 educationRouter.delete("/educations/:id", async (req, res, next) => {
   try {
     const education_id = req.params.id;
-    const education = Education.findByEducationId({ education_id });
+    const education = await Education.findByEducationId({ education_id });
 
     // !!!
     if (education.user_id !== req.currentUserId) {
