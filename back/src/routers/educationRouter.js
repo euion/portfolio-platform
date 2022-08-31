@@ -5,9 +5,7 @@ import { Education } from "../db";
 
 const educationRouter = Router();
 
-educationRouter.post(
-  "/education",
-  async (req, res, next) => {
+educationRouter.post("/education", async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -38,9 +36,7 @@ educationRouter.post(
 });
 
 // 특정 user의 모든 학력 내역 get
-educationRouter.get(
-  "/users/:user_id/educations",
-  async (req, res, next) => {
+educationRouter.get("/users/:user_id/educations", async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const userEducations = await educationService.getEducations({ user_id });
@@ -55,9 +51,7 @@ educationRouter.get(
   }
 });
 
-educationRouter.put(
-  "/educations/:id",
-  async (req, res, next) => {
+educationRouter.put("/educations/:id", async (req, res, next) => {
   try {
     const education_id = req.params.id;
 
@@ -90,12 +84,10 @@ educationRouter.put(
   }
 });
 
-educationRouter.delete(
-  "/educations/:id",
-  async (req, res, next) => {
+educationRouter.delete("/educations/:id", async (req, res, next) => {
   try {
     const education_id = req.params.id;
-    const education = Education.findByEduId({ education_id });
+    const education = Education.findByEducationId({ education_id });
 
     // !!!
     if (education.user_id !== req.currentUserId) {
