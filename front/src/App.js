@@ -17,6 +17,10 @@ export const modeContext = createContext(null);
 function App() {
   const [mode, setmode] = useState("Light"); //State about dark-mode
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
+  const moveTop = () => {
+    // TOP버튼 펑션
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  };
   const [userState, dispatch] = useReducer(loginReducer, {
     user: null,
   });
@@ -97,6 +101,19 @@ function App() {
           </Button>
         </modeContext.Provider>
       </UserStateContext.Provider>
+      <Button
+        onClick={moveTop}
+        className="position-fixed bottom-0 end-0 m-5"
+        variant="outline-primary"
+        style={{
+          width: "70px",
+          height: "70px",
+          borderRadius: "50%",
+          margin: "2%",
+        }}
+      >
+        TOP
+      </Button>
     </DispatchContext.Provider>
   );
 }

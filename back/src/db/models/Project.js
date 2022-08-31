@@ -6,12 +6,12 @@ class Project {
     return createdNewProject;
   }
 
-  static async findById({ project_id }) {
+  static async findByProjectId({ project_id }) {
     const project = await ProjectModel.findOne({ id: project_id });
     return project;
   }
 
-  static async findAll({ user_id }) {
+  static async findAllByUserId({ user_id }) {
     const projects = await ProjectModel.find({ user_id: user_id });
     return projects;
   }
@@ -30,8 +30,7 @@ class Project {
   }
 
   static async delete({ project_id }) {
-    const project = await ProjectModel.deleteOne({ id: project_id })
-    return project
+    await ProjectModel.deleteOne({ id: project_id })
   }
 }
 
