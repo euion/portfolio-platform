@@ -14,8 +14,8 @@ const ProjectImages = ({ imagePath }) => {
             {/* {open && <ImageViewer />} */}
             {urlList[0] &&
                 <Carousel variant='dark' interval={null} > {/* 렉걸려서 자동으로 이미지 넘어가는 기능 끔 */}
-                    {urlList?.map(v =>
-                        <Carousel.Item>
+                    {urlList?.map((v, i) =>
+                        <Carousel.Item key={v + 'url' + i}>
                             <img
                                 onClick={openImageViewer}
                                 style={{ height: '450px', objectFit: 'contain' }}

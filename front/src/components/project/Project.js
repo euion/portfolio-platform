@@ -58,7 +58,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                         {projects.length === 0 ? <h5 className="mt-5 mb-5" style={{ textAlign: 'center' }}>프로젝트를 등록해주세요 😃</h5> : null}
                         <Accordion className='mt-3' defaultActiveKey={0}>
                             {projects?.map((v, i) => {
-                                return <Accordion.Item eventKey={i} key={v.id}>
+                                return <Accordion.Item eventKey={i} key={v.id + 'accor' + i}>
                                     <Accordion.Header onClick={() => { setEditToggle(false) }}>
                                         <div>
                                             <div style={{ display: 'flex' }}>
@@ -74,10 +74,10 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                                     </Accordion.Header>
                                     <Accordion.Body>
                                         {v.imagePath && <ProjectImages imagePath={v?.imagePath} />}
-                                        <div className='mt-3'>{v?.description?.split('\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)}</div>
+                                        <div className='mt-3'>{v?.description?.split('\n').map((v, i) => <React.Fragment key={v.id + 'br' + i}>{v}<br /></React.Fragment>)}</div>
                                         <div className='mt-3 mb-3'>
                                             {
-                                                v?.skill?.split(' ').map(v => <Badge className='me-1' pill bg="primary" key={v}>{v}</Badge>)}
+                                                v?.skill?.split(' ').map((v, i) => <Badge className='me-1' pill bg="primary" key={v.id + 'skill' + i}>{v}</Badge>)}
                                         </div>
                                         {isEditable &&
                                             <div className='mt-3' style={{ textAlign: 'center' }}>
