@@ -15,7 +15,7 @@ const initialState = {
 
 function EduApp({ portfolioOwnerId, isEditable }) {
   const [educations, setEducations] = useState(null);
-  const [isAdding, setIsAdding] = useState(initialState.users);
+  const [isAdding, setIsAdding] = useState(false);
   useEffect(() => {
     Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
       setEducations(res.data)

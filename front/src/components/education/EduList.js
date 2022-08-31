@@ -4,19 +4,27 @@ import EduUpdate from "./EduUpdate";
 import * as Api from "../../api";
 
 /**  학력정보 한단위로 나타냄 */
-function EduList({ edu, setEducations, educations, isEditable }) {
+function EduList({
+  edu,
+  setEducations,
+  educations,
+  isEditable,
+  portfolioOwnerId,
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    console.log(educations);
-  }, [educations]);
+  // useEffect(() => {
+  //   console.log(educations);
+  // }, [educations]);
   return (
     <>
       {isEditing ? (
         <EduUpdate
           key={edu.id}
           setIsEditing={setIsEditing}
+          setEducations={setEducations}
           educations={educations}
+          portfolioOwnerId={portfolioOwnerId}
           edu={edu}
         />
       ) : (
@@ -27,6 +35,7 @@ function EduList({ edu, setEducations, educations, isEditable }) {
           setIsEditing={setIsEditing}
           setEducations={setEducations}
           educations={educations}
+          portfolioOwnerId={portfolioOwnerId}
           isEditing={isEditing}
         />
       )}
@@ -43,6 +52,21 @@ function EduCard({
   isEditing,
   portfolioOwnerId,
 }) {
+  const deleteHandler = async (school, id) => {
+    const ans = window.confirm(`[${school}] 학력을 지우시겠습니까?`);
+    if (ans) {
+      console.log(`삭제요청, id:${id}`, id);
+      const res = await Api.delete(`educations/${edu.id}`);
+      if (res.status === 204) {
+        console.log("삭제완료");
+        const tempEducations = [...educations].filter((v) => v.id !== id);
+        setEducations(tempEducations);
+      }
+    } else {
+      setIsEditing(false);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -60,18 +84,15 @@ function EduCard({
               className="ms-2 mb-3"
               variant="outline-warning"
             >
-              {isEditing ? "취소" : "수정"}
+              수정
             </Button>
           )}
           <Button
             className="ms-2 mb-3"
             variant="outline-danger"
-            onClick={async (e) => {
-              e.preventDefault();
-              await Api.delete(`educations/${edu.id}`).then((res) =>
-                console.log(res.data)
-              );
-              setEducations(educations.filter((e) => e.id !== edu.id));
+            onClick={() => {
+              deleteHandler(edu.school, edu.id);
+              // setIsEditing(!isEditing);
             }}
           >
             삭제
