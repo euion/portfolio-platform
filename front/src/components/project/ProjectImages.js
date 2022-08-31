@@ -1,6 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import { useState } from 'react';
-import ImageViewer from './ImageViewer';
+// import ImageViewer from './ImageViewer';
 
 const ProjectImages = ({ imagePaths }) => {
     const backUrl = 'http://localhost:3333';
@@ -11,10 +11,9 @@ const ProjectImages = ({ imagePaths }) => {
     }
     return (
         <>
-            {/* 렉걸려서 자동으로 넘어가는 기능 끔 */}
             {/* {open && <ImageViewer />} */}
             {urlList[0] &&
-                <Carousel variant='dark' interval={null} >
+                <Carousel variant='dark' interval={null} > {/* 렉걸려서 자동으로 이미지 넘어가는 기능 끔 */}
                     {urlList?.map(v =>
                         <Carousel.Item>
                             <img
@@ -26,7 +25,6 @@ const ProjectImages = ({ imagePaths }) => {
                             />
                         </Carousel.Item>)}
                 </Carousel>}
-
         </>
     );
 }

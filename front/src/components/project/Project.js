@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import * as API from '../../api';
 
@@ -67,44 +67,45 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                                                 href={v.link}
                                                 target='_blank'
                                                 rel="noreferrer">🔗</a>}
-                                            <span style={{ color: 'grey' }}>[{v?.from_date.slice(0, 10)}~{v?.to_date.slice(0, 10)}]</span>
+                                            <span style={{ color: 'grey' }}>[{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}]</span>
                                         </div>
                                     </Accordion.Header>
                                     <Accordion.Body>
-                                        {/* 이미지 처리 구현되면 활성화 */}
                                         {v.imagePaths && <ProjectImages imagePaths={v?.imagePaths} />}
                                         <div className='mt-3'>{v?.description?.split('\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)}</div>
                                         <div className='mt-3 mb-3'>
                                             {
-                                                // 메소드를 사용하는 객체가 존하는지 확인!
-                                                // v.skill이 없을때 split 메소드 사용시 에러발생, 반드시 존재하는지 확인부터!!
                                                 v?.skill?.split(' ').map(v => <Badge className='me-1' pill bg="primary" key={v}>{v}</Badge>)}
                                         </div>
-                                        <div className='mt-3' style={{ textAlign: 'center' }}>
-                                            {!editToggle ?
-                                                <div className='mt-5 mb-5'>
-                                                    <Button
-                                                        onClick={() => { setEditToggle(true) }}
-                                                        variant="outline-warning">수정</Button>
-                                                    <Button
-                                                        className='ms-3'
-                                                        onClick={() => { deleteProjectHandleer(v.title, v.id) }}
-                                                        variant="outline-danger">삭제</Button>
-                                                </div>
-                                                : <EditProjectForm
-                                                    index={i}
-                                                    projects={projects}
-                                                    setProjects={setProjects}
-                                                    setEditToggle={(boolean) => { setEditToggle(boolean) }} />}
-                                        </div>
+                                        {isEditable &&
+                                            <div className='mt-3' style={{ textAlign: 'center' }}>
+                                                {!editToggle ?
+                                                    <div className='mt-5 mb-5'>
+                                                        <Button
+                                                            onClick={() => { setEditToggle(true) }}
+                                                            variant="outline-warning">수정</Button>
+                                                        <Button
+                                                            className='ms-3'
+                                                            onClick={() => { deleteProjectHandleer(v.title, v.id) }}
+                                                            variant="outline-danger">삭제</Button>
+                                                    </div>
+                                                    : <EditProjectForm
+                                                        index={i}
+                                                        projects={projects}
+                                                        setProjects={setProjects}
+                                                        setEditToggle={(boolean) => { setEditToggle(boolean) }} />}
+                                            </div>
+                                        }
                                     </Accordion.Body>
                                 </Accordion.Item>
                             }
                             )}
                         </Accordion>
-                        <div className='mt-3 mb-3' style={{ textAlign: 'center' }}>
-                            <Button className='mt-3' onClick={() => { setAddToggle(true) }}>+</Button>
-                        </div>
+                        {isEditable &&
+                            <div className='mt-3 mb-3' style={{ textAlign: 'center' }}>
+                                <Button className='mt-3' onClick={() => { setAddToggle(true) }}>+</Button>
+                            </div>}
+
                     </>
                 }
                 {addToggle && <AddProjectForm
