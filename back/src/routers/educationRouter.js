@@ -90,9 +90,9 @@ educationRouter.delete("/educations/:id", async (req, res, next) => {
     const education = Education.findByEducationId({ education_id });
 
     // !!!
-    if (education.user_id !== req.currentUserId) {
-      throw new Error("권한이 없습니다.");
-    }
+    // if (education.user_id !== req.currentUserId) {
+    //   throw new Error("권한이 없습니다.");
+    // }
 
     await educationService.deleteEducation({ education_id });
 
