@@ -18,6 +18,14 @@ const AwardSchema = new Schema(
       type: String,
       required: true,
     },
+    hostOrganization: {
+      type: String,
+      required: true,
+    },
+    awardDate: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

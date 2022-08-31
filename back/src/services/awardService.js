@@ -3,16 +3,23 @@ import { v4 as uuidv4 } from "uuid";
 
 class awardService {
   // 새로운 학력 추가
-  static async addAward({ user_id, title, description }) {
+  static async addAward({
+    user_id,
+    title,
+    description,
+    hostOrganization,
+    awardDate,
+  }) {
     // id에 unique value부여
     const id = uuidv4();
-    console.log(id);
 
     const newAward = {
       user_id,
       id,
       title,
       description,
+      hostOrganization,
+      awardDate,
     };
 
     //db에 저장
@@ -44,6 +51,18 @@ class awardService {
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
+      award = await Award.update({ award_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.hostOrganization) {
+      const fieldToUpdate = "hostOrganization";
+      const newValue = toUpdate.hostOrganization;
+      award = await Award.update({ award_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.awardDate) {
+      const fieldToUpdate = "awardDate";
+      const newValue = toUpdate.awardDate;
       award = await Award.update({ award_id, fieldToUpdate, newValue });
     }
 
