@@ -13,13 +13,10 @@ awardRouter.post("/award", async (req, res, next) => {
       );
     }
 
-    const { title, description } = req.body;
-    console.log("title: ", title);
-    console.log("description: ", description);
+    const { title, description, hostOrganization, awardDate } = req.body;
 
     // user_id를 request에서 가져옴 (check login_required)
     const user_id = req.currentUserId;
-    console.log("user_id:", user_id);
 
     if (!user_id) {
       throw new Error("No User");
@@ -30,6 +27,8 @@ awardRouter.post("/award", async (req, res, next) => {
       user_id,
       title,
       description,
+      hostOrganization,
+      awardDate,
     });
     console.log("newAward: ", newAward);
 
@@ -59,8 +58,10 @@ awardRouter.put("/awards/:id", async (req, res, next) => {
     // 있는 경우 update할 정보를 추출
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
+    const hostOrganization = req.body.hostOrganization ?? null;
+    const awardDate = req.body.awardDate ?? null;
 
-    const toUpdate = { title, description };
+    const toUpdate = { title, description, hostOrganization, awardDate };
 
     // 수정 후 db에 업데이트
     const updatedAward = await awardService.setAward({ award_id, toUpdate });

@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-const id = require('./types/id');
+import id from "./types/id";
 
 const UserSchema = new Schema(
   {
@@ -30,4 +30,3 @@ const UserSchema = new Schema(
 const UserModel = model("user", UserSchema);
 
 export { UserModel };
-
