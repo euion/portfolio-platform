@@ -71,9 +71,9 @@ projectRouter.put(
 
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
-    const skill = req.body.title ?? null;
-    const link = req.body.description ?? null;
-    const imagePath = req.body.title ?? null;
+    const skill = req.body.skill ?? null;
+    const link = req.body.link ?? null;
+    const imagePath = req.body.imagePath ?? null;
     const from_date = req.body.from_date ?? null;
     const to_date = req.body.to_date ?? null;
 
