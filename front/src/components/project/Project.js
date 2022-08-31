@@ -61,17 +61,19 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                                 return <Accordion.Item eventKey={i} key={v.id}>
                                     <Accordion.Header onClick={() => { setEditToggle(false) }}>
                                         <div>
-                                            <h5 style={{ fontWeight: '600' }}>{v.title}</h5>
-                                            {v?.link && <a style={{ textDecoration: 'none' }}
-                                                className='ms-2'
-                                                href={v.link}
-                                                target='_blank'
-                                                rel="noreferrer">🔗</a>}
+                                            <div style={{ display: 'flex' }}>
+                                                <h5 style={{ fontWeight: '600' }}>{v.title}</h5>
+                                                {v?.link && <a style={{ textDecoration: 'none' }}
+                                                    className='ms-2'
+                                                    href={v.link}
+                                                    target='_blank'
+                                                    rel="noreferrer">🔗</a>}
+                                            </div>
                                             <span style={{ color: 'grey' }}>[{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}]</span>
                                         </div>
                                     </Accordion.Header>
                                     <Accordion.Body>
-                                        {v.imagePaths && <ProjectImages imagePaths={v?.imagePaths} />}
+                                        {v.imagePath && <ProjectImages imagePath={v?.imagePath} />}
                                         <div className='mt-3'>{v?.description?.split('\n').map(v => <React.Fragment key={v}>{v}<br /></React.Fragment>)}</div>
                                         <div className='mt-3 mb-3'>
                                             {

@@ -19,7 +19,7 @@ const AddProjectForm = ({ setEditToggle, setAddToggle, projects, setProjects }) 
             start: new Date(),
             end: new Date(),
 
-            imagePaths: [],
+            imagePath: [],
         }
     );
 
@@ -35,7 +35,7 @@ const AddProjectForm = ({ setEditToggle, setAddToggle, projects, setProjects }) 
             //아래는 아직 백엔드에 추가안된 필드
             skill: project.skill,
             link: project.link,
-            imagePaths: project.imagePaths, //배열 값
+            imagePath: project.imagePath, //배열 값
         })
 
         //추가 요청 응답이 성공이라면

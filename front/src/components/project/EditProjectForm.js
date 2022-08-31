@@ -17,7 +17,7 @@ const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
 
             skill: projects[index].skill,
             link: projects[index].link,
-            imagePaths: projects[index].imagePaths,
+            imagePath: projects[index].imagePath,
         }
     );
 
@@ -32,7 +32,7 @@ const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
             //아래는 백엔드 필드 구현 예정
             skill: project.skill,
             link: project.link,
-            imagePaths: project.imagePaths, //배열 값
+            imagePath: project.imagePath, //배열 값
         })
 
         //정상 응답이면 리듀서로 상태관리

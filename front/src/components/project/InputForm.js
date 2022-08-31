@@ -43,8 +43,8 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
         axios.post('http://localhost:3333/images', imageFormData)
             .then(res => res.data)
             .then(data => {
-                const temp = [...project?.imagePaths, data];
-                setProject({ ...project, imagePaths: temp });
+                const temp = [...project?.imagePath, data];
+                setProject({ ...project, imagePath: temp });
             });
         //똑같은 파일을 올렸을때 onChange가 인식 못하는걸 방지
         e.target.value = "";
@@ -54,11 +54,11 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
         setProject(
             {
                 ...project,
-                imagePaths: [...project.imagePaths.filter((v, i) => (index !== i))]
+                imagePath: [...project.imagePath.filter((v, i) => (index !== i))]
             });
     };
     const onRemoveImageAll = () => {
-        setProject({ ...project, imagePaths: [] });
+        setProject({ ...project, imagePath: [] });
     };
 
     return (
@@ -149,22 +149,22 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
                 </Form.Group>
 
                 {/* 업로드된 이미지 미리보기 */}
-                {project.imagePaths?.length > 0 ? <div className="dropdown-divider"></div> : null}
+                {project.imagePath?.length > 0 ? <div className="dropdown-divider"></div> : null}
                 <div style={{ display: 'flex', overflowX: 'scroll', alignItems: 'flex-end' }}>
-                    {project.imagePaths?.map((v, i) => (
+                    {project.imagePath?.map((v, i) => (
                         <div key={v} className='me-2' style={{ display: 'flex', flexDirection: 'column' }}>
                             <img className='mt-2' src={`http://localhost:3333/${v}`} alt={v} style={{ width: '180px', height: '200px', objectFit: 'cover' }}></img>
                             <Button className='mt-2 mb-2' variant="outline-danger" onClick={() => { onRemoveImage(i) }}>삭제</Button>
                         </div>
                     ))}
                 </div>
-                {project.imagePaths?.length > 0 ? <div className="dropdown-divider"></div> : null}
+                {project.imagePath?.length > 0 ? <div className="dropdown-divider"></div> : null}
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         {/* 이미지 첨부 버튼 */}
                         <input type='file' name='image' hidden ref={imageInput} onChange={onChangeImages} />
                         <Button className='me-2' onClick={onClickImageUpload}>이미지 업로드</Button>
-                        {project.imagePaths?.length > 0 ?
+                        {project.imagePath?.length > 0 ?
                             <Button variant="danger" onClick={onRemoveImageAll}>
                                 모든 이미지 삭제
                             </Button> : null}

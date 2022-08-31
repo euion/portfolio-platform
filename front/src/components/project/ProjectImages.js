@@ -2,9 +2,9 @@ import Carousel from 'react-bootstrap/Carousel';
 import { useState } from 'react';
 // import ImageViewer from './ImageViewer';
 
-const ProjectImages = ({ imagePaths }) => {
+const ProjectImages = ({ imagePath }) => {
     const backUrl = 'http://localhost:3333';
-    const urlList = imagePaths?.map(v => `${backUrl}/${v}`)
+    const urlList = imagePath?.map(v => `${backUrl}/${v}`)
     const [open, setOpen] = useState(false);
     const openImageViewer = () => {
         setOpen(true);
