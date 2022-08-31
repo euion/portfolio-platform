@@ -2,12 +2,15 @@ import { Project } from "../db";
 
 class projectService {
   // 새로운 자격증 추가
-  static async addProject({ user_id, title, description, from_date, to_date }) {
+  static async addProject({ user_id, title, description, skill, link, imagePath, from_date, to_date }) {
     const newProject = {
       user_id,
       id,
       title,
       description,
+      skill,
+      link,
+      imagePath,
       from_date,
       to_date,
     };
@@ -40,6 +43,24 @@ class projectService {
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
+      project = await Project.update({ project_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.skill) {
+      const fieldToUpdate = "skill";
+      const newValue = toUpdate.skill;
+      project = await Project.update({ project_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.link) {
+      const fieldToUpdate = "link";
+      const newValue = toUpdate.link;
+      project = await Project.update({ project_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.imagePath) {
+      const fieldToUpdate = "imagePath";
+      const newValue = toUpdate.imagePath;
       project = await Project.update({ project_id, fieldToUpdate, newValue });
     }
 
