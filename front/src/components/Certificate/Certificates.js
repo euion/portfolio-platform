@@ -7,13 +7,16 @@ import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
 function Certificates({ portfolioOwnerId, isEditable }) {
-  const [certificateList, setCertificateList] = useState([{}]);
+  const [certificateList, setCertificateList] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
-    Api.get("certificatelist", portfolioOwnerId).then((res) =>
-      setCertificateList(res.data)
-    );
+    //get 작동 안함.
+    Api.get(`users/${portfolioOwnerId}/certificates`).then((res) => {
+      setCertificateList(res.data);
+      console.log(res.data);
+      console.log(certificateList);
+    });
   }, []);
 
   return (

@@ -15,36 +15,24 @@ function CertificateAddForm({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
 
-  //event객체만 ..
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user_id = portfolioOwnerId;
-    const when_date = date.toISOString().split("T")[0];
-    // date.toISOString().split("T")[0];
-    // const newCertificate = {
-    //   id: certificateList.length + 1,
-    //   title: title,
-    //   description: description,
-    //   when_date,
-    // };
-    await Api.post("certificate/create", {
-      user_id,
+
+    // const when_date = date.toISOString().split("T")[0];
+
+    //post 제대로 db에 들어감
+    await Api.post("certificate", {
       title,
       description,
-      when_date,
+      when_date: date,
     }).then((res) => console.log(res));
 
-    const res = await Api.get("certificatelist", user_id);
+    const res = await Api.get(`users/${portfolioOwnerId}/certificates`);
+
     setCertificateList(res.data);
 
-    // setCertificateList([...certificateList, newCertificate]);
-    setTitle("");
-    setDescription("");
-    setDate(new Date());
     setIsAdding(false);
   };
-
-  //컨테이너로 센터
 
   return (
     <>
@@ -78,9 +66,6 @@ function CertificateAddForm({
                 <DatePicker
                   className="mb-3"
                   selected={date}
-                  // mask={"____-__-__"}
-
-                  shouldCloseOnSelect={true}
                   onChange={(value) => {
                     setDate(value);
                   }}
@@ -104,7 +89,6 @@ function CertificateAddForm({
                     </Button>
                   </Col>
                 </Row>
-                {/* 클릭하면 그냥 다시 +버튼으로 돌아가게끔 */}
               </Form.Group>
             </Form>
           </Col>

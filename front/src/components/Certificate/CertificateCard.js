@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row, Button } from "react-bootstrap";
 
-//자격증 내역 (이름, 설명, 날짜) isEditable이면 편집 버튼
+import * as Api from "../../api";
 
 function CertificateCard({
   setIsEditing,
@@ -13,19 +13,21 @@ function CertificateCard({
   const handleDeleteClick = (title) => {
     const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
     if (notice) {
-      setCertificateList(
-        certificateList.filter((certif) => certif.id !== certificate.id)
-      );
+      //Api.delete 사용하기
+      Api.delete("certificates", certificate.id);
+      // setCertificateList(
+      //   certificateList.filter((certif) => certif.id !== certificate.id)
+      // );
     }
   };
   return (
     <Row>
       <Col>
         <h5>{certificate.title}</h5>
-        <p>
+        <span>
           {certificate.description}
-          <br /> {certificate.date}
-        </p>
+          <br /> {certificate.when_date}
+        </span>
       </Col>
 
       {isEditable && (

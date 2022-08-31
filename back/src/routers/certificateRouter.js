@@ -43,7 +43,7 @@ certificateRouter.get(
     try {
       console.log(req.currentUserId);
       // 전체 자격증 목록을 얻음
-      const user_id = req.params.id;
+      const user_id = req.params.user_id; //ㅇ요기 해결
       const certificates = await certificateService.getCertificates({
         user_id,
       });
@@ -81,22 +81,22 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
   }
 });
 
-certificateRouter.get("/certificates/:id", async function (req, res, next) {
-  try {
-    const user_id = req.params.id;
-    const currentCertificateInfo = await certificateService.getCertificateInfo({
-      user_id,
-    });
+// certificateRouter.get("/certificates/:id", async function (req, res, next) {
+//   try {
+//     const user_id = req.params.id;
+//     const currentCertificateInfo = await certificateService.getCertificateInfo({
+//       user_id,
+//     });
 
-    if (currentCertificateInfo.errorMessage) {
-      throw new Error(currentCertificateInfo.errorMessage);
-    }
+//     if (currentCertificateInfo.errorMessage) {
+//       throw new Error(currentCertificateInfo.errorMessage);
+//     }
 
-    res.status(200).send(currentCertificateInfo);
-  } catch (error) {
-    next(error);
-  }
-});
+//     res.status(200).send(currentCertificateInfo);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 //req.body에 자격증 id를 받아 자격증을 삭제
 certificateRouter.delete("/certificates/:id", async function (req, res, next) {

@@ -1,28 +1,28 @@
 import { Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import { User } from "../db"
+import { User } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class certificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
-    const id = uuidv4()
+    const id = uuidv4();
 
     const newCertificate = { user_id, id, title, description, when_date };
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
-    
+
     createdNewCertificate.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewCertificate;
   }
-  
+
   static async getCertificates({ user_id }) {
     const certificates = await Certificate.findAll({ user_id });
     return certificates;
   }
 
   static async deleteCertificate({ certificate_id }) {
-    await Certificate.delete({ certificate_id })
+    await Certificate.delete({ certificate_id });
   }
 
   static async setCertificate({ certificate_id, toUpdate }) {
@@ -33,19 +33,31 @@ class certificateService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.when_date) {
-        const fieldToUpdate = "when_date";
-        const newValue = toUpdate.from_date;
-        certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      const fieldToUpdate = "when_date";
+      const newValue = toUpdate.when_date; //수정
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     return certificate;

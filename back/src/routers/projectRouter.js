@@ -40,7 +40,7 @@ projectRouter.post("/project", login_required, async function (req, res, next) {
 });
 
 projectRouter.get(
-  ":users/:user_id/projects",
+  "users/:user_id/projects",
 
   async function (req, res, next) {
     try {
