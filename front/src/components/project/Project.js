@@ -27,7 +27,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
     // get요청으로 dummy파일에서 불러온 값들을 이용하면 각자의 dummy파일 형식이 달라서 
     // 브랜치 머지할때 컴포넌트 에러 발생할수 있기때문에 일단 그냥 여기서 더미데이터 넣었습니다.
     useEffect(() => {
-        API.get(`users/${portfolioOwnerId}/projects`).then(v => setProjects(v.data));
+        API.get(`users/${portfolioOwnerId}/projects`).then(v => setProjects(v.data.reverse()));
     }, []);
 
     const deleteProjectHandleer = async (title, id) => {
@@ -44,10 +44,10 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
         }
     }
 
-    useEffect(() => {
-        console.log(projects);
-        // console.log(typeof (projects[0].from_date))
-    }, [projects]);
+    // useEffect(() => {
+    //     console.log(projects);
+    //     // console.log(typeof (projects[0].from_date))
+    // }, [projects]);
     return (
         <Card className='p-3 border'>
             <Card.Body>
