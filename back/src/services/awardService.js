@@ -2,14 +2,8 @@ import { Award } from "../db";
 
 class awardService {
   // 새로운 학력 추가
-  static async addAward({
-    user_id,
-    title,
-    description,
-    hostOrganization,
-    awardDate,
-  }) {
-    const newAward = {
+  static async addAward({ user_id, title, description, hostOrganization, awardDate }) {
+    try {const newAward = {
       user_id,
       title,
       description,
@@ -18,9 +12,12 @@ class awardService {
     };
 
     const createdNewAward = await Award.create({ newAward });
-    createdNewAward.errorMessage = null;
 
     return createdNewAward;
+    } catch (error) {
+      const errorMessage ="모든 항목을 입력해주세요.";
+      return { errorMessage };
+    }
   }
 
   // 해당 유저의 모든 학력 내용 가져오기

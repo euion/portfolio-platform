@@ -3,7 +3,7 @@ import { Education, User } from "../db";
 class educationService {
   // 새로운 학력 추가
   static async addEducation({ user_id, school, major, position }) {
-    const newEducation = {
+    try {const newEducation = {
       user_id,
       school,
       major,
@@ -14,6 +14,10 @@ class educationService {
     createdNewEducation.errorMessage = null;
 
     return createdNewEducation;
+    } catch (error) {
+      const errorMessage ="모든 항목을 입력해주세요.";
+      return { errorMessage };
+    }
   }
 
   // 해당 유저의 모든 학력 내용 가져오기

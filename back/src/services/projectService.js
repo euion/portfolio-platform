@@ -3,7 +3,7 @@ import { Project } from "../db";
 class projectService {
   // 새로운 자격증 추가
   static async addProject({ user_id, title, description, skill, link, imagePath, from_date, to_date }) {
-    const newProject = {
+    try {const newProject = {
       user_id,
       title,
       description,
@@ -18,6 +18,10 @@ class projectService {
     createdNewProject.errorMessage = null;
 
     return createdNewProject;
+    } catch (error) {
+      const errorMessage ="모든 항목을 입력해주세요.";
+      return { errorMessage };
+    }
   }
   
   // 해당 유저의 모든 프로젝트 내용 가져오기
