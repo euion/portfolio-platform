@@ -10,19 +10,23 @@ class educationService {
       position,
     };
 
-    //db에 저장
-    const createdNewEducation = await Education.create({
-      newEducation,
-    });
+    const createdNewEducation = await Education.create({ newEducation });
     createdNewEducation.errorMessage = null;
 
     return createdNewEducation;
   }
 
+  // 해당 유저의 모든 학력 내용 가져오기
+  static async getEducations({ user_id }) {
+    const educations = await Education.findAllByUserId({ user_id });
+
+    return educations;
+  }
+
   // 학력 수정
-  static async setEducation({ edu_id, toUpdate }) {
+  static async setEducation({ education_id, toUpdate }) {
     // 해당 edu_id를 가진 학력이 db에 있는지 확인
-    let education = await Education.findByEduId({ edu_id });
+    let education = await Education.findByEducationId({ education_id });
 
     // db에서 찾지 X, 에러
     if (!education) {
@@ -31,37 +35,32 @@ class educationService {
       return { errorMessage };
     }
 
-    // 업데이트 대상을 확인 학력의 경우: school, major,  position
+    // 업데이트 대상을 확인 : school, major, position
     if (toUpdate.school) {
       const fieldToUpdate = "school";
       const newValue = toUpdate.school;
-      education = await Education.update({ edu_id, fieldToUpdate, newValue });
+      education = await Education.update({ education_id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.major) {
       const fieldToUpdate = "major";
       const newValue = toUpdate.major;
-      education = await Education.update({ edu_id, fieldToUpdate, newValue });
+      education = await Education.update({ education_id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.position) {
       const fieldToUpdate = "position";
       const newValue = toUpdate.position;
-      education = await Education.update({ edu_id, fieldToUpdate, newValue });
+      education = await Education.update({ education_id, fieldToUpdate, newValue });
     }
-    // console.log(education);
+
     return education;
   }
 
-  // 해당 유저의 모든 학력 내용 가져오기
-  static async getEducationInfo({ user_id }) {
-    const educations = await Education.findByUserId({ user_id });
 
-    return educations;
-  }
 
-  static async deleteEducation({ edu_id }) {
-    await Education.delete({ edu_id });
+  static async deleteEducation({ education_id }) {
+    await Education.delete({ education_id });
   }
 }
 
