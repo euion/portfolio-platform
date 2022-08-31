@@ -2,23 +2,20 @@ import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardEdit({ setIsEdit, list, setList, value, index }) {
+function AwardEdit({ setIsEdit, list, value }) {
   const [editTitle, setEditTitle] = useState(value.title);
   const [editContent, setEditContent] = useState(value.content);
   const [editObj, setEditObj] = useState({
-    id: value.id,
     title: value.title,
-    content: value.content,
+    description: value.content,
   });
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const response = await Api.put(`/awards/${value.id}`, {
-      title: editTitle,
-      description: editContent,
-    });
+    const response = await Api.put(`awards/${value.id}`, editObj);
     const result = await response.data;
     console.log(result);
+    setIsEdit(false);
   };
 
   function cancel() {
@@ -29,7 +26,7 @@ function AwardEdit({ setIsEdit, list, setList, value, index }) {
     setEditObj({
       id: value.id,
       title: editTitle,
-      content: editContent,
+      description: editContent,
     });
     console.log(list);
   }, [editTitle, editContent]);
@@ -53,7 +50,7 @@ function AwardEdit({ setIsEdit, list, setList, value, index }) {
         <Form.Control
           type="text"
           placeholder="수상 내용을 입력하세요."
-          defaultValue={value.content}
+          defaultValue={value.description}
           onChange={(e) => {
             setEditContent(e.target.value);
           }}

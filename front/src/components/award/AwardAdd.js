@@ -1,26 +1,31 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardAdd({ setIsAdd, setList, list, portfolioOwnerId }) {
+function AwardAdd({ setIsAdd, list, portfolioOwnerId }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await Api.post("awardList", {
+    const response = await Api.post("award", {
       title: title,
       description: content,
     });
-    const result = response.data;
+    const result = await response.data;
     setTitle(""); // 제목필드 버튼 클릭 후 제목필드 초기화
     setContent(""); // 내용필드 버튼 클릭 후 내용필드 초기화
     console.log(result);
+    setIsAdd(false);
   };
 
   function cancel() {
     setIsAdd(false);
   }
+
+  useEffect(() => {
+    handleSubmit();
+  }, [list]);
 
   return (
     <Form onSubmit={handleSubmit}>

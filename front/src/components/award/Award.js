@@ -25,30 +25,26 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
 
   // 목데이터를 불러와 list에 저장하는 함수
   async function data() {
-    const response = await Api.get(`awardList/${portfolioOwnerId}`);
+    const response = await Api.get(`users/${portfolioOwnerId}/awards`);
     const result = await response.data;
-    // setList(result);
+    setList(result);
+    console.log(result);
   }
 
   useEffect(() => {
     data();
-  }, []);
+  }, [list.length]);
+  // isAdd가 바뀔 때 재렌더링 하여 갱신된 값을 보여주는데 처음에 클릭할때도 재렌더링이 되어서 불필요한 렌더링이 아닐까 생각한다.
+  // 이 부분에 대해서 코치님께 여쭈어보자
 
-  const handleDelete = (list, value) => {
-    alert(`${value.title} 수상내역을 지우시겠습니까?`);
-    setList(
-      list.filter((list) => {
-        return list.id != value.id;
-      })
-    );
+  // 수상내역 삭제 함수
+  const handleDelete = async (value) => {
+    console.log(value);
+    // alert(`${value.title} 수상내역을 지우시겠습니까?`);
+    const response = await Api.delete(`awards/${value.id}`);
+    const result = response.data;
+    console.log(result);
   };
-
-  // const handleDelete = async (value) => {
-  //   alert(`${value.title} 수상내역을 지우시겠습니까?`);
-  //   const response = await Api.delete(`awards/${value.id}`);
-  //   const result = response.data;
-  //   console.log(result);
-  // };
 
   return (
     <Card
@@ -75,7 +71,7 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
                 <Row>
                   <Col sm={8}>
                     <h5>{value.title}</h5> {/* 수상제목 */}
-                    <p>{value.content}</p> {/* 수상내용 */}
+                    <p>{value.description}</p> {/* 수상내용 */}
                   </Col>
                   <Col sm={4}>
                     <Button
@@ -84,10 +80,7 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
                     >
                       수정
                     </Button>{" "}
-                    <Button
-                      variant="outline-warning"
-                      onClick={() => handleDelete(list, value)}
-                    >
+                    <Button variant="outline-warning" onClick={() => handleDelete(value)}>
                       삭제
                     </Button>
                   </Col>
@@ -98,12 +91,7 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
         </Form.Group>
         {/* isAdd이 true일 경우 추가 컴포넌트 출력 */}
         {isAdd ? (
-          <AwardAdd
-            setIsAdd={setIsAdd}
-            list={list}
-            setList={setList}
-            portfolioOwnerId={portfolioOwnerId}
-          />
+          <AwardAdd setIsAdd={setIsAdd} portfolioOwnerId={portfolioOwnerId} list={list} />
         ) : (
           <> </>
         )}
