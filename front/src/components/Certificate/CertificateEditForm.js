@@ -12,21 +12,22 @@ function CertificateEditForm({
 }) {
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
-  const [date, setDate] = useState(new Date(certificate.date));
+  const [date, setDate] = useState(new Date(certificate.when_date));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const when_date = date.toISOString().split("T")[0];
+    const when_date = date.toISOString().split("T")[0];
 
     const user_id = certificate.user_id;
     const certificate_id = certificate.id;
+    console.log(certificate_id);
 
     //수정
     await Api.put(`certificates/${certificate_id}`, {
       title,
       description,
-      when_date: date,
+      when_date,
     });
     const res = await Api.get(`users/${user_id}/certificates`);
     setCertificateList(res.data);
