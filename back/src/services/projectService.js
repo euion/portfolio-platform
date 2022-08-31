@@ -32,6 +32,13 @@ class projectService {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let project = await Project.findByProjectId({ project_id });
 
+    // db에서 찾지 X, 에러
+    if (!project) {
+      const errorMessage =
+        "해당 프로젝트가 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
     // 업데이트 대상을 확인 : title, description, from_date, to_date
     if (toUpdate.title) {
       const fieldToUpdate = "title";

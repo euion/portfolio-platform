@@ -20,7 +20,6 @@ function EduUpdate({
       major,
       position,
     });
-
     const newEducaton = {
       school: school,
       major: major,
@@ -37,6 +36,7 @@ function EduUpdate({
       setEducations(res.data)
     );
   }, [portfolioOwnerId]);
+
   return (
     <>
       <Form onSubmit={handleSubmit}>

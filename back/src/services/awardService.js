@@ -2,11 +2,19 @@ import { Award } from "../db";
 
 class awardService {
   // 새로운 학력 추가
-  static async addAward({ user_id, title, description }) {
+  static async addAward({
+    user_id,
+    title,
+    description,
+    hostOrganization,
+    awardDate,
+  }) {
     const newAward = {
       user_id,
       title,
       description,
+      hostOrganization,
+      awardDate,
     };
 
     const createdNewAward = await Award.create({ newAward });
@@ -43,6 +51,18 @@ class awardService {
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
+      award = await Award.update({ award_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.hostOrganization) {
+      const fieldToUpdate = "hostOrganization";
+      const newValue = toUpdate.hostOrganization;
+      award = await Award.update({ award_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.awardDate) {
+      const fieldToUpdate = "awardDate";
+      const newValue = toUpdate.awardDate;
       award = await Award.update({ award_id, fieldToUpdate, newValue });
     }
 

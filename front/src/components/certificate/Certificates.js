@@ -1,40 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
+
+import * as Api from "../../api";
 
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
 function Certificates({ portfolioOwnerId, isEditable }) {
-  const [certificateList, setCertificateList] = useState([
-    {
-      id: 0, //자격증 하나당 아이디
-      title: "title",
-      description: "description",
-      date: "2022-08-25",
-    },
-  ]);
+  const [certificateList, setCertificateList] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
+  useEffect(() => {
+    Api.get(`users/${portfolioOwnerId}/certificates`).then((res) => {
+      setCertificateList(res.data);
+    });
+  }, []);
+
   return (
-    <Card>
+    <Card className="p-3 mt-3">
       <Card.Body>
-        <Card.Title className="mb-3 ms-3 mt-3">자격증</Card.Title>
+        <Card.Title className="mb-3">
+          <h3>🪪 자격증</h3>
+        </Card.Title>
 
         {certificateList.map((certificate) => (
           <Certificate
             key={certificate.id}
-            certificate={certificate} //이름 이상해
+            certificate={certificate}
             setCertificateList={setCertificateList}
             certificateList={certificateList}
             isEditable={isEditable}
           />
         ))}
+
         {isEditable && (
           <CertificateAddForm
             setIsAdding={setIsAdding}
             isAdding={isAdding}
             certificateList={certificateList}
             setCertificateList={setCertificateList}
+            portfolioOwnerId={portfolioOwnerId}
           />
         )}
       </Card.Body>

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
+import * as Api from "../../api";
+
 function CertificateAddForm({
+  portfolioOwnerId,
   isAdding,
   setIsAdding,
   certificateList,
@@ -12,26 +15,24 @@ function CertificateAddForm({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
 
-  //event객체만 ..
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const stringDate = date.toISOString().split("T")[0];
-    const newCertificate = {
-      id: certificateList.length,
-      title: title,
-      description: description,
-      date: stringDate,
-    };
 
-    setCertificateList([...certificateList, newCertificate]);
-    setTitle("");
-    setDescription("");
-    setDate(new Date());
+    const when_date = date.toISOString().split("T")[0];
+
+    //post 제대로 db에 들어감
+    await Api.post("certificate", {
+      title,
+      description,
+      when_date,
+    });
+
+    const res = await Api.get(`users/${portfolioOwnerId}/certificates`);
+
+    setCertificateList(res.data);
+
     setIsAdding(false);
-    return;
   };
-
-  //컨테이너로 센터
 
   return (
     <>
@@ -65,9 +66,6 @@ function CertificateAddForm({
                 <DatePicker
                   className="mb-3"
                   selected={date}
-                  mask={"____-__-__"}
-                  type="date"
-                  shouldCloseOnSelect={true}
                   onChange={(value) => {
                     setDate(value);
                   }}
@@ -81,7 +79,7 @@ function CertificateAddForm({
                     )}
                     <Button
                       className="ms-1"
-                      variant="secondary"
+                      variant="outline-primary"
                       type="button"
                       onClick={() => {
                         setIsAdding(false);
@@ -91,7 +89,6 @@ function CertificateAddForm({
                     </Button>
                   </Col>
                 </Row>
-                {/* 클릭하면 그냥 다시 +버튼으로 돌아가게끔 */}
               </Form.Group>
             </Form>
           </Col>

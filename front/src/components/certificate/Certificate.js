@@ -18,6 +18,8 @@ function Certificate({
           key={certificate.id}
           setIsEditing={setIsEditing}
           certificate={certificate}
+          setCertificateList={setCertificateList}
+          certificateList={certificateList}
         />
       ) : (
         <CertificateCard

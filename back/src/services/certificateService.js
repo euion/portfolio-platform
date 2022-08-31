@@ -15,11 +15,11 @@ class certificateService {
 
     return createdNewCertificate;
   }
-  
+
   // 해당 유저의 모든 자격증 내용 가져오기
   static async getCertificates({ user_id }) {
     const certificates = await Certificate.findAllByUserId({ user_id });
-    
+
     return certificates;
   }
 
@@ -28,9 +28,9 @@ class certificateService {
     let certificate = await Certificate.findByCertificateId({ certificate_id });
 
     // db에서 찾지 X, 에러
-    if (!award) {
+    if (!certificate) {
       const errorMessage =
-        "해당 자격증내역이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "해당 자격증이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -38,26 +38,38 @@ class certificateService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.when_date) {
-        const fieldToUpdate = "when_date";
-        const newValue = toUpdate.when_date;
-        certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      const fieldToUpdate = "when_date";
+      const newValue = toUpdate.when_date;
+      certificate = await Certificate.update({
+        certificate_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     return certificate;
   }
 
   static async deleteCertificate({ certificate_id }) {
-    await Certificate.delete({ certificate_id })
+    await Certificate.delete({ certificate_id });
   }
 }
 
