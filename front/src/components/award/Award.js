@@ -1,27 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Card, Row, Col, Button, Form } from "react-bootstrap";
 import AwardAdd from "./AwardAdd.js";
 import AwardEdit from "./AwardEdit.js";
 import * as Api from "../../api";
+import { modeContext } from "../../App";
 
-// import { useSelector, useDispatch } from "react-redux";
-// import { modeReducer } from "../../reducer";
-
-function Award({ portfolioOwnerId, isEditable, mode }) {
+function Award({ portfolioOwnerId, isEditable }) {
   const [isAdd, setIsAdd] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
   const [list, setList] = useState([]);
-
-  // dispatch를 사용하기 위한 준비
-  // const dispatch = useDispatch();
-
-  // store에 접근하여 state 가져오기
-  // const { count } = useSelector((state) => state.counter);
-
-  // const modeHandler = () => {
-  //   // store에 있는 state 바꾸는 함수 실행
-  //   dispatch(modeReducer());
-  // };
+  const mode = useContext(modeContext);
 
   // 목데이터를 불러와 list에 저장하는 함수
   async function data() {
@@ -60,30 +48,41 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
             <div style={{ margin: "20px 0px" }} key={index}>
               {/* isEdit이 false일 경우 수상이력출력, true일 경우 수정 컴포넌트 출력 */}
               {selectedIndex === index ? (
-                <AwardEdit
-                  setIsEdit={setSelectedIndex}
-                  list={list}
-                  setList={setList}
-                  value={value}
-                  index={index}
-                />
+                isEditable ? (
+                  <AwardEdit
+                    setIsEdit={setSelectedIndex}
+                    list={list}
+                    setList={setList}
+                    value={value}
+                    index={index}
+                  />
+                ) : (
+                  <></>
+                )
               ) : (
                 <Row>
                   <Col sm={8}>
                     <h5>{value.title}</h5> {/* 수상제목 */}
                     <p>{value.description}</p> {/* 수상내용 */}
                   </Col>
-                  <Col sm={4}>
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => setSelectedIndex(index)}
-                    >
-                      수정
-                    </Button>{" "}
-                    <Button variant="outline-warning" onClick={() => handleDelete(value)}>
-                      삭제
-                    </Button>
-                  </Col>
+                  {isEditable ? (
+                    <Col sm={4}>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => setSelectedIndex(index)}
+                      >
+                        수정
+                      </Button>{" "}
+                      <Button
+                        variant="outline-warning"
+                        onClick={() => handleDelete(value)}
+                      >
+                        삭제
+                      </Button>
+                    </Col>
+                  ) : (
+                    <></>
+                  )}
                 </Row>
               )}
             </div>
@@ -95,11 +94,16 @@ function Award({ portfolioOwnerId, isEditable, mode }) {
         ) : (
           <> </>
         )}
-        <Form.Group as={Row} className="mt-3 text-center">
-          <Col>
-            <Button onClick={() => setIsAdd(true)}>+</Button>
-          </Col>
-        </Form.Group>
+
+        {isEditable ? (
+          <Form.Group as={Row} className="mt-3 text-center">
+            <Col>
+              <Button onClick={() => setIsAdd(true)}>+</Button>
+            </Col>
+          </Form.Group>
+        ) : (
+          <></>
+        )}
       </Form>
     </Card>
   );
