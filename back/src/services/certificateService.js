@@ -28,9 +28,9 @@ class certificateService {
     let certificate = await Certificate.findByCertificateId({ certificate_id });
 
     // db에서 찾지 X, 에러
-    if (!award) {
+    if (!certificate) {
       const errorMessage =
-        "해당 자격증내역이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "해당 자격증이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 

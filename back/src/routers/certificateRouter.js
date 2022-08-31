@@ -60,7 +60,7 @@ certificateRouter.put(
   try {
     const certificate_id = req.params.id;
 
-    const certificate = await Certificate.findById({ certificate_id });
+    const certificate = await Certificate.findByCertificateId({ certificate_id });
 
     // !!!
     if (certificate.user_id !== req.currentUserId) {
@@ -78,9 +78,9 @@ certificateRouter.put(
       toUpdate,
     });
 
-    // if (updatedCertificate.errorMessage) {
-    //   throw new Error(updatedCertificate.errorMessage);
-    // }
+    if (updatedCertificate.errorMessage) {
+      throw new Error(updatedCertificate.errorMessage);
+    }
 
     res.status(200).json(updatedCertificate);
   } catch (error) {
