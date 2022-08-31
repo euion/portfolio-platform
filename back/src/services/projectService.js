@@ -5,7 +5,6 @@ class projectService {
   static async addProject({ user_id, title, description, skill, link, imagePath, from_date, to_date }) {
     const newProject = {
       user_id,
-      id,
       title,
       description,
       skill,

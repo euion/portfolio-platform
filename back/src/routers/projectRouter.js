@@ -15,7 +15,7 @@ projectRouter.post(
         );
       }
 
-      const { title, description, imagePath, skill, link, from_date, to_date } = req.currentUserId;
+      const { title, description, skill, link, imagePath, from_date, to_date } = req.body;
 
       const user_id = req.currentUserId;
 
@@ -30,16 +30,16 @@ projectRouter.post(
         from_date,
         to_date,
       });
+      res.status(201).json(newProject);
 
       if (newProject.errorMessage) {
         throw new Error(newProject.errorMessage);
       }
-
-      res.status(201).json(newProject);
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
 
 // 특정 user의 모든 프로젝트내역 get
 projectRouter.get(
