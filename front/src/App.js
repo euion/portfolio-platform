@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
@@ -13,8 +12,10 @@ import { Button } from "react-bootstrap";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
+export const modeContext = createContext(null);
 
 function App() {
+  const [mode, setmode] = useState("Light"); //State about dark-mode
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
   const moveTop = () => {
     // TOP버튼 펑션
@@ -57,34 +58,54 @@ function App() {
     return "loading...";
   }
 
+  // 다크모드 구현
+  const toggleMode = () => {
+    if (mode === "Light") {
+      // 다크모드 적용 시
+      setmode("Dark");
+      document.body.style.backgroundColor = "#202020";
+      document.body.style.color = "#ffffff";
+    } else {
+      // 일반모드 적용 시
+      setmode("Light");
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "#000000";
+    }
+  };
+
   return (
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" exact element={<Portfolio />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/users/:userId" element={<Portfolio />} />
-            <Route path="/network" element={<Network />} />
-            <Route path="*" element={<Portfolio />} />
-          </Routes>
-        </Router>
+        <modeContext.Provider value={mode}>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" exact element={<Portfolio />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/users/:userId" element={<Portfolio />} />
+              <Route path="/network" element={<Network />} />
+              <Route path="*" element={<Portfolio />} />
+            </Routes>
+          </Router>
+          <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
+            {mode == "Light" ? "다크모드로 전환" : "일반모드로 전환"}
+          </Button>
+          <Button
+            onClick={moveTop}
+            className="position-fixed bottom-0 end-0 m-5"
+            variant="outline-primary"
+            style={{
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              margin: "2%",
+            }}
+          >
+            TOP
+          </Button>
+        </modeContext.Provider>
       </UserStateContext.Provider>
-      <Button
-        onClick={moveTop}
-        className="position-fixed bottom-0 end-0 m-5"
-        variant="outline-primary"
-        style={{
-          width: "70px",
-          height: "70px",
-          borderRadius: "50%",
-          margin: "2%",
-        }}
-      >
-        TOP
-      </Button>
     </DispatchContext.Provider>
   );
 }

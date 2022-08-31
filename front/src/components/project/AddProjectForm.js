@@ -2,14 +2,24 @@ import { useState } from 'react';
 
 import InputForm from './InputForm';
 
-const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
+import * as API from '../../api';
+
+
+const AddProjectForm = ({ setEditToggle, setAddToggle, projects, setProjects }) => {
+    const dateToString = (date) => {
+        return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0')
+    }
     // input 받기위한 state
     const [project, setProject] = useState(
         {
-            name: '',
+            title: '',
             skill: '',
-            text: '',
+            description: '',
             link: '',
+            start: new Date(),
+            end: new Date(),
+
+            imagePath: [],
         }
     );
 
@@ -17,21 +27,24 @@ const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
         e.preventDefault();
 
         //서버에 프로젝트 데이터 추가 요청
-        const resOk = true;
-        /* 
-        요청 응답을 받고 성공일때 
-        아래에서 userState 업데이트 할것이기 때문에
-        await 사용해야 한다.
-        axios.put('/uesr/project/', 데이터 객체)
-        아마 이런식으로 서버에 요청
-        */
+        const res = await API.post('project', {
+            title: project.title,
+            description: project.description,
+            from_date: dateToString(project.start),
+            to_date: dateToString(project.end),
+            //아래는 아직 백엔드에 추가안된 필드
+            skill: project.skill,
+            link: project.link,
+            imagePath: project.imagePath, //배열 값
+        })
 
         //추가 요청 응답이 성공이라면
         //dispatch로 프로젝트를 추가하도록 userState를 업데이트 합니다.
-        if (resOk) {
+        if (res) {
             setProjects(
-                [project, ...projects]
+                [res.data, ...projects]
             );
+            setEditToggle(false)
         }
     }
 
@@ -42,7 +55,9 @@ const AddProjectForm = ({ setAddToggle, projects, setProjects }) => {
                 project={project}
                 setProject={setProject}
                 submitHandler={addProject}
-                setVisibleToggle={setAddToggle} />
+                setVisibleToggle={setAddToggle}
+            />
+
         </div>
     );
 }

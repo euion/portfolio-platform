@@ -1,28 +1,42 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import * as Api from "../../api";
+import DatePicker from "react-datepicker";
 
-function AwardAdd({ setIsAdd, setList, list }) {
+function AwardAdd({ setIsAdd, list, setList, setIsRander }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const nextId = useRef(3);
+  const [hostOrganization, setHostOrganization] = useState("");
+  const [awardDate, setAwardDate] = useState(new Date());
 
-  function submit() {
-    if (title && content) {
-      setList([...list, { id: nextId.current, title, content }]);
-      setTitle("");
-      setContent("");
-      nextId.current += 1;
-      alert("추가 되었습니다.");
-    } else alert("내용을 입력해주세요.");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsRander(true);
+    const when_date = awardDate.toISOString().split("T")[0];
+    const response = await Api.post("award", {
+      title,
+      description: content,
+      hostOrganization,
+      awardDate: when_date,
+    });
+    const result = await response.data;
+    setTitle(""); // 제목필드 버튼 클릭 후 제목필드 초기화
+    setContent(""); // 내용필드 버튼 클릭 후 내용필드 초기화
+    console.log(awardDate);
     setIsAdd(false);
-  }
+    setIsRander(false);
+  };
 
   function cancel() {
     setIsAdd(false);
   }
 
+  useEffect(() => {
+    handleSubmit();
+  }, []);
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>제목</Form.Label>
         <Form.Control
@@ -43,10 +57,31 @@ function AwardAdd({ setIsAdd, setList, list }) {
         />
       </Form.Group>
 
+      <Form.Group className="mt-2">
+        <Form.Label>기관</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="수상 기관을 입력하세요."
+          value={hostOrganization}
+          onChange={(e) => setHostOrganization(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mt-2">
+        <Form.Label>날짜</Form.Label>
+        <DatePicker
+          className="mb-3"
+          selected={awardDate}
+          onChange={(value) => {
+            setAwardDate(value);
+          }}
+        ></DatePicker>
+      </Form.Group>
+
       <Form.Group as={Col} className="text-center m-3">
         <Row>
           <Col>
-            <Button variant="primary" onClick={submit}>
+            <Button variant="primary" type="submit">
               확인
             </Button>{" "}
             <Button variant="secondary" onClick={cancel}>

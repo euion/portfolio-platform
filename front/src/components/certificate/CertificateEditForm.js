@@ -2,17 +2,35 @@ import React, { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
-function CertificateEditForm({ setIsEditing, certificate }) {
+import * as Api from "../../api";
+
+function CertificateEditForm({
+  setIsEditing,
+  certificate,
+  certificateList,
+  setCertificateList,
+}) {
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
-  const [date, setDate] = useState(new Date(certificate.date));
+  const [date, setDate] = useState(new Date(certificate.when_date));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    certificate.title = title;
-    certificate.description = description;
 
-    certificate.date = date.toISOString().split("T")[0];
+    const when_date = date.toISOString().split("T")[0];
+
+    const user_id = certificate.user_id;
+    const certificate_id = certificate.id;
+    console.log(certificate_id);
+
+    //수정
+    await Api.put(`certificates/${certificate_id}`, {
+      title,
+      description,
+      when_date,
+    });
+    const res = await Api.get(`users/${user_id}/certificates`);
+    setCertificateList(res.data);
 
     setIsEditing(false);
   };
@@ -40,8 +58,6 @@ function CertificateEditForm({ setIsEditing, certificate }) {
           <DatePicker
             className="mb-3"
             selected={date}
-            type="date"
-            shouldCloseOnSelect={true}
             onChange={(value) => {
               setDate(value);
             }}
@@ -53,7 +69,7 @@ function CertificateEditForm({ setIsEditing, certificate }) {
               </Button>
               <Button
                 className="ms-2 mb-3"
-                variant="secondary"
+                variant="outline-primary"
                 onClick={() => {
                   setIsEditing(false);
                 }}
