@@ -43,7 +43,7 @@ class certificateService {
 
     if (toUpdate.when_date) {
         const fieldToUpdate = "when_date";
-        const newValue = toUpdate.from_date;
+        const newValue = toUpdate.when_date;
         certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
     }
 

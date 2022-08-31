@@ -42,7 +42,7 @@ certificateRouter.get(
   "/users/:user_id/certificates",
   async (req, res, next) => {
   try {
-    const user_id = req.params.id;
+    const user_id = req.params.user_id;
     const usercertificates = await certificateService.getCertificates({ user_id });
     
     if (usercertificates.errorMessage) {

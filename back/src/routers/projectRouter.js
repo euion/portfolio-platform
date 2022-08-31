@@ -40,10 +40,10 @@ projectRouter.post(
 
 // 특정 user의 모든 프로젝트내역 get
 projectRouter.get(
-  ":users/:user_id/projects",
+  "/users/:user_id/projects",
   async (req, res, next) => {
     try {
-      const user_id = req.params.id;
+      const user_id = req.params.user_id;
       const projects = await projectService.getProjects({ user_id });
       
       res.status(200).send(projects);
