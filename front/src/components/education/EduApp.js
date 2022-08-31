@@ -20,7 +20,7 @@ function EduApp({ portfolioOwnerId, isEditable }) {
     Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
       setEducations(res.data)
     );
-  }, []);
+  }, [portfolioOwnerId]);
 
   return (
     <>

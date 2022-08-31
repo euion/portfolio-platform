@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EduUpdate({ setIsEditing, edu, key }) {
+function EduUpdate({ setIsEditing, edu, educations }) {
   const [school, setSchool] = useState(edu.school);
   const [major, setMajor] = useState(edu.major);
   const [position, setPosition] = useState(edu.position);
@@ -14,9 +14,15 @@ function EduUpdate({ setIsEditing, edu, key }) {
       major,
       position,
     });
-    edu.school = school;
-    edu.major = major;
-    edu.position = position;
+    const newEducaton = {
+      school: school,
+      major: major,
+      position: position,
+    };
+    setIsEditing([...educations, newEducaton]);
+    // edu.school = school;
+    // edu.major = major;
+    // edu.position = position;
     setIsEditing(false);
   };
 

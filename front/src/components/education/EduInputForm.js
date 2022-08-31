@@ -23,12 +23,23 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
     setSchool("");
     setMajor("");
     setPosition("재학중");
-    setIsAdding(false);
+    setIsAdding(true);
   };
 
   return (
     <>
       {isAdding ? (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ margin: " 5px 5px" }}
+            onClick={() => setIsAdding(false)}
+          >
+            +
+          </Button>
+        </div>
+      ) : (
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Control
@@ -124,17 +135,6 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
             </Button>
           </div>
         </Form>
-      ) : (
-        <div style={{ textAlign: "center" }}>
-          <Button
-            variant="primary"
-            type="submit"
-            style={{ margin: " 5px 5px" }}
-            onClick={() => setIsAdding(true)}
-          >
-            +
-          </Button>
-        </div>
       )}
     </>
   );
