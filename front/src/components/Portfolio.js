@@ -34,7 +34,7 @@ function Portfolio() {
   };
 
   useEffect(() => {
-    // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
+    //전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
     if (!userState.user) {
       navigate("/login", { replace: true });
       return;
@@ -60,8 +60,8 @@ function Portfolio() {
   return (
     <>
       <Container center>
-        <h1>Portfolio</h1>
         <Row>
+          <h1>Portfolio</h1>
           <Col md="4" lg="4">
             <User
               portfolioOwnerId={portfolioOwner.id}
@@ -71,16 +71,20 @@ function Portfolio() {
           <Col lg="7">
             <EduApp
               portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id} />
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
             <Award
               portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id} />
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
             <Project
               portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id} />
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
             <Certificates
               portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id} />
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
           </Col>
         </Row>
       </Container>
