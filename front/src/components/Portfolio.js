@@ -10,7 +10,7 @@ import EduList from "./education/EduList";
 import EduApp from "./education/EduApp";
 import Project from "./project/Project";
 import Award from "./award/Award";
-import Certificates from "./Certificate/Certificates";
+import Certificates from "./certificate/Certificates";
 
 function Portfolio() {
   const navigate = useNavigate();

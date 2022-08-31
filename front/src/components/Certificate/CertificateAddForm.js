@@ -19,14 +19,13 @@ function CertificateAddForm({
     e.preventDefault();
 
     const when_date = date.toISOString().split("T")[0];
-    console.log(when_date);
 
     //post 제대로 db에 들어감
     await Api.post("certificate", {
       title,
       description,
       when_date,
-    }).then((res) => console.log(res));
+    });
 
     const res = await Api.get(`users/${portfolioOwnerId}/certificates`);
 
