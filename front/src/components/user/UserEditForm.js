@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
+import { modeContext } from "../../App";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
+  const mode = useContext(modeContext);
+
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
@@ -29,7 +32,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   };
 
   return (
-    <Card className="mb-2">
+    <Card
+      className="mb-2"
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="useEditName" className="mb-3">

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card } from "react-bootstrap";
 import EduInputForm from "./EduInputForm";
 import EduList from "./EduList";
 import * as Api from "../../api";
+import { modeContext } from "../../App";
 
 const initialState = {
   inputs: {
@@ -14,7 +15,8 @@ const initialState = {
 };
 
 function EduApp({ portfolioOwnerId, isEditable }) {
-  const [educations, setEducations] = useState(null);
+  const mode = useContext(modeContext);
+  const [educations, setEducations] = useState(initialState.users);
   const [isAdding, setIsAdding] = useState(false);
   useEffect(() => {
     Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
@@ -24,7 +26,11 @@ function EduApp({ portfolioOwnerId, isEditable }) {
 
   return (
     <>
-      <Card className="ml-5 p-3">
+      <Card
+        className="ml-5"
+        bg={mode.toLowerCase()}
+        text={mode.toLowerCase() === "light" ? "dark" : "white"}
+      >
         <Card.Body>
           <h3>📚학력</h3>
           {educations &&

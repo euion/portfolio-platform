@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./uploads'));
 
 // 기본 페이지
-app.get("/", (req, res) => {
+app.get("/user", (req, res) => {
   res.send("안녕하세요, 레이서 프로젝트 API 입니다.");
 });
 
@@ -41,10 +41,9 @@ app.use(imageRouter);
 =======
 >>>>>>> education_F
 app.use(login_required, educationRouter);
-app.use(login_required, projectRouter)
+app.use(login_required, projectRouter);
 app.use(login_required, awardRouter);
 app.use(login_required, certificateRouter);
-
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

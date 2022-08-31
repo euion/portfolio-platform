@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import * as API from "../../api";
 
@@ -11,9 +11,12 @@ import Badge from "react-bootstrap/Badge";
 import AddProjectForm from "./AddProjectForm";
 import EditProjectForm from "./EditProjectForm";
 import ProjectImages from "./ProjectImages";
+import { modeContext } from "../../App";
 
 const Project = ({ portfolioOwnerId, isEditable }) => {
   //state
+  const mode = useContext(modeContext);
+
   const [addToggle, setAddToggle] = useState(false);
   const [editToggle, setEditToggle] = useState(false);
   const [projects, setProjects] = useState([]);

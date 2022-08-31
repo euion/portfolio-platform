@@ -1,10 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import { modeContext } from "../../App";
+import React, { useContext } from "react";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
+  const mode = useContext(modeContext);
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
+    <Card
+      className="mb-2 ms-3 mr-5"
+      style={{ width: "18rem" }}
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
       <Card.Body>
         <Row className="justify-content-md-center">
           <Card.Img
