@@ -78,9 +78,9 @@ certificateRouter.put(
       toUpdate,
     });
 
-    // if (updatedCertificate.errorMessage) {
-    //   throw new Error(updatedCertificate.errorMessage);
-    // }
+    if (updatedCertificate.errorMessage) {
+      throw new Error(updatedCertificate.errorMessage);
+    }
 
     res.status(200).json(updatedCertificate);
   } catch (error) {
