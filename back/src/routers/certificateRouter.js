@@ -62,7 +62,6 @@ certificateRouter.put(
 
     const certificate = await Certificate.findByCertificateId({ certificate_id });
 
-    // !!!
     if (certificate.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }
@@ -95,7 +94,6 @@ certificateRouter.delete(
     const certificate_id = req.params.id;
     const certificate = await Certificate.findByCertificateId({ certificate_id });
 
-    // !!!
     if (certificate.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }

@@ -56,7 +56,6 @@ awardRouter.put("/awards/:id", async (req, res, next) => {
 
     const award = await Award.findByAwardId({ award_id });
 
-    // !!!
     if (award.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }
@@ -88,7 +87,6 @@ awardRouter.delete("/awards/:id", async (req, res, next) => {
     const award_id = req.params.id;
     const award = await Award.findByAwardId({ award_id });
 
-    // !!!
     if (award.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }

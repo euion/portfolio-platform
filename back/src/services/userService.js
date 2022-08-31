@@ -111,6 +111,12 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
+    if (toUpdate.imagePath) {
+      const fieldToUpdate = "imagePath";
+      const newValue = toUpdate.imagePath;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+
     return user;
   }
 
