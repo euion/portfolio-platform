@@ -58,11 +58,6 @@ function App() {
     return "loading...";
   }
 
-  const moveTop = () => {
-    // TOP버튼 펑션
-    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
-  };
-
   // 다크모드 구현
   const toggleMode = () => {
     if (mode === "Light") {
@@ -96,24 +91,21 @@ function App() {
           <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
             {mode == "Light" ? "다크모드로 전환" : "일반모드로 전환"}
           </Button>
-          <Button className="position-fixed bottom-0 end-0 m-5" onClick={moveTop}>
+          <Button
+            onClick={moveTop}
+            className="position-fixed bottom-0 end-0 m-5"
+            variant="outline-primary"
+            style={{
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              margin: "2%",
+            }}
+          >
             TOP
           </Button>
         </modeContext.Provider>
       </UserStateContext.Provider>
-      <Button
-        onClick={moveTop}
-        className="position-fixed bottom-0 end-0 m-5"
-        variant="outline-primary"
-        style={{
-          width: "70px",
-          height: "70px",
-          borderRadius: "50%",
-          margin: "2%",
-        }}
-      >
-        TOP
-      </Button>
     </DispatchContext.Provider>
   );
 }

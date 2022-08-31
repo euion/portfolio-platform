@@ -15,7 +15,6 @@ import Certificates from "./Certificate/Certificates";
 
 function Portfolio() {
   const modeValue = useContext(modeContext);
-  console.log(modeValue);
   const navigate = useNavigate();
   const params = useParams();
   // useState 훅을 통해 portfolioOwner 상태를 생성함.
@@ -85,13 +84,22 @@ function Portfolio() {
             />
           </Col>
           <Col lg="7">
-            {/* <EduApp portfolioOwnerId={1} isEditable={true} mode={mode} /> */}
+            <EduApp
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
             <Award
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-            {/* <Project portfolioOwnerId={1} isEditable={true} mode={mode} /> */}
-            {/* <Certificates portfolioOwnerId={1} isEditable={true} mode={mode} /> */}
+            <Project
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+            <Certificates
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
           </Col>
         </Row>
         <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>

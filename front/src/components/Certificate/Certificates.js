@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card } from "react-bootstrap";
+import { modeContext } from "../../App";
 
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
-function Certificates({ portfolioOwnerId, isEditable, mode }) {
+function Certificates({ portfolioOwnerId, isEditable }) {
+  const mode = useContext(modeContext);
+
   const [certificateList, setCertificateList] = useState([
     {
       id: 0, //자격증 하나당 아이디

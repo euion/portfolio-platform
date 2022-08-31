@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
+import DatePicker from "react-datepicker";
 
-function AwardEdit({ setIsEdit, list, value }) {
+function AwardEdit({ setIsEdit, list, setList, value, setIsRander }) {
   const [editTitle, setEditTitle] = useState(value.title);
   const [editContent, setEditContent] = useState(value.content);
+  const [editHostOrganization, setEditHostOrganization] = useState(
+    value.hostOrganization
+  );
+  const [editAwardDate, setEditAwardDate] = useState(new Date(value.awardDate));
   const [editObj, setEditObj] = useState({
     title: value.title,
     description: value.content,
+    hostOrganization: value.hostOrganization,
+    awardDate: value.awardDate,
   });
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    setIsRander(true);
     const response = await Api.put(`awards/${value.id}`, editObj);
     const result = await response.data;
-    console.log(result);
     setIsEdit(false);
+    setIsRander(false);
   };
 
   function cancel() {
@@ -24,12 +32,12 @@ function AwardEdit({ setIsEdit, list, value }) {
 
   useEffect(() => {
     setEditObj({
-      id: value.id,
       title: editTitle,
       description: editContent,
+      hostOrganization: editHostOrganization,
+      awardDate: editAwardDate,
     });
-    console.log(list);
-  }, [editTitle, editContent]);
+  }, [editTitle, editContent, editHostOrganization, editAwardDate]);
 
   return (
     <Form onSubmit={handleEdit}>
@@ -55,6 +63,27 @@ function AwardEdit({ setIsEdit, list, value }) {
             setEditContent(e.target.value);
           }}
         />
+      </Form.Group>
+
+      <Form.Group className="mt-2">
+        <Form.Label>기관</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="수상 기관을 입력하세요."
+          value={editHostOrganization}
+          onChange={(e) => setEditHostOrganization(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mt-2">
+        <Form.Label>날짜</Form.Label>
+        <DatePicker
+          className="mb-3"
+          selected={editAwardDate}
+          onChange={(value) => {
+            setEditAwardDate(value);
+          }}
+        ></DatePicker>
       </Form.Group>
 
       <Form.Group as={Col} className="text-center m-3">

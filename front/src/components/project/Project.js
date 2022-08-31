@@ -11,14 +11,17 @@ import Card from "react-bootstrap/Card";
 //context
 import { UserStateContext } from "../../App.js";
 import { DispatchContext } from "../../App";
+import { modeContext } from "../../App";
 
 //component
 import AddProjectForm from "./AddProjectForm";
 import EditProjectForm from "./EditProjectForm";
 import ProjectImages from "./ProjectImages";
 
-const Project = ({ portfolioOwnerId, isEditable, mode }) => {
+const Project = ({ portfolioOwnerId, isEditable }) => {
   //state
+  const mode = useContext(modeContext);
+
   const [addToggle, setAddToggle] = useState(false);
   const [editToggle, setEditToggle] = useState(false);
   const [projects, setProjects] = useState([

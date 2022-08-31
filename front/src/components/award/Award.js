@@ -8,6 +8,7 @@ import { modeContext } from "../../App";
 function Award({ portfolioOwnerId, isEditable }) {
   const [isAdd, setIsAdd] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
+  const [isRander, setIsRander] = useState(false); // useEffect에서 의존성배열에 삽입하여 이 값이 변할 때 마다 재렌더링
   const [list, setList] = useState([]);
   const mode = useContext(modeContext);
 
@@ -20,20 +21,17 @@ function Award({ portfolioOwnerId, isEditable }) {
   }
 
   useEffect(() => {
-    Api.get(`users/${portfolioOwnerId}/awards`).then((res) => {
-      setList(res.data);
-    });
-  }, []);
-  // isAdd가 바뀔 때 재렌더링 하여 갱신된 값을 보여주는데 처음에 클릭할때도 재렌더링이 되어서 불필요한 렌더링이 아닐까 생각한다.
-  // 이 부분에 대해서 코치님께 여쭈어보자
+    data();
+  }, [isRander]);
 
   // 수상내역 삭제 함수
   const handleDelete = async (value) => {
-    console.log(value);
+    setIsRander(true);
     // alert(`${value.title} 수상내역을 지우시겠습니까?`);
     const response = await Api.delete(`awards/${value.id}`);
     const result = response.data;
     console.log(result);
+    setIsRander(false);
   };
 
   return (
@@ -57,6 +55,7 @@ function Award({ portfolioOwnerId, isEditable }) {
                     setList={setList}
                     value={value}
                     index={index}
+                    setIsRander={setIsRander}
                   />
                 ) : (
                   <></>
@@ -65,7 +64,11 @@ function Award({ portfolioOwnerId, isEditable }) {
                 <Row>
                   <Col sm={8}>
                     <h5>{value.title}</h5> {/* 수상제목 */}
-                    <p>{value.description}</p> {/* 수상내용 */}
+                    <p>
+                      {value.description} {/* 수상내용 */} <br />
+                      {value.hostOrganization} {/* 수상내용 */} <br />
+                      {value.awardDate.split("T")[0]} {/* 수상내용 */}
+                    </p>
                   </Col>
                   {isEditable ? (
                     <Col sm={4}>
@@ -92,7 +95,12 @@ function Award({ portfolioOwnerId, isEditable }) {
         </Form.Group>
         {/* isAdd이 true일 경우 추가 컴포넌트 출력 */}
         {isAdd ? (
-          <AwardAdd setIsAdd={setIsAdd} portfolioOwnerId={portfolioOwnerId} list={list} />
+          <AwardAdd
+            setIsAdd={setIsAdd}
+            list={list}
+            setList={setList}
+            setIsRander={setIsRander}
+          />
         ) : (
           <> </>
         )}

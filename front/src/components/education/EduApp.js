@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card } from "react-bootstrap";
 import EduInputForm from "./EduInputForm";
 import EduList from "./EduList";
 import * as Api from "../../api";
+import { modeContext } from "../../App";
 
 const initialState = {
   inputs: {
@@ -13,7 +14,8 @@ const initialState = {
   users: [],
 };
 
-function EduApp({ portfolioOwnerId, isEditable, mode }) {
+function EduApp({ portfolioOwnerId, isEditable }) {
+  const mode = useContext(modeContext);
   const [educations, setEducations] = useState(initialState.users);
   const [isAdding, setIsAdding] = useState(false);
 

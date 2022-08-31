@@ -1,22 +1,30 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
+import DatePicker from "react-datepicker";
 
-function AwardAdd({ setIsAdd, list, portfolioOwnerId }) {
+function AwardAdd({ setIsAdd, list, setList, setIsRander }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [hostOrganization, setHostOrganization] = useState("");
+  const [awardDate, setAwardDate] = useState(new Date());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsRander(true);
+    const when_date = awardDate.toISOString().split("T")[0];
     const response = await Api.post("award", {
-      title: title,
+      title,
       description: content,
+      hostOrganization,
+      awardDate: when_date,
     });
     const result = await response.data;
     setTitle(""); // 제목필드 버튼 클릭 후 제목필드 초기화
     setContent(""); // 내용필드 버튼 클릭 후 내용필드 초기화
-    console.log(result);
+    console.log(awardDate);
     setIsAdd(false);
+    setIsRander(false);
   };
 
   function cancel() {
@@ -25,7 +33,7 @@ function AwardAdd({ setIsAdd, list, portfolioOwnerId }) {
 
   useEffect(() => {
     handleSubmit();
-  }, [list]);
+  }, []);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -47,6 +55,27 @@ function AwardAdd({ setIsAdd, list, portfolioOwnerId }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+      </Form.Group>
+
+      <Form.Group className="mt-2">
+        <Form.Label>기관</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="수상 기관을 입력하세요."
+          value={hostOrganization}
+          onChange={(e) => setHostOrganization(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mt-2">
+        <Form.Label>날짜</Form.Label>
+        <DatePicker
+          className="mb-3"
+          selected={awardDate}
+          onChange={(value) => {
+            setAwardDate(value);
+          }}
+        ></DatePicker>
       </Form.Group>
 
       <Form.Group as={Col} className="text-center m-3">
