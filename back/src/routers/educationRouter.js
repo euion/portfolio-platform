@@ -95,7 +95,7 @@ educationRouter.delete(
   async (req, res, next) => {
   try {
     const education_id = req.params.id;
-    const education = Education.findByEduId({ education_id });
+    const education = Education.findByEducationId({ education_id });
 
     // !!!
     if (education.user_id !== req.currentUserId) {

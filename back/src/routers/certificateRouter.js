@@ -60,7 +60,7 @@ certificateRouter.put(
   try {
     const certificate_id = req.params.id;
 
-    const certificate = await Certificate.findById({ certificate_id });
+    const certificate = await Certificate.findByCertificateId({ certificate_id });
 
     // !!!
     if (certificate.user_id !== req.currentUserId) {
