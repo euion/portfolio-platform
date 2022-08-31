@@ -62,7 +62,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
   };
 
   return (
-    <div className="p-3 border">
+    <div className="p-3 mt-3 border">
       {!addToggle && (
         <>
           <h2>🧑🏻‍💻 프로젝트</h2>

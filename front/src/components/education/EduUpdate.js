@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
-function EduUpdate({ setIsEditing, edu }) {
+function EduUpdate({ setIsEditing, edu, key }) {
   const [school, setSchool] = useState(edu.school);
   const [major, setMajor] = useState(edu.major);
   const [position, setPosition] = useState(edu.position);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await Api.put(`educations/${edu.id}`, {
+      school,
+      major,
+      position,
+    });
     edu.school = school;
     edu.major = major;
     edu.position = position;
     setIsEditing(false);
   };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
+          <p></p>
           <Form.Control
             name="school"
             placeholder="학교 이름"
-            value={school}
+            defaultValue={edu.school}
             onChange={(e) => {
               setSchool(e.target.value);
             }}
@@ -30,7 +38,7 @@ function EduUpdate({ setIsEditing, edu }) {
           <Form.Control
             name="major"
             placeholder="전공"
-            value={major}
+            defaultValue={edu.major}
             onChange={(e) => {
               setMajor(e.target.value);
             }}
@@ -85,17 +93,24 @@ function EduUpdate({ setIsEditing, edu }) {
           </div>
         </Form.Group>
         <div style={{ textAlign: "center" }}>
+          {school && major && position ? (
+            <Button
+              className="ms-2 mb-3"
+              variant="primary"
+              type="submit"
+              // style={{ margin: " 5px 5px" }}
+            >
+              확인
+            </Button>
+          ) : (
+            <Button className="ms-2 mb-3" variant="primary" disabled>
+              확인
+            </Button>
+          )}
+
           <Button
             className="ms-2 mb-3"
-            variant="primary"
-            type="submit"
-            // style={{ margin: " 5px 5px" }}
-          >
-            확인
-          </Button>
-          <Button
-            className="ms-2 mb-3"
-            variant="secondary"
+            variant="outline-primary"
             onClick={() => {
               setIsEditing(false);
             }}

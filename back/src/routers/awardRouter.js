@@ -5,9 +5,7 @@ import { Award } from "../db";
 
 const awardRouter = Router();
 
-awardRouter.post(
-  "/award",
-  async (req, res, next) => {
+awardRouter.post("/award", async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -15,8 +13,7 @@ awardRouter.post(
       );
     }
 
-    const { title, description } = req.body;
-
+    const { title, description, hostOrganization, awardDate } = req.body;
     const user_id = req.currentUserId;
 
     // 위 데이터를 수상 db에 추가하기
@@ -24,6 +21,8 @@ awardRouter.post(
       user_id,
       title,
       description,
+      hostOrganization,
+      awardDate,
     });
 
     if (newAward.errorMessage) {
@@ -37,9 +36,7 @@ awardRouter.post(
 });
 
 // 특정 user의 모든 수상내역 get
-awardRouter.get(
-  "/users/:user_id/awards",
-  async (req, res, next) => {
+awardRouter.get("/users/:user_id/awards", async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const userAwards = await awardService.getAwards({ user_id });
@@ -53,9 +50,7 @@ awardRouter.get(
   }
 });
 
-awardRouter.put(
-  "/awards/:id",
-  async (req, res, next) => {
+awardRouter.put("/awards/:id", async (req, res, next) => {
   try {
     const award_id = req.params.id;
 
@@ -68,8 +63,10 @@ awardRouter.put(
 
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
+    const hostOrganization = req.body.hostOrganization ?? null;
+    const awardDate = req.body.awardDate ?? null;
 
-    const toUpdate = { title, description };
+    const toUpdate = { title, description, hostOrganization, awardDate };
 
     const updatedAward = await awardService.setAward({
       award_id,
@@ -86,9 +83,7 @@ awardRouter.put(
   }
 });
 
-awardRouter.delete(
-  "/awards/:id",
-  async (req, res, next) => {
+awardRouter.delete("/awards/:id", async (req, res, next) => {
   try {
     const award_id = req.params.id;
     const award = await Award.findByAwardId({ award_id });
@@ -97,7 +92,7 @@ awardRouter.delete(
     if (award.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
     }
-    
+
     await awardService.deleteAward({ award_id });
 
     res.sendStatus(204);

@@ -30,4 +30,3 @@ const UserSchema = new Schema(
 const UserModel = model("user", UserSchema);
 
 export { UserModel };
-
