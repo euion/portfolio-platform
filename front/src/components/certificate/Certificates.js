@@ -20,7 +20,7 @@ function Certificates({ portfolioOwnerId, isEditable }) {
 
   return (
     <Card
-      className="p-3 mt-3"
+      className="mt-3 mb-5"
       bg={mode.toLowerCase()}
       text={mode.toLowerCase() === "light" ? "dark" : "white"}
     >

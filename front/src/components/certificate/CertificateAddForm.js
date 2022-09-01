@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
@@ -30,6 +30,19 @@ function CertificateAddForm({
     setIsAdding(false);
   };
 
+  ///
+  const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
+    <Button
+      variant="outline-primary"
+      className="example-custom-input w-30 mb-3"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </Button>
+  ));
+  ///
+
   return (
     <>
       {isAdding ? (
@@ -60,6 +73,7 @@ function CertificateAddForm({
               </Form.Group>
               <Form.Group>
                 <DatePicker
+                  customInput={<CustomDatepickerInput />}
                   className="mb-3"
                   selected={date}
                   onChange={(value) => {

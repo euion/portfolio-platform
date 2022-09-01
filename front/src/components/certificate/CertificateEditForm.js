@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
@@ -20,7 +20,6 @@ function CertificateEditForm({
     const certificate_id = certificate.id;
     console.log(certificate_id);
 
-    //수정
     await Api.put(`certificates/${certificate_id}`, {
       title,
       description,
@@ -31,6 +30,17 @@ function CertificateEditForm({
 
     setIsEditing(false);
   };
+
+  const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
+    <Button
+      variant="outline-primary"
+      className="example-custom-input w-30 mb-3"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </Button>
+  ));
 
   return (
     <Row>
@@ -54,6 +64,7 @@ function CertificateEditForm({
           ></Form.Control>
           <DatePicker
             className="mb-3"
+            customInput={<CustomDatepickerInput />}
             selected={date}
             onChange={(value) => {
               setDate(value);
