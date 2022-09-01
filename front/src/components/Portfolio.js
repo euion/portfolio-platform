@@ -74,7 +74,7 @@ function Portfolio() {
 
   return (
     <>
-      <Container center>
+      <Container>
         <h1>Portfolio</h1>
         <Row>
           <Col md="4" lg="4">

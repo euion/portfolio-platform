@@ -93,7 +93,7 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
                 onChange={(e) => {
                   setPosition(e.target.value);
                 }}
-                chdefaultCheckedecked={position === "석사졸업"}
+                defaultChecked={position === "석사졸업"}
                 style={{ margin: " 0 10px" }}
               />
               <Form.Check
