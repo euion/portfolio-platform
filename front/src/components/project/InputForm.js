@@ -234,7 +234,11 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
           </div>
 
           <div>
-            <Button variant="primary" className="me-2" type="submit">
+            <Button
+              disabled={!(project.title && project.description)}
+              variant="primary"
+              className="me-2"
+              type="submit">
               확인
             </Button>
             <Button

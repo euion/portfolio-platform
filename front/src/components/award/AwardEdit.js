@@ -103,7 +103,7 @@ function AwardEdit({ setIsEdit, value, fetchAwardList }) {
             <Button type="submit" variant="primary">
               확인
             </Button>{" "}
-            <Button variant="secondary" onClick={cancel}>
+            <Button variant="outline-primary" onClick={cancel}>
               취소
             </Button>
           </Col>

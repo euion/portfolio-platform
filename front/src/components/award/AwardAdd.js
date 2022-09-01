@@ -96,7 +96,7 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
                 확인
               </Button>
             )}{" "}
-            <Button variant="secondary" onClick={cancel}>
+            <Button variant="outline-primary" onClick={cancel}>
               취소
             </Button>
           </Col>
