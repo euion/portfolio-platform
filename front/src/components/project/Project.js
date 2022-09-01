@@ -81,9 +81,9 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                             style={{ textDecoration: "none" }}
                             className="ms-2"
                             href={
-                              v.link.slice(0, 7) === "http://"
+                              v.link.slice(0, 8) === "https://"
                                 ? v.link
-                                : "http://" + v.link
+                                : "https://" + v.link
                             }
                             target="_blank"
                             rel="noreferrer"
@@ -93,8 +93,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                         )}
                       </div>
                       <span style={{ color: "grey" }}>
-                        [{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}
-                        ]
+                        [{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}]
                       </span>
                     </div>
                   </Accordion.Header>
