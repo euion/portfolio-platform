@@ -1,18 +1,17 @@
-.accordion-button {
+.Dark .accordion-button {
   background-color: rgb(50, 50, 50);
   color: white;
 }
-
-.accordion-button:not(.collapsed) {
+.Dark .accordion-button:not(.collapsed) {
   background-color: rgb(50, 50, 50);
 }
 
-.accordion-item {
+.Dark .accordion-item {
   background-color: rgb(50, 50, 50);
   border: 1px solid rgb(80, 80, 80);
   color: white;
 }
 
-.collapsed {
+.Dark .collapsed {
   color: white;
 }

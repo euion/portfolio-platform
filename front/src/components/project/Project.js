@@ -56,140 +56,136 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
       bg={mode.toLowerCase()}
       text={mode.toLowerCase() === "light" ? "dark" : "white"}
     >
-      <Card.Body>
-        <h3>🧑🏻‍💻 프로젝트</h3>
-        {!addToggle && (
-          <>
-            {projects.length === 0 ? (
-              <h5 className="mt-5 mb-5" style={{ textAlign: "center" }}>
-                프로젝트를 등록해주세요 😃
-              </h5>
-            ) : null}
-            <Accordion className="mt-3" defaultActiveKey={0}>
-              {projects?.map((v, i) => {
-                return (
-                  <Accordion.Item eventKey={i} key={v.id + "accor" + i}>
-                    <Accordion.Header
-                      onClick={() => {
-                        setEditToggle(false);
-                      }}
-                    >
-                      <div>
-                        <div style={{ display: "flex" }}>
-                          <h5 style={{ fontWeight: "600" }}>{v.title}</h5>
-                          {v?.link && (
-                            <a
-                              style={{ textDecoration: "none" }}
-                              className="ms-2"
-                              href={
-                                v.link.slice(0, 7) === "http://"
-                                  ? v.link
-                                  : "http://" + v.link
-                              }
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              🔗
-                            </a>
-                          )}
-                        </div>
-                        <span style={{ color: "grey" }}>
-                          [{v?.from_date.slice(2, 10)} ~{" "}
-                          {v?.to_date.slice(2, 10)}]
-                        </span>
-                      </div>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                      {v.imagePath && (
-                        <ProjectImages imagePath={v?.imagePath} />
-                      )}
-                      <div className="mt-3">
-                        {v?.description?.split("\n").map((v, i) => (
-                          <React.Fragment key={v.id + "br" + i}>
-                            {v}
-                            <br />
-                          </React.Fragment>
-                        ))}
-                      </div>
-                      <div className="mt-3 mb-3">
-                        {v?.skill?.split(" ").map((v, i) => (
-                          <Badge
-                            className="me-1"
-                            pill
-                            bg="primary"
-                            key={v.id + "skill" + i}
+      {!addToggle && (
+        <div className={mode}>
+          <h3>🧑🏻‍💻 프로젝트</h3>
+          {projects.length === 0 ? (
+            <h5 className="mt-5 mb-5" style={{ textAlign: "center" }}>
+              프로젝트를 등록해주세요 😃
+            </h5>
+          ) : null}
+          <Accordion className="mt-3" defaultActiveKey={0}>
+            {projects?.map((v, i) => {
+              return (
+                <Accordion.Item eventKey={i} key={v.id + "accor" + i}>
+                  <Accordion.Header
+                    onClick={() => {
+                      setEditToggle(false);
+                    }}
+                  >
+                    <div>
+                      <div style={{ display: "flex" }}>
+                        <h5 style={{ fontWeight: "600" }}>{v.title}</h5>
+                        {v?.link && (
+                          <a
+                            style={{ textDecoration: "none" }}
+                            className="ms-2"
+                            href={
+                              v.link.slice(0, 7) === "http://"
+                                ? v.link
+                                : "http://" + v.link
+                            }
+                            target="_blank"
+                            rel="noreferrer"
                           >
-                            {v}
-                          </Badge>
-                        ))}
+                            🔗
+                          </a>
+                        )}
                       </div>
-                      {isEditable && (
-                        <div className="mt-3" style={{ textAlign: "center" }}>
-                          {!editToggle ? (
-                            <div className="mt-5 mb-5">
-                              <Button
-                                onClick={() => {
-                                  setEditToggle(true);
-                                }}
-                                variant="outline-warning"
-                              >
-                                수정
-                              </Button>
-                              <Button
-                                className="ms-3"
-                                onClick={() => {
-                                  deleteProjectHandleer(v.title, v.id);
-                                }}
-                                variant="outline-danger"
-                              >
-                                삭제
-                              </Button>
-                            </div>
-                          ) : (
-                            <EditProjectForm
-                              index={i}
-                              projects={projects}
-                              setProjects={setProjects}
-                              setEditToggle={(boolean) => {
-                                setEditToggle(boolean);
+                      <span style={{ color: "grey" }}>
+                        [{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}
+                        ]
+                      </span>
+                    </div>
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    {v.imagePath && <ProjectImages imagePath={v?.imagePath} />}
+                    <div className="mt-3">
+                      {v?.description?.split("\n").map((v, i) => (
+                        <React.Fragment key={v.id + "br" + i}>
+                          {v}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                    <div className="mt-3 mb-3">
+                      {v?.skill?.split(" ").map((v, i) => (
+                        <Badge
+                          className="me-1"
+                          pill
+                          bg="primary"
+                          key={v.id + "skill" + i}
+                        >
+                          {v}
+                        </Badge>
+                      ))}
+                    </div>
+                    {isEditable && (
+                      <div className="mt-3" style={{ textAlign: "center" }}>
+                        {!editToggle ? (
+                          <div className="mt-5 mb-5">
+                            <Button
+                              onClick={() => {
+                                setEditToggle(true);
                               }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </Accordion.Body>
-                  </Accordion.Item>
-                );
-              })}
-            </Accordion>
-            {isEditable && (
-              <div className="mt-3 mb-3" style={{ textAlign: "center" }}>
-                <Button
-                  className="mt-3"
-                  onClick={() => {
-                    setAddToggle(true);
-                  }}
-                >
-                  +
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-        {addToggle && (
-          <AddProjectForm
-            projects={projects}
-            setProjects={setProjects}
-            setAddToggle={(e) => {
-              setEditToggle(false);
-              setAddToggle(e);
-            }}
-            setEditToggle={(boolean) => {
-              setEditToggle(boolean);
-            }}
-          />
-        )}
-      </Card.Body>
+                              variant="outline-warning"
+                            >
+                              수정
+                            </Button>
+                            <Button
+                              className="ms-3"
+                              onClick={() => {
+                                deleteProjectHandleer(v.title, v.id);
+                              }}
+                              variant="outline-danger"
+                            >
+                              삭제
+                            </Button>
+                          </div>
+                        ) : (
+                          <EditProjectForm
+                            index={i}
+                            projects={projects}
+                            setProjects={setProjects}
+                            setEditToggle={(boolean) => {
+                              setEditToggle(boolean);
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </Accordion.Body>
+                </Accordion.Item>
+              );
+            })}
+          </Accordion>
+          {isEditable && (
+            <div className="mt-3 mb-3" style={{ textAlign: "center" }}>
+              <Button
+                className="mt-3"
+                onClick={() => {
+                  setAddToggle(true);
+                }}
+              >
+                +
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+      {addToggle && (
+        <AddProjectForm
+          projects={projects}
+          setProjects={setProjects}
+          setAddToggle={(e) => {
+            setEditToggle(false);
+            setAddToggle(e);
+          }}
+          setEditToggle={(boolean) => {
+            setEditToggle(boolean);
+          }}
+        />
+      )}
     </Card>
   );
 };
