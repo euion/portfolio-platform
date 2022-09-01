@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, forwardRef } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 import DatePicker from "react-datepicker";
@@ -26,6 +26,18 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
   function cancel() {
     setIsAdd(false);
   }
+
+  // 날짜선택 커스텀 함수
+  const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
+    <Button
+      variant="outline-primary"
+      className="example-custom-input w-30 mb-3"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </Button>
+  ));
 
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>
@@ -62,6 +74,7 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
       <Form.Group className="mt-2">
         <Form.Label>날짜</Form.Label>
         <DatePicker
+          customInput={<CustomDatepickerInput />}
           className="mb-3"
           selected={awardDate}
           onChange={(value) => {
