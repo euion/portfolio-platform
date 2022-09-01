@@ -2,12 +2,10 @@ import { Router } from "express";
 
 const imageRouter = Router();
 
-
 //이미지 첨부 테스트
 const multer = require('multer');
 const fs = require('fs');//파일 시스템 조작 가능한 모듈
 const path = require('path'); //path는 노드에서 기능하는 기능
-
 
 //upload폴더가 존재하는지 확인후 없으면 생성
 try {
@@ -38,11 +36,16 @@ const upload = multer({
     fileSize: 20 * 1024 * 1024 //20MB, MB=2^10*바이트, KM=2^3*바이트
   },
 })
-imageRouter.get('/images', async (req, res, next) => {
+imageRouter.get(
+    '/images',
+    async (req, res, next) => {
   res.json('test');
 });
 //multer를 이용해 받은 key값이 'image'인 FormData를 images 경로에 업로드 한다.
-imageRouter.post('/images', upload.single('image'), async (req, res, next) => {
+imageRouter.post(
+    '/images',
+    upload.single('image'),
+    async (req, res, next) => {
   res.json(req.file.filename);
 });
 

@@ -66,7 +66,11 @@ function EduCard({
       setIsEditing(false);
     }
   };
-
+  useEffect(() => {
+    Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
+      setEducations(res.data)
+    );
+  }, [portfolioOwnerId]);
   return (
     <>
       <Row>
@@ -79,24 +83,26 @@ function EduCard({
         <Col md="auto"></Col>
         <Col>
           {isEditable && (
-            <Button
-              onClick={() => setIsEditing(!isEditing)}
-              className="ms-2 mb-3"
-              variant="outline-warning"
-            >
-              수정
-            </Button>
+            <div>
+              <Button
+                onClick={() => setIsEditing(!isEditing)}
+                className="ms-2 mb-3"
+                variant="outline-warning"
+              >
+                수정
+              </Button>
+              <Button
+                className="ms-2 mb-3"
+                variant="outline-danger"
+                onClick={() => {
+                  deleteHandler(edu.school, edu.id);
+                  //setIsEditing(!isEditing);
+                }}
+              >
+                삭제
+              </Button>
+            </div>
           )}
-          <Button
-            className="ms-2 mb-3"
-            variant="outline-danger"
-            onClick={() => {
-              deleteHandler(edu.school, edu.id);
-              // setIsEditing(!isEditing);
-            }}
-          >
-            삭제
-          </Button>
         </Col>
       </Row>
     </>

@@ -7,7 +7,6 @@ import * as Api from "../../api";
 function CertificateEditForm({
   setIsEditing,
   certificate,
-  certificateList,
   setCertificateList,
 }) {
   const [title, setTitle] = useState(certificate.title);
@@ -17,8 +16,6 @@ function CertificateEditForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const when_date = date.toISOString().split("T")[0];
-
     const user_id = certificate.user_id;
     const certificate_id = certificate.id;
     console.log(certificate_id);
@@ -27,7 +24,7 @@ function CertificateEditForm({
     await Api.put(`certificates/${certificate_id}`, {
       title,
       description,
-      when_date,
+      when_date: date,
     });
     const res = await Api.get(`users/${user_id}/certificates`);
     setCertificateList(res.data);

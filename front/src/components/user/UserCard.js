@@ -1,25 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
-import { modeContext } from "../../App";
-import React, { useContext } from "react";
+import { useEffect } from "react";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
-  const mode = useContext(modeContext);
+  const backUrl = "http://localhost:3333/";
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
-    <Card
-      className="mb-2 ms-3 mr-5"
-      style={{ width: "18rem" }}
-      bg={mode.toLowerCase()}
-      text={mode.toLowerCase() === "light" ? "dark" : "white"}
-    >
+    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
         <Row className="justify-content-md-center">
-          <Card.Img
-            style={{ width: "10rem", height: "8rem" }}
-            className="mb-3"
-            src="http://placekitten.com/200/200"
-            alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+          <img
+            style={{ height: "15rem", width: "15rem", objectFit: "contain" }}
+            className="mt-3 mb-3"
+            src={
+              user?.imagePath
+                ? backUrl + user?.imagePath
+                : "https://ifh.cc/g/DS2Nqo.jpg"
+            }
+            alt="프로필 사진"
           />
         </Row>
         <Card.Title>{user?.name}</Card.Title>
@@ -45,7 +46,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
         {isNetwork && (
           <Card.Link
             className="mt-3"
-            href=""
+            href="#"
             onClick={() => navigate(`/users/${user.id}`)}
           >
             포트폴리오

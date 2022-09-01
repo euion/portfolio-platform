@@ -5,7 +5,9 @@ import { Certificate } from "../db";
 
 const certificateRouter = Router();
 
-certificateRouter.post("/certificate", async (req, res, next) => {
+certificateRouter.post(
+  "/certificate",
+  async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -13,7 +15,7 @@ certificateRouter.post("/certificate", async (req, res, next) => {
       );
     }
 
-    const { title, description, when_date } = req.body;
+    const { title, description, when_date} = req.body;
 
     const user_id = req.currentUserId;
 
@@ -39,29 +41,26 @@ certificateRouter.post("/certificate", async (req, res, next) => {
 certificateRouter.get(
   "/users/:user_id/certificates",
   async (req, res, next) => {
-    try {
-      const user_id = req.params.user_id;
-      const usercertificates = await certificateService.getCertificates({
-        user_id,
-      });
-
-      if (usercertificates.errorMessage) {
-        throw new Error(usercertificates.errorMessage);
-      }
-      res.status(200).json(usercertificates);
-    } catch (error) {
-      next(error);
+  try {
+    const user_id = req.params.user_id;
+    const usercertificates = await certificateService.getCertificates({ user_id });
+    
+    if (usercertificates.errorMessage) {
+      throw new Error(usercertificates.errorMessage);
     }
+    res.status(200).json(usercertificates);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-certificateRouter.put("/certificates/:id", async (req, res, next) => {
+certificateRouter.put(
+  "/certificates/:id",
+  async (req, res, next) => {
   try {
     const certificate_id = req.params.id;
 
-    const certificate = await Certificate.findByCertificateId({
-      certificate_id,
-    });
+    const certificate = await Certificate.findByCertificateId({ certificate_id });
 
     if (certificate.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");
@@ -88,12 +87,12 @@ certificateRouter.put("/certificates/:id", async (req, res, next) => {
   }
 });
 
-certificateRouter.delete("/certificates/:id", async (req, res, next) => {
+certificateRouter.delete(
+  "/certificates/:id",
+  async (req, res, next) => {
   try {
     const certificate_id = req.params.id;
-    const certificate = await Certificate.findByCertificateId({
-      certificate_id,
-    });
+    const certificate = await Certificate.findByCertificateId({ certificate_id });
 
     if (certificate.user_id !== req.currentUserId) {
       throw new Error("권한이 없습니다.");

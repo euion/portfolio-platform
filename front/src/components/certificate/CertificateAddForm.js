@@ -8,7 +8,6 @@ function CertificateAddForm({
   portfolioOwnerId,
   isAdding,
   setIsAdding,
-  certificateList,
   setCertificateList,
 }) {
   const [title, setTitle] = useState("");
@@ -18,13 +17,10 @@ function CertificateAddForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const when_date = date.toISOString().split("T")[0];
-
-    //post 제대로 db에 들어감
     await Api.post("certificate", {
       title,
       description,
-      when_date,
+      when_date: date,
     });
 
     const res = await Api.get(`users/${portfolioOwnerId}/certificates`);

@@ -32,14 +32,12 @@ const AddProjectForm = ({ setEditToggle, setAddToggle, projects, setProjects }) 
             description: project.description,
             from_date: dateToString(project.start),
             to_date: dateToString(project.end),
-            //아래는 아직 백엔드에 추가안된 필드
             skill: project.skill,
             link: project.link,
             imagePath: project.imagePath, //배열 값
         })
 
-        //추가 요청 응답이 성공이라면
-        //dispatch로 프로젝트를 추가하도록 userState를 업데이트 합니다.
+        //통신 성공 후 상태 관리
         if (res) {
             setProjects(
                 [res.data, ...projects]

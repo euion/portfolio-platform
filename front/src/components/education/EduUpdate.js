@@ -7,6 +7,7 @@ function EduUpdate({
   edu,
   educations,
   setEducations,
+  setIsAdding,
   portfolioOwnerId,
 }) {
   const [school, setSchool] = useState(edu.school);
@@ -20,6 +21,7 @@ function EduUpdate({
       major,
       position,
     });
+
     const newEducaton = {
       school: school,
       major: major,
@@ -125,13 +127,7 @@ function EduUpdate({
             </Button>
           )}
 
-          <Button
-            className="ms-2 mb-3"
-            variant="outline-primary"
-            onClick={() => {
-              setIsEditing(false);
-            }}
-          >
+          <Button className="ms-2 mb-3" variant="outline-primary">
             취소
           </Button>
         </div>

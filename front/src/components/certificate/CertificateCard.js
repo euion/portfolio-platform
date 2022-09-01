@@ -8,13 +8,10 @@ function CertificateCard({
   isEditable,
   certificate,
   setCertificateList,
-  certificateList,
 }) {
-  const whenDate = certificate.when_date.split("T")[0];
   const handleDeleteClick = async (title) => {
     const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
     if (notice) {
-      //Api.delete 사용하기
       await Api.delete("certificates", certificate.id);
       await Api.get(`users/${certificate.user_id}/certificates`).then((res) =>
         setCertificateList(res.data)
@@ -23,16 +20,16 @@ function CertificateCard({
   };
   return (
     <Row>
-      <Col className="mb-3" sm={8}>
+      <Col className="mb-3" xs={6} sm={8}>
         <h5>{certificate.title}</h5>
         <span>
           {certificate.description}
-          <br /> {whenDate}
+          <br /> {certificate.when_date.split("T")[0]}
         </span>
       </Col>
 
       {isEditable && (
-        <Col className="mb-3">
+        <Col className="mb-3 text-end" xs={6} sm={4}>
           <Button
             variant="outline-warning"
             onClick={() => {

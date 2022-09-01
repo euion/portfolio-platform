@@ -12,8 +12,8 @@ const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
             id: projects[index].id,
             title: projects[index].title,
             description: projects[index].description,
-            start: new Date(),
-            end: new Date(),
+            start: new Date(projects[index].from_date),
+            end: new Date(projects[index].to_date),
 
             skill: projects[index].skill,
             link: projects[index].link,
@@ -29,13 +29,12 @@ const EditProjectForm = ({ index, projects, setProjects, setEditToggle }) => {
             description: project.description,
             from_date: project.start,
             to_date: project.end,
-            //아래는 백엔드 필드 구현 예정
             skill: project.skill,
             link: project.link,
             imagePath: project.imagePath, //배열 값
         })
 
-        //정상 응답이면 리듀서로 상태관리
+        //통신 성공 후 상태 관리
         if (res) {
             const tempProjects = [...projects]
             tempProjects[index] = { ...res.data };

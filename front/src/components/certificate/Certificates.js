@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { modeContext } from "../../App";
 
 import * as Api from "../../api";
 
@@ -8,16 +7,7 @@ import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
 function Certificates({ portfolioOwnerId, isEditable }) {
-  const mode = useContext(modeContext);
-
-  const [certificateList, setCertificateList] = useState([
-    {
-      id: 0, //자격증 하나당 아이디
-      title: "title",
-      description: "description",
-      date: "2022-08-25",
-    },
-  ]);
+  const [certificateList, setCertificateList] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
@@ -27,11 +17,7 @@ function Certificates({ portfolioOwnerId, isEditable }) {
   }, []);
 
   return (
-    <Card
-      className="mt-3"
-      bg={mode.toLowerCase()}
-      text={mode.toLowerCase() === "light" ? "dark" : "white"}
-    >
+    <Card className="p-3 mt-3">
       <Card.Body>
         <Card.Title className="mb-3">
           <h3>🪪 자격증</h3>
@@ -42,7 +28,6 @@ function Certificates({ portfolioOwnerId, isEditable }) {
             key={certificate.id}
             certificate={certificate}
             setCertificateList={setCertificateList}
-            certificateList={certificateList}
             isEditable={isEditable}
           />
         ))}
@@ -51,7 +36,6 @@ function Certificates({ portfolioOwnerId, isEditable }) {
           <CertificateAddForm
             setIsAdding={setIsAdding}
             isAdding={isAdding}
-            certificateList={certificateList}
             setCertificateList={setCertificateList}
             portfolioOwnerId={portfolioOwnerId}
           />

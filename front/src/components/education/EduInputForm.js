@@ -128,7 +128,7 @@ function EduInputForm({ setIsAdding, isAdding, educations, setEducations }) {
               variant="outline-primary"
               type="button"
               onClick={() => {
-                setIsAdding(false);
+                setIsAdding(true);
               }}
             >
               취소
