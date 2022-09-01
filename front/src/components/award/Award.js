@@ -23,13 +23,13 @@ function Award({ portfolioOwnerId, isEditable }) {
     fetchAwardList();
   }, []);
 
-  // 수상내역 삭제 함수
+  // 수상 이력 삭제 함수
   const handleDelete = async (value) => {
-    // alert(`${value.title} 수상내역을 지우시겠습니까?`);
-    const response = await Api.delete(`awards/${value.id}`);
+    const ans = window.confirm(`${value.title} 수상 이력을 지우시겠습니까?`);
+    if (ans) {
+      const response = await Api.delete(`awards/${value.id}`);
+    }
     fetchAwardList();
-    // const result = response.data;
-    // console.log(result);
   };
 
   return (
@@ -95,8 +95,10 @@ function Award({ portfolioOwnerId, isEditable }) {
           <> </>
         )}
 
+        {/* 본인계정 포트폴리오만 수정가능 기능 */}
         {isEditable ? (
           <Form.Group as={Row} className="mt-3 text-center">
+            {/* 수정이나 Add시 +버튼 숨김처리 */}
             {selectedIndex === false && !isAdd ? (
               <Col>
                 <Button onClick={() => setIsAdd(true)}>+</Button>

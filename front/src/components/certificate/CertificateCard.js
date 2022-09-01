@@ -8,6 +8,8 @@ function CertificateCard({
   isEditable,
   certificate,
   setCertificateList,
+  isPlus,
+  setIsPlus,
 }) {
   const handleDeleteClick = async (title) => {
     const notice = window.confirm(`[${title}] 자격증을 지우겠습니까?`);
@@ -34,6 +36,7 @@ function CertificateCard({
             variant="outline-warning"
             onClick={() => {
               setIsEditing(true);
+              setIsPlus(false);
             }}
           >
             수정

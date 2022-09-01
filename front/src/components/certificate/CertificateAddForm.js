@@ -9,6 +9,8 @@ function CertificateAddForm({
   isAdding,
   setIsAdding,
   setCertificateList,
+  isPlus,
+  setIsPlus,
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -106,13 +108,17 @@ function CertificateAddForm({
       ) : (
         <Row className="text-center">
           <Col>
-            <Button
-              onClick={() => {
-                setIsAdding(true);
-              }}
-            >
-              +
-            </Button>
+            {isPlus ? (
+              <Button
+                onClick={() => {
+                  setIsAdding(true);
+                }}
+              >
+                +
+              </Button>
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
       )}

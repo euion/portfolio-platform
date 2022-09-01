@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
 
-function Certificate({ isEditable, certificate, setCertificateList }) {
+function Certificate({ isEditable, certificate, setCertificateList, isPlus, setIsPlus }) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -14,6 +14,7 @@ function Certificate({ isEditable, certificate, setCertificateList }) {
           setIsEditing={setIsEditing}
           certificate={certificate}
           setCertificateList={setCertificateList}
+          setIsPlus={setIsPlus}
         />
       ) : (
         <CertificateCard
@@ -22,6 +23,8 @@ function Certificate({ isEditable, certificate, setCertificateList }) {
           isEditable={isEditable}
           setIsEditing={setIsEditing}
           setCertificateList={setCertificateList}
+          setIsPlus={setIsPlus}
+          isPlus={isPlus}
         />
       )}
     </>

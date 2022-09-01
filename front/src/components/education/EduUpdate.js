@@ -127,7 +127,11 @@ function EduUpdate({
             </Button>
           )}
 
-          <Button className="ms-2 mb-3" variant="outline-primary">
+          <Button
+            className="ms-2 mb-3"
+            variant="outline-primary"
+            onClick={() => setIsEditing(false)}
+          >
             취소
           </Button>
         </div>

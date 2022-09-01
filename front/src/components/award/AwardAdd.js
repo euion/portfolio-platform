@@ -86,6 +86,7 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
       <Form.Group as={Col} className="text-center m-3">
         <Row>
           <Col>
+            {/* 모든 입력폼을 작성해야 확인버튼 활성화 */}
             {title && content && hostOrganization && awardDate ? (
               <Button variant="primary" type="submit">
                 확인

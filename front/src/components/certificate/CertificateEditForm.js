@@ -8,6 +8,7 @@ function CertificateEditForm({
   setIsEditing,
   certificate,
   setCertificateList,
+  setIsPlus,
 }) {
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
@@ -27,8 +28,8 @@ function CertificateEditForm({
     });
     const res = await Api.get(`users/${user_id}/certificates`);
     setCertificateList(res.data);
-
     setIsEditing(false);
+    setIsPlus(true);
   };
 
   const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
@@ -80,6 +81,7 @@ function CertificateEditForm({
                 variant="outline-primary"
                 onClick={() => {
                   setIsEditing(false);
+                  setIsPlus(true);
                 }}
               >
                 취소

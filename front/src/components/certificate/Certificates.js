@@ -11,6 +11,7 @@ function Certificates({ portfolioOwnerId, isEditable }) {
   const mode = useContext(modeContext);
   const [certificateList, setCertificateList] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
+  const [isPlus, setIsPlus] = useState(true);
 
   useEffect(() => {
     Api.get(`users/${portfolioOwnerId}/certificates`).then((res) => {
@@ -35,6 +36,8 @@ function Certificates({ portfolioOwnerId, isEditable }) {
             certificate={certificate}
             setCertificateList={setCertificateList}
             isEditable={isEditable}
+            setIsPlus={setIsPlus}
+            isPlus={isPlus}
           />
         ))}
 
@@ -44,6 +47,8 @@ function Certificates({ portfolioOwnerId, isEditable }) {
             isAdding={isAdding}
             setCertificateList={setCertificateList}
             portfolioOwnerId={portfolioOwnerId}
+            setIsPlus={setIsPlus}
+            isPlus={isPlus}
           />
         )}
       </Card.Body>
