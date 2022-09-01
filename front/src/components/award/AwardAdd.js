@@ -73,9 +73,15 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
       <Form.Group as={Col} className="text-center m-3">
         <Row>
           <Col>
-            <Button variant="primary" type="submit">
-              확인
-            </Button>{" "}
+            {title && content && hostOrganization && awardDate ? (
+              <Button variant="primary" type="submit">
+                확인
+              </Button>
+            ) : (
+              <Button variant="primary" type="submit" disabled>
+                확인
+              </Button>
+            )}{" "}
             <Button variant="secondary" onClick={cancel}>
               취소
             </Button>
