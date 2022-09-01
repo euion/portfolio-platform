@@ -26,7 +26,7 @@ function Certificates({ portfolioOwnerId, isEditable }) {
     >
       <Card.Body>
         <Card.Title className="mb-3">
-          <h3>🪪 자격증</h3>
+          <h3>📋 자격증</h3>
         </Card.Title>
 
         {certificateList.map((certificate) => (
