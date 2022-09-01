@@ -1,21 +1,22 @@
-import { Education, User } from "../db";
+import { Education } from "../db";
 
 class educationService {
   // 새로운 학력 추가
   static async addEducation({ user_id, school, major, position }) {
-    try {const newEducation = {
-      user_id,
-      school,
-      major,
-      position,
-    };
+    try {
+      const newEducation = {
+        user_id,
+        school,
+        major,
+        position,
+      };
 
-    const createdNewEducation = await Education.create({ newEducation });
-    createdNewEducation.errorMessage = null;
+      const createdNewEducation = await Education.create({ newEducation });
+      createdNewEducation.errorMessage = null;
 
-    return createdNewEducation;
+      return createdNewEducation;
     } catch (error) {
-      const errorMessage ="모든 항목을 입력해주세요.";
+      const errorMessage = "모든 항목을 입력해주세요.";
       return { errorMessage };
     }
   }
@@ -43,25 +44,35 @@ class educationService {
     if (toUpdate.school) {
       const fieldToUpdate = "school";
       const newValue = toUpdate.school;
-      education = await Education.update({ education_id, fieldToUpdate, newValue });
+      education = await Education.update({
+        education_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.major) {
       const fieldToUpdate = "major";
       const newValue = toUpdate.major;
-      education = await Education.update({ education_id, fieldToUpdate, newValue });
+      education = await Education.update({
+        education_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     if (toUpdate.position) {
       const fieldToUpdate = "position";
       const newValue = toUpdate.position;
-      education = await Education.update({ education_id, fieldToUpdate, newValue });
+      education = await Education.update({
+        education_id,
+        fieldToUpdate,
+        newValue,
+      });
     }
 
     return education;
   }
-
-
 
   static async deleteEducation({ education_id }) {
     await Education.delete({ education_id });
