@@ -32,7 +32,7 @@ function EduApp({ portfolioOwnerId, isEditable }) {
         text={mode.toLowerCase() === "light" ? "dark" : "white"}
       >
         <Card.Body>
-          <h3>📚학력</h3>
+          <h3>📚 학력</h3>
           {educations &&
             educations.map((edu) => (
               <EduList
