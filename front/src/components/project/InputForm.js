@@ -1,5 +1,6 @@
-import { useRef, useCallback, forwardRef } from "react";
+import { useRef, useCallback, forwardRef, useContext } from "react";
 import axios from "axios";
+import { modeContext } from "../../App";
 
 //bootstrap component
 import Button from "react-bootstrap/Button";
@@ -11,12 +12,9 @@ import { Card } from "react-bootstrap";
 import { backPort } from "../../config";
 import { backServer } from "../../config";
 
-const InputForm = ({
-  project,
-  setProject,
-  submitHandler,
-  setVisibleToggle,
-}) => {
+const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => {
+  const mode = useContext(modeContext);
+
   const serverUrl = "http://" + window.location.hostname + ":" + backPort + "/";
 
   const CustomDatepickerInput = forwardRef(({ value, onClick }, ref) => (
@@ -85,7 +83,13 @@ const InputForm = ({
         }}
       >
         <span>프로젝트 기간</span>
-        <Card body className="mt-2 mb-3" style={{ display: "flex" }}>
+        <Card
+          body
+          className="mt-2 mb-3"
+          style={{ display: "flex" }}
+          bg={mode.toLowerCase()}
+          text={mode.toLowerCase() === "light" ? "dark" : "white"}
+        >
           <div style={{ display: "flex" }}>
             <DatePicker
               customInput={<CustomDatepickerInput />}
@@ -175,9 +179,7 @@ const InputForm = ({
         </Form.Group>
 
         {/* 업로드된 이미지 미리보기 */}
-        {project.imagePath?.length > 0 ? (
-          <div className="dropdown-divider"></div>
-        ) : null}
+        {project.imagePath?.length > 0 ? <div className="dropdown-divider"></div> : null}
         <div
           style={{
             display: "flex",
@@ -210,9 +212,7 @@ const InputForm = ({
             </div>
           ))}
         </div>
-        {project.imagePath?.length > 0 ? (
-          <div className="dropdown-divider"></div>
-        ) : null}
+        {project.imagePath?.length > 0 ? <div className="dropdown-divider"></div> : null}
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             {/* 이미지 첨부 버튼 */}
