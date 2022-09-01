@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card } from "react-bootstrap";
+import { modeContext } from "../../App";
 
 import * as Api from "../../api";
 
@@ -7,6 +8,7 @@ import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
 function Certificates({ portfolioOwnerId, isEditable }) {
+  const mode = useContext(modeContext);
   const [certificateList, setCertificateList] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -17,7 +19,11 @@ function Certificates({ portfolioOwnerId, isEditable }) {
   }, []);
 
   return (
-    <Card className="p-3 mt-3">
+    <Card
+      className="p-3 mt-3"
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
       <Card.Body>
         <Card.Title className="mb-3">
           <h3>🪪 자격증</h3>

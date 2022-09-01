@@ -5,6 +5,7 @@ import * as Api from "../../api";
 
 function User({ portfolioOwnerId, isEditable }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
+
   const [isEditing, setIsEditing] = useState(false);
   // useState 훅을 통해 user 상태를 생성함.
   const [user, setUser] = useState(null);
@@ -17,9 +18,17 @@ function User({ portfolioOwnerId, isEditable }) {
   return (
     <>
       {isEditing ? (
-        <UserEditForm user={user} setIsEditing={setIsEditing} setUser={setUser} />
+        <UserEditForm
+          user={user}
+          setIsEditing={setIsEditing}
+          setUser={setUser}
+        />
       ) : (
-        <UserCard user={user} setIsEditing={setIsEditing} isEditable={isEditable} />
+        <UserCard
+          user={user}
+          setIsEditing={setIsEditing}
+          isEditable={isEditable}
+        />
       )}
     </>
   );

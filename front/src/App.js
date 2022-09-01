@@ -8,7 +8,8 @@ import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
+import "./App.css";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -88,18 +89,33 @@ function App() {
               <Route path="*" element={<Portfolio />} />
             </Routes>
           </Router>
-          <Button className="position-fixed top-0 end-0 m-5" onClick={toggleMode}>
-            {mode == "Light" ? "다크모드로 전환" : "일반모드로 전환"}
+          <Button
+            onClick={toggleMode}
+            variant={`outline-${mode == "Light" ? "dark" : "light"}`}
+            style={{
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              padding: "0",
+              margin: "2%",
+              position: "fixed",
+              right: "0",
+              bottom: "80px",
+            }}
+          >
+            {mode == "Light" ? "다크모드" : "일반모드"}
           </Button>
           <Button
             onClick={moveTop}
-            className="position-fixed bottom-0 end-0 m-5"
             variant="outline-primary"
             style={{
               width: "70px",
               height: "70px",
               borderRadius: "50%",
               margin: "2%",
+              position: "fixed",
+              right: "0",
+              bottom: "0",
             }}
           >
             TOP

@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import { modeContext } from "../../App";
+import React, { useContext } from "react";
 import { useEffect } from "react";
+import { backPort } from "../../config";
+import { backServer } from "../../config";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
-  const backUrl = "http://localhost:3333/";
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const mode = useContext(modeContext);
+  const serverUrl = backServer + backPort + "/";
+
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
+    <Card
+      className="mb-2 ms-3 mr-5"
+      style={{ width: "18rem" }}
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
+      {/* {serverUrl+user?.imagePath} */}
       <Card.Body>
         <Row className="justify-content-md-center">
           <img
@@ -17,10 +26,10 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
             className="mt-3 mb-3"
             src={
               user?.imagePath
-                ? backUrl + user?.imagePath
+                ? serverUrl + user?.imagePath
                 : "https://ifh.cc/g/DS2Nqo.jpg"
             }
-            alt="프로필 사진"
+            alt="프로필 이미지"
           />
         </Row>
         <Card.Title>{user?.name}</Card.Title>

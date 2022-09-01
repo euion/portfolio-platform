@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Card from "react-bootstrap/Card";
 import * as API from "../../api";
-
+import "./Project.css";
 //bootstrap
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
 import Badge from "react-bootstrap/Badge";
+
+//context
+import { UserStateContext } from "../../App.js";
+import { DispatchContext } from "../../App";
+import { modeContext } from "../../App";
 
 //component
 import AddProjectForm from "./AddProjectForm";
@@ -13,6 +18,7 @@ import EditProjectForm from "./EditProjectForm";
 import ProjectImages from "./ProjectImages";
 
 const Project = ({ portfolioOwnerId, isEditable }) => {
+  const mode = useContext(modeContext);
   //state
   const [addToggle, setAddToggle] = useState(false);
   const [editToggle, setEditToggle] = useState(false);
@@ -45,12 +51,15 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
   //     // console.log(typeof (projects[0].from_date))
   // }, [projects]);
   return (
-    <Card className="p-3 border">
+    <Card
+      className="p-3 mt-3"
+      bg={mode.toLowerCase()}
+      text={mode.toLowerCase() === "light" ? "dark" : "white"}
+    >
       <Card.Body>
+        <h3>🧑🏻‍💻 프로젝트</h3>
         {!addToggle && (
           <>
-            <h2>🧑🏻‍💻 프로젝트</h2>
-            <div className="dropdown-divider"></div>
             {projects.length === 0 ? (
               <h5 className="mt-5 mb-5" style={{ textAlign: "center" }}>
                 프로젝트를 등록해주세요 😃
@@ -72,7 +81,11 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                             <a
                               style={{ textDecoration: "none" }}
                               className="ms-2"
-                              href={v.link}
+                              href={
+                                v.link.slice(0, 7) === "http://"
+                                  ? v.link
+                                  : "http://" + v.link
+                              }
                               target="_blank"
                               rel="noreferrer"
                             >

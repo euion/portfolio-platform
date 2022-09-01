@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 import DatePicker from "react-datepicker";
 
-function AwardEdit({ setIsEdit, list, setList, value, setIsRander }) {
+function AwardEdit({ setIsEdit, value, fetchAwardList }) {
   const [editTitle, setEditTitle] = useState(value.title);
   const [editContent, setEditContent] = useState(value.content);
   const [editHostOrganization, setEditHostOrganization] = useState(
@@ -19,11 +19,9 @@ function AwardEdit({ setIsEdit, list, setList, value, setIsRander }) {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    setIsRander(true);
     const response = await Api.put(`awards/${value.id}`, editObj);
-    const result = await response.data;
     setIsEdit(false);
-    setIsRander(false);
+    fetchAwardList();
   };
 
   function cancel() {

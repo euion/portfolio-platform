@@ -81,7 +81,7 @@ function EduCard({
           </p>
         </Col>
         <Col md="auto"></Col>
-        <Col>
+        <Col className="mb-3 text-end">
           {isEditable && (
             <div>
               <Button

@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 import DatePicker from "react-datepicker";
 
-function AwardAdd({ setIsAdd, list, setList, setIsRander }) {
+function AwardAdd({ setIsAdd, fetchAwardList }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hostOrganization, setHostOrganization] = useState("");
@@ -11,7 +11,6 @@ function AwardAdd({ setIsAdd, list, setList, setIsRander }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsRander(true);
     const when_date = awardDate.toISOString().split("T")[0];
     const response = await Api.post("award", {
       title,
@@ -19,12 +18,10 @@ function AwardAdd({ setIsAdd, list, setList, setIsRander }) {
       hostOrganization,
       awardDate: when_date,
     });
-    const result = await response.data;
     setTitle(""); // 제목필드 버튼 클릭 후 제목필드 초기화
     setContent(""); // 내용필드 버튼 클릭 후 내용필드 초기화
-    console.log(awardDate);
     setIsAdd(false);
-    setIsRander(false);
+    fetchAwardList();
   };
 
   function cancel() {

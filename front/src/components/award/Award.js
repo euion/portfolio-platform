@@ -8,30 +8,28 @@ import { modeContext } from "../../App";
 function Award({ portfolioOwnerId, isEditable }) {
   const [isAdd, setIsAdd] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(false);
-  const [isRander, setIsRander] = useState(false); // useEffect에서 의존성배열에 삽입하여 이 값이 변할 때 마다 재렌더링
   const [list, setList] = useState([]);
   const mode = useContext(modeContext);
 
   // 목데이터를 불러와 list에 저장하는 함수
-  async function data() {
+  async function fetchAwardList() {
     const response = await Api.get(`users/${portfolioOwnerId}/awards`);
-    const result = await response.data;
+    const result = response.data;
     setList(result);
     console.log(result);
   }
 
   useEffect(() => {
-    data();
-  }, [isRander]);
+    fetchAwardList();
+  }, []);
 
   // 수상내역 삭제 함수
   const handleDelete = async (value) => {
-    setIsRander(true);
     // alert(`${value.title} 수상내역을 지우시겠습니까?`);
     const response = await Api.delete(`awards/${value.id}`);
-    const result = response.data;
-    console.log(result);
-    setIsRander(false);
+    fetchAwardList();
+    // const result = response.data;
+    // console.log(result);
   };
 
   return (
@@ -51,11 +49,8 @@ function Award({ portfolioOwnerId, isEditable }) {
                 isEditable ? (
                   <AwardEdit
                     setIsEdit={setSelectedIndex}
-                    list={list}
-                    setList={setList}
                     value={value}
-                    index={index}
-                    setIsRander={setIsRander}
+                    fetchAwardList={fetchAwardList}
                   />
                 ) : (
                   <></>
@@ -71,15 +66,15 @@ function Award({ portfolioOwnerId, isEditable }) {
                     </p>
                   </Col>
                   {isEditable ? (
-                    <Col sm={4}>
+                    <Col sm={4} className="mb-3 text-end">
                       <Button
-                        variant="outline-danger"
+                        variant="outline-warning"
                         onClick={() => setSelectedIndex(index)}
                       >
                         수정
                       </Button>{" "}
                       <Button
-                        variant="outline-warning"
+                        variant="outline-danger"
                         onClick={() => handleDelete(value)}
                       >
                         삭제
@@ -95,12 +90,7 @@ function Award({ portfolioOwnerId, isEditable }) {
         </Form.Group>
         {/* isAdd이 true일 경우 추가 컴포넌트 출력 */}
         {isAdd ? (
-          <AwardAdd
-            setIsAdd={setIsAdd}
-            list={list}
-            setList={setList}
-            setIsRander={setIsRander}
-          />
+          <AwardAdd setIsAdd={setIsAdd} fetchAwardList={fetchAwardList} />
         ) : (
           <> </>
         )}
