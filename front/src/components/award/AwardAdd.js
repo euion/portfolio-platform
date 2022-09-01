@@ -23,17 +23,12 @@ function AwardAdd({ setIsAdd, fetchAwardList }) {
     setIsAdd(false);
     fetchAwardList();
   };
-
   function cancel() {
     setIsAdd(false);
   }
 
-  useEffect(() => {
-    handleSubmit();
-  }, []);
-
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={(e) => handleSubmit(e)}>
       <Form.Group>
         <Form.Label>제목</Form.Label>
         <Form.Control

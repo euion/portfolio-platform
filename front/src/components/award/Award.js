@@ -97,9 +97,13 @@ function Award({ portfolioOwnerId, isEditable }) {
 
         {isEditable ? (
           <Form.Group as={Row} className="mt-3 text-center">
-            <Col>
-              <Button onClick={() => setIsAdd(true)}>+</Button>
-            </Col>
+            {selectedIndex === false && !isAdd ? (
+              <Col>
+                <Button onClick={() => setIsAdd(true)}>+</Button>
+              </Col>
+            ) : (
+              <></>
+            )}
           </Form.Group>
         ) : (
           <></>
