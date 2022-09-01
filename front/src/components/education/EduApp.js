@@ -34,15 +34,17 @@ function EduApp({ portfolioOwnerId, isEditable }) {
         <Card.Body>
           <h3>📚 학력</h3>
           {educations &&
-            educations.map((edu) => (
-              <EduList
-                key={edu.id}
-                edu={edu}
-                setEducations={setEducations}
-                educations={educations}
-                isEditable={isEditable}
-                portfolioOwnerId={portfolioOwnerId}
-              />
+            educations.map((edu, index) => (
+              <div key={index}>
+                <EduList
+                  key={edu.id}
+                  edu={edu}
+                  setEducations={setEducations}
+                  educations={educations}
+                  isEditable={isEditable}
+                  portfolioOwnerId={portfolioOwnerId}
+                />
+              </div>
             ))}
           <div style={{ textAlign: "center", margin: "5px" }}>
             {isEditable && (

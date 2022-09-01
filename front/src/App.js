@@ -16,7 +16,21 @@ export const DispatchContext = createContext(null);
 export const modeContext = createContext(null);
 
 function App() {
-  const [mode, setmode] = useState("Light"); //State about dark-mode
+  const [mode, setmode] = useState(localStorage.getItem("darkMode") || "Light"); //State about dark-mode
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", mode);
+    if (mode === "Light") {
+      // 일반모드 적용 시
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "#000000";
+    } else {
+      // 다크모드 적용 시
+      document.body.style.backgroundColor = "#202020";
+      document.body.style.color = "#ffffff";
+    }
+  }, [mode]);
+
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
   const moveTop = () => {
     // TOP버튼 펑션
@@ -64,13 +78,9 @@ function App() {
     if (mode === "Light") {
       // 다크모드 적용 시
       setmode("Dark");
-      document.body.style.backgroundColor = "#202020";
-      document.body.style.color = "#ffffff";
     } else {
       // 일반모드 적용 시
       setmode("Light");
-      document.body.style.backgroundColor = "white";
-      document.body.style.color = "#000000";
     }
   };
 
