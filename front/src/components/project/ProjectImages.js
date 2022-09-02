@@ -8,7 +8,6 @@ const ProjectImages = ({ imagePath }) => {
 
   return (
     <>
-      {/* {serverUrl} */}
       {urlList[0] && (
         <Carousel variant="dark" interval={null}>
           {" "}
@@ -16,7 +15,6 @@ const ProjectImages = ({ imagePath }) => {
           {urlList?.map((v, i) => (
             <Carousel.Item key={v + "url" + i}>
               <img
-                // onClick={openImageViewer}
                 style={{ height: "450px", objectFit: "contain" }}
                 className="d-block w-100"
                 src={v}

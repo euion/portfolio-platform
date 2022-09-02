@@ -19,7 +19,6 @@ function CertificateEditForm({
 
     const user_id = certificate.user_id;
     const certificate_id = certificate.id;
-    console.log(certificate_id);
 
     await Api.put(`certificates/${certificate_id}`, {
       title,

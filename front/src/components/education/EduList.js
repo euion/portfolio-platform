@@ -12,10 +12,6 @@ function EduList({
   portfolioOwnerId,
 }) {
   const [isEditing, setIsEditing] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(educations);
-  // }, [educations]);
   return (
     <>
       {isEditing ? (
@@ -55,10 +51,8 @@ function EduCard({
   const deleteHandler = async (school, id) => {
     const ans = window.confirm(`[${school}] 학력을 지우시겠습니까?`);
     if (ans) {
-      console.log(`삭제요청, id:${id}`, id);
       const res = await Api.delete(`educations/${edu.id}`);
       if (res.status === 204) {
-        console.log("삭제완료");
         const tempEducations = [...educations].filter((v) => v.id !== id);
         setEducations(tempEducations);
       }

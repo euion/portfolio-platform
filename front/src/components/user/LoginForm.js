@@ -55,12 +55,12 @@ function LoginForm() {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      alert(err.response.data)
+      alert(err.response.data);
     }
   };
 
   return (
-    <Container style={{ paddingTop: '110px' }}>
+    <Container style={{ paddingTop: "110px" }}>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
