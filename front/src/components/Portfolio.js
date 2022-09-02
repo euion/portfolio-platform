@@ -56,16 +56,16 @@ function Portfolio() {
 
   return (
     <>
-      <Container style={{ paddingTop: "110px" }}>
+      <Container style={{ paddingTop: "110px", paddingBottom: "110px" }}>
         {/* <h1>Portfolio</h1> */}
         <Row>
-          <Col md="4" lg="4">
+          <Col sm="12" md="5" lg="4">
             <User
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
           </Col>
-          <Col lg="7">
+          <Col sm='12' md="7" lg="8">
             <EduApp
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}

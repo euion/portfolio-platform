@@ -24,24 +24,24 @@ function Header() {
   };
 
   return (
-    <Nav style={{ backgroundColor: '#0d6efd', position: 'fixed', top: '0', width: '100vw', zIndex: '1000' }} activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-1 mt-1">
+    <Nav id='nav' style={{ backgroundColor: '#0d6efd', position: 'fixed', top: '0', width: '100vw', zIndex: '1000', boxShadow: '0px 7px 7px rgba(0,0,0,0.3)' }} activeKey={location.pathname}>
+      <Nav.Item className="me-auto">
         <Nav.Link >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <h1 className='ms-2' style={{ color: 'white' }} onClick={() => navigate(`/`)}>Portfolio</h1>
-            <span className='ms-3' style={{ color: 'white', fontSize: '1.1em' }} >포트폴리오 공유 서비스</span>
+            <h1 style={{ color: 'white', fontWeight: '600' }} onClick={() => navigate(`/`)}><span>Portfolio</span></h1>
+            <span className='ms-3' style={{ fontSize: '1.1em', color: 'rgba(255,255,255,0.9)' }} >포트폴리오 공유 서비스</span>
           </div>
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link onClick={() => navigate(`/`)} style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }}>나의 페이지</Nav.Link>
+        <Nav.Link onClick={() => navigate(`/`)} style={{ fontWeight: '600', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', height: '100%' }}><span>나의 페이지</span></Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }} onClick={() => navigate("/network")}>네트워크</Nav.Link>
+        <Nav.Link style={{ fontWeight: '600', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', height: '100%' }} onClick={() => navigate("/network")}><span>네트워크</span></Nav.Link>
       </Nav.Item>
       {isLogin && (
         <Nav.Item>
-          <Nav.Link style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }} className='me-4' onClick={logout}>로그아웃</Nav.Link>
+          <Nav.Link style={{ fontWeight: '600', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', height: '100%' }} className='me-4' onClick={logout}><span>로그아웃</span></Nav.Link>
         </Nav.Item>
       )
       }

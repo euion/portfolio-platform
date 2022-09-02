@@ -51,7 +51,8 @@ function Award({ portfolioOwnerId, isEditable }) {
       )}
       {!isLoading && (
         <Card
-          className="p-3 mt-3"
+          style={{ borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.1)' }}
+          className="p-3 mt-4"
           bg={mode.toLowerCase()}
           text={mode.toLowerCase() === "light" ? "dark" : "white"}
         >

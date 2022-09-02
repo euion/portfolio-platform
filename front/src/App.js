@@ -22,7 +22,7 @@ function App() {
     localStorage.setItem("darkMode", mode);
     if (mode === "Light") {
       // 일반모드 적용 시
-      document.body.style.backgroundColor = "white";
+      document.body.style.backgroundColor = "whitesmoke";
       document.body.style.color = "#000000";
     } else {
       // 다크모드 적용 시
@@ -98,10 +98,14 @@ function App() {
               <Route path="/network" element={<Network />} />
               <Route path="*" element={<Portfolio />} />
             </Routes>
+            <footer style={{
+              boxShadow: '0px -3px 10px rgba(0,0,0,0.3)',
+              paddingTop: '6px', paddingBottom: '6px', position: 'fixed', bottom: '0px', width: '100vw', backgroundColor: 'Grey', color: 'white', textAlign: 'center'
+            }}>EIIIIE's - 임의연, 임동민, 임지원, 최은오, 송태원, 한혜진</footer>
           </Router>
           <Button
             onClick={toggleMode}
-            variant={`outline-${mode == "Light" ? "dark" : "light"}`}
+            variant={`outline-${mode === "Light" ? "dark" : "light"}`}
             style={{
               width: "70px",
               height: "70px",
@@ -110,10 +114,10 @@ function App() {
               margin: "2%",
               position: "fixed",
               right: "0",
-              bottom: "80px",
+              bottom: "100px",
             }}
           >
-            {mode == "Light" ? "다크모드" : "일반모드"}
+            {mode === "Light" ? "다크모드" : "일반모드"}
           </Button>
           <Button
             onClick={moveTop}
@@ -125,7 +129,7 @@ function App() {
               margin: "2%",
               position: "fixed",
               right: "0",
-              bottom: "0",
+              bottom: "20px",
             }}
           >
             TOP

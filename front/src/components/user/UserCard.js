@@ -12,47 +12,55 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const serverUrl = backServer + backPort + "/";
 
   return (
-    <Card
-      className="me-2 mb-2 mr-5"
-      style={{ width: "18rem" }}
-      bg={mode.toLowerCase()}
-      text={mode.toLowerCase() === "light" ? "dark" : "white"}
-    >
-      {/* {serverUrl+user?.imagePath} */}
-      <Card.Body>
-        <Row className="justify-content-md-center">
-          <img
-            style={{ height: "15rem", width: "15rem", objectFit: "contain" }}
-            className="mt-3 mb-3"
-            src={
-              user?.imagePath
-                ? serverUrl + user?.imagePath
-                : `default.png`
-            }
-            alt="프로필 이미지"
-          />
-        </Row>
-        <Card.Title>{user?.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
-        <Card.Text>{user?.description}</Card.Text>
+    <div id="card">
+      <Card
+        onClick={() => { isNetwork && navigate(`/users/${user.id}`) }}
+        className="me-2 mb-4 mr-5 p-3"
+        style={{ borderRadius: '15px', width: "100%", boxShadow: '0px 7px 7px rgba(0,0,0,0.15)' }}
+        bg={mode.toLowerCase()}
+        text={mode.toLowerCase() === "light" ? "dark" : "white"}
+      >
+        {/* {serverUrl+user?.imagePath} */}
+        <Card.Body>
+          <Row className="justify-content-md-center">
+            <img
+              style={{ height: "300px", width: "100%", objectFit: "contain" }}
+              className="mt-3 mb-3"
+              src={
+                user?.imagePath
+                  ? serverUrl + user?.imagePath
+                  : `/default.png`
+              }
+              alt="프로필 이미지"
+            />
+          </Row>
+          <Card.Title
+            style={{ width: "100%" }}
+          >{user?.name}</Card.Title>
+          <Card.Subtitle
+            style={{ width: "100%" }}
+            className="mb-2 text-muted">{user?.email}</Card.Subtitle>
+          <Card.Text
+            style={{ width: "100%", height: '100px', overflow: 'scroll', scrollbarWidth: '0px' }}
+          >{user?.description}</Card.Text>
 
-        {isEditable && (
-          <Col>
-            <Row className="mt-3 text-center text-info">
-              <Col sm={{ span: 20 }}>
-                <Button
-                  variant="outline-info"
-                  size="sm"
-                  onClick={() => setIsEditing(true)}
-                >
-                  편집
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-        )}
+          {isEditable && (
+            <Col>
+              <Row className="mt-3 text-center text-info">
+                <Col sm={{ span: 20 }}>
+                  <Button
+                    variant="outline-info"
+                    size="sm"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    편집
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+          )}
 
-        {isNetwork && (
+          {/* {isNetwork && (
           <Card.Link
             className="mt-3"
             // href=""
@@ -60,9 +68,11 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           >
             포트폴리오
           </Card.Link>
-        )}
-      </Card.Body>
-    </Card>
+        )} */}
+        </Card.Body>
+      </Card>
+    </div>
+
   );
 }
 

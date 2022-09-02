@@ -29,7 +29,8 @@ function Certificates({ portfolioOwnerId, isEditable }) {
       </div>}
       {!isLoading &&
         <Card
-          className="mt-3 mb-5"
+          style={{ borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.1)' }}
+          className="mt-4 mb-5"
           bg={mode.toLowerCase()}
           text={mode.toLowerCase() === "light" ? "dark" : "white"}
         >

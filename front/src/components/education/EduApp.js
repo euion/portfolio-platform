@@ -27,6 +27,7 @@ function EduApp({ portfolioOwnerId, isEditable }) {
   return (
     <>
       <Card
+        style={{ borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.1)' }}
         className="ml-5"
         bg={mode.toLowerCase()}
         text={mode.toLowerCase() === "light" ? "dark" : "white"}

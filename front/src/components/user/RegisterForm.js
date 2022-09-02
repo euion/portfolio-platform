@@ -56,10 +56,22 @@ function RegisterForm() {
     }
   };
 
+  // <Container style={{ height: 'calc(100vh - 100px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  //     <Row className="justify-content-md-center mt-5 w-100">
+  //       <Col sm={12} lg={6}
+  //         style={{
+  //           backgroundColor: 'white', padding: '50px',
+  //           borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.15)'
+  //         }}></Col>
+
   return (
-    <Container style={{ paddingTop: '110px' }}>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
+    <Container style={{ height: 'calc(100vh - 100px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Row className="justify-content-md-center mt-5 w-100">
+        <Col sm={12} md={8} lg={6}
+          style={{
+            backgroundColor: 'white', padding: '50px',
+            borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.15)'
+          }}>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="registerEmail">
               <Form.Label>이메일 주소</Form.Label>
@@ -138,8 +150,8 @@ function RegisterForm() {
             </Form.Group>
           </Form>
         </Col>
-      </Row>
-    </Container>
+      </Row >
+    </Container >
   );
 }
 
