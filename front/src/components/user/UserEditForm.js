@@ -19,12 +19,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
   //user 프로필 이미지가 저장되는 경로
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    // console.log(user.imagePath === "");
-    // "users/유저id" 엔드포인트로 PUT 요청함.
-
-    let res
+    let res;
     if (imagePath === "") {
       res = await Api.put(`users/${user.id}`, {
         name,
@@ -32,8 +28,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         description,
         imagePath: "default.png",
       });
-    }
-    else {
+    } else {
       res = await Api.put(`users/${user.id}`, {
         name,
         email,
@@ -90,7 +85,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             user={user}
             imagePath={imagePath}
             setImagePath={setImagePath}
-            setUser={(v) => { setUser(v) }} />
+            setUser={(v) => {
+              setUser(v);
+            }}
+          />
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>

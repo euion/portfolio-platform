@@ -22,7 +22,6 @@ const UserImageForm = ({ user, setUser, imagePath, setImagePath }) => {
       .post(serverUrl + "images", imageFormData)
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         setImagePath(data);
       });
     //똑같은 파일을 올렸을때 onChange가 인식 못하는걸 방지
