@@ -16,7 +16,7 @@ export const DispatchContext = createContext(null);
 export const modeContext = createContext(null);
 
 function App() {
-  const [mode, setmode] = useState(localStorage.getItem("darkMode") || "Light"); //State about dark-mode
+  const [mode, setMode] = useState(localStorage.getItem("darkMode") || "Light"); //State about dark-mode
 
   useEffect(() => {
     localStorage.setItem("darkMode", mode);
@@ -77,10 +77,10 @@ function App() {
   const toggleMode = () => {
     if (mode === "Light") {
       // 다크모드 적용 시
-      setmode("Dark");
+      setMode("Dark");
     } else {
       // 일반모드 적용 시
-      setmode("Light");
+      setMode("Light");
     }
   };
 
