@@ -13,7 +13,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
 
   return (
     <Card
-      className="mb-2 mr-5"
+      className="me-2 mb-2 mr-5"
       style={{ width: "18rem" }}
       bg={mode.toLowerCase()}
       text={mode.toLowerCase() === "light" ? "dark" : "white"}
