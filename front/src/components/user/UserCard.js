@@ -27,7 +27,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
             src={
               user?.imagePath
                 ? serverUrl + user?.imagePath
-                : 'https://i.postimg.cc/mk8BvXd1/default.png'
+                : `default.png`
             }
             alt="프로필 이미지"
           />
