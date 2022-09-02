@@ -17,7 +17,7 @@ function Certificates({ portfolioOwnerId, isEditable }) {
     Api.get(`users/${portfolioOwnerId}/certificates`).then((res) => {
       setCertificateList(res.data);
     });
-  }, []);
+  }, [portfolioOwnerId]);
 
   return (
     <Card

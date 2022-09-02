@@ -21,7 +21,7 @@ function Award({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     fetchAwardList();
-  }, []);
+  }, [portfolioOwnerId]);
 
   // 수상 이력 삭제 함수
   const handleDelete = async (value) => {

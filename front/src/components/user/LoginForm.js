@@ -60,7 +60,7 @@ function LoginForm() {
   };
 
   return (
-    <Container>
+    <Container style={{ paddingTop: '110px' }}>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>

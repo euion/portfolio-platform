@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Card from "react-bootstrap/Card";
 import * as API from "../../api";
 import "./Project.css";
@@ -24,13 +26,16 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
   const [editToggle, setEditToggle] = useState(false);
   const [projects, setProjects] = useState([]);
 
+  const params = useParams();
+  const navigate = useNavigate();
+
   // get요청으로 dummy파일에서 불러온 값들을 이용하면 각자의 dummy파일 형식이 달라서
   // 브랜치 머지할때 컴포넌트 에러 발생할수 있기때문에 일단 그냥 여기서 더미데이터 넣었습니다.
   useEffect(() => {
     API.get(`users/${portfolioOwnerId}/projects`).then((v) =>
       setProjects(v.data.reverse())
     );
-  }, []);
+  }, [portfolioOwnerId]);
 
   const deleteProjectHandleer = async (title, id) => {
     const ans = window.confirm(`[${title}] 프로젝트를 지우시겠습니까?`);
@@ -59,11 +64,6 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
       {!addToggle && (
         <div className={mode}>
           <h3>🧑🏻‍💻 프로젝트</h3>
-          {projects.length === 0 ? (
-            <h5 className="mt-5 mb-5" style={{ textAlign: "center" }}>
-              프로젝트를 등록해주세요 😃
-            </h5>
-          ) : null}
           <Accordion className="mt-3" defaultActiveKey={0}>
             {projects?.map((v, i) => {
               return (

@@ -74,8 +74,8 @@ function Portfolio() {
 
   return (
     <>
-      <Container>
-        <h1>Portfolio</h1>
+      <Container style={{ paddingTop: '110px' }}>
+        {/* <h1>Portfolio</h1> */}
         <Row>
           <Col md="4" lg="4">
             <User

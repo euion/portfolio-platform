@@ -24,22 +24,28 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
+    <Nav style={{ backgroundColor: '#0d6efd', position: 'fixed', top: '0', width: '100vw', zIndex: '1000' }} activeKey={location.pathname}>
+      <Nav.Item className="me-auto mb-1 mt-1">
+        <Nav.Link >
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <h1 className='ms-2' style={{ color: 'white' }} onClick={() => navigate(`/`)}>Portfolio</h1>
+            <span className='ms-3' style={{ color: 'white', fontSize: '1.1em' }} >포트폴리오 공유 서비스</span>
+          </div>
+        </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
+        <Nav.Link onClick={() => navigate(`/`)} style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }}>나의 페이지</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
+        <Nav.Link style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }} onClick={() => navigate("/network")}>네트워크</Nav.Link>
       </Nav.Item>
       {isLogin && (
         <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
+          <Nav.Link style={{ color: 'white', display: 'flex', alignItems: 'center', height: '100%' }} className='me-4' onClick={logout}>로그아웃</Nav.Link>
         </Nav.Item>
-      )}
-    </Nav>
+      )
+      }
+    </Nav >
   );
 }
 

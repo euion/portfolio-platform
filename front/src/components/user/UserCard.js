@@ -13,7 +13,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
 
   return (
     <Card
-      className="mb-2 ms-3 mr-5"
+      className="mb-2 mr-5"
       style={{ width: "18rem" }}
       bg={mode.toLowerCase()}
       text={mode.toLowerCase() === "light" ? "dark" : "white"}
@@ -55,7 +55,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
         {isNetwork && (
           <Card.Link
             className="mt-3"
-            href=""
+            // href=""
             onClick={() => navigate(`/users/${user.id}`)}
           >
             포트폴리오
