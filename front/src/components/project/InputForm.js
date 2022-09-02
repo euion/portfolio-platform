@@ -213,44 +213,47 @@ const InputForm = ({ project, setProject, submitHandler, setVisibleToggle }) => 
           ))}
         </div>
         {project.imagePath?.length > 0 ? <div className="dropdown-divider"></div> : null}
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
-            {/* 이미지 첨부 버튼 */}
-            <input
-              type="file"
-              name="image"
-              hidden
-              ref={imageInput}
-              onChange={onChangeImages}
-            />
-            <Button className="me-2" onClick={onClickImageUpload}>
-              이미지 업로드
-            </Button>
-            {project.imagePath?.length > 0 ? (
-              <Button variant="danger" onClick={onRemoveImageAll}>
-                모든 이미지 삭제
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div className="mb-3">
+              {/* 이미지 첨부 버튼 */}
+              <input
+                type="file"
+                name="image"
+                hidden
+                ref={imageInput}
+                onChange={onChangeImages}
+              />
+              <Button className="ms-2 me-2" onClick={onClickImageUpload}>
+                이미지 업로드
               </Button>
-            ) : null}
-          </div>
+              {project.imagePath?.length > 0 ? (
+                <Button className="me-2" variant="danger" onClick={onRemoveImageAll}>
+                  모든 이미지 삭제
+                </Button>
+              ) : null}
+            </div>
 
-          <div>
-            <Button
-              disabled={!(project.title && project.description)}
-              variant="primary"
-              className="me-2"
-              type="submit">
-              확인
-            </Button>
-            <Button
-              variant="outline-primary"
-              onClick={() => {
-                setVisibleToggle(false);
-              }}
-            >
-              취소
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                disabled={!(project.title && project.description)}
+                variant="primary"
+                className="me-2"
+                type="submit">
+                확인
+              </Button>
+              <Button
+                variant="outline-primary"
+                onClick={() => {
+                  setVisibleToggle(false);
+                }}
+              >
+                취소
+              </Button>
+            </div>
           </div>
         </div>
+
       </Form>
     </>
   );
