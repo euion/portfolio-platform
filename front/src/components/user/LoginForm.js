@@ -2,12 +2,16 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
+import { modeContext } from "../../App";
+import "./LoginForm.css";
+
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
+  const mode = useContext(modeContext);
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -60,13 +64,26 @@ function LoginForm() {
   };
 
   return (
-    <Container style={{ height: 'calc(100vh - 100px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Container
+      style={{
+        height: "calc(100vh - 100px)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Row className="justify-content-md-center mt-5 w-100">
-        <Col sm={12} md={8} lg={6}
+        <Col
+          sm={12}
+          md={8}
+          lg={6}
+          className={mode}
           style={{
-            backgroundColor: 'white', padding: '50px',
-            borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.15)'
-          }}>
+            padding: "50px",
+            borderRadius: "15px",
+            boxShadow: "0px 7px 7px rgba(0,0,0,0.15)",
+          }}
+        >
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="loginEmail">
               <Form.Label>이메일 주소</Form.Label>

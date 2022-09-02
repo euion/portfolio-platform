@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
 import Card from "react-bootstrap/Card";
 import * as API from "../../api";
 import "./Project.css";
@@ -10,8 +8,6 @@ import Accordion from "react-bootstrap/Accordion";
 import Badge from "react-bootstrap/Badge";
 
 //context
-import { UserStateContext } from "../../App.js";
-import { DispatchContext } from "../../App";
 import { modeContext } from "../../App";
 
 //component
@@ -66,7 +62,7 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
       )}
       {!isLoading && (
         <Card
-          style={{ borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.1)' }}
+          style={{ borderRadius: "15px", boxShadow: "0px 7px 7px rgba(0,0,0,0.1)" }}
           className="p-3 mt-4"
           bg={mode.toLowerCase()}
           text={mode.toLowerCase() === "light" ? "dark" : "white"}
@@ -103,15 +99,12 @@ const Project = ({ portfolioOwnerId, isEditable }) => {
                             )}
                           </div>
                           <span style={{ color: "grey" }}>
-                            [{v?.from_date.slice(2, 10)} ~{" "}
-                            {v?.to_date.slice(2, 10)}]
+                            [{v?.from_date.slice(2, 10)} ~ {v?.to_date.slice(2, 10)}]
                           </span>
                         </div>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {v.imagePath && (
-                          <ProjectImages imagePath={v?.imagePath} />
-                        )}
+                        {v.imagePath && <ProjectImages imagePath={v?.imagePath} />}
                         <div className="mt-3">
                           {v?.description?.split("\n").map((v, i) => (
                             <React.Fragment key={v.id + "br" + i}>

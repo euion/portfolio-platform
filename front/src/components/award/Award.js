@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, forwardRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Card, Row, Col, Button, Form } from "react-bootstrap";
 import AwardAdd from "./AwardAdd.js";
 import AwardEdit from "./AwardEdit.js";
@@ -51,7 +51,7 @@ function Award({ portfolioOwnerId, isEditable }) {
       )}
       {!isLoading && (
         <Card
-          style={{ borderRadius: '15px', boxShadow: '0px 7px 7px rgba(0,0,0,0.1)' }}
+          style={{ borderRadius: "15px", boxShadow: "0px 7px 7px rgba(0,0,0,0.1)" }}
           className="p-3 mt-4"
           bg={mode.toLowerCase()}
           text={mode.toLowerCase() === "light" ? "dark" : "white"}
