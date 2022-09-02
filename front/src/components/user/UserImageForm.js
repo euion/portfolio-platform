@@ -1,10 +1,10 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { backPort } from "../../config";
 import { backServer } from "../../config";
 
-const UserImageForm = ({ user, setUser }) => {
+const UserImageForm = ({ user, setUser, imagePath, setImagePath }) => {
   const serverUrl = "http://" + window.location.hostname + ":" + backPort + "/";
   //image 관련 함수들
   const imageInput = useRef();
@@ -23,16 +23,13 @@ const UserImageForm = ({ user, setUser }) => {
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
-        setUser({ ...user, imagePath: data });
+        setImagePath(data);
       });
     //똑같은 파일을 올렸을때 onChange가 인식 못하는걸 방지
     e.target.value = "";
   };
   const onRemoveImage = () => {
-    setUser({
-      ...user,
-      imagePath: "",
-    });
+    setImagePath("");
   };
 
   return (
@@ -53,7 +50,7 @@ const UserImageForm = ({ user, setUser }) => {
         ref={imageInput}
         onChange={onChangeImages}
       />
-      {user?.imagePath && (
+      {imagePath && (
         <div
           key={user?.imagePath}
           className="me-2"
@@ -62,7 +59,7 @@ const UserImageForm = ({ user, setUser }) => {
           {/* {backServer + backPort + '/' + user.imagePath} */}
           <img
             className="mt-2"
-            src={`${backServer}${backPort}/${user?.imagePath}`}
+            src={`${backServer}${backPort}/${imagePath}`}
             alt="업로드 이미지"
             style={{ width: "100%", height: "200px", objectFit: "contain" }}
           ></img>
