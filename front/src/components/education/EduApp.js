@@ -18,15 +18,24 @@ function EduApp({ portfolioOwnerId, isEditable }) {
   const mode = useContext(modeContext);
   const [educations, setEducations] = useState(initialState.users);
   const [isAdding, setIsAdding] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+
   useEffect(() => {
     Api.get(`users/${portfolioOwnerId}/educations`).then((res) =>
       setEducations(res.data)
     );
+    setIsLoading(false);
   }, [portfolioOwnerId]);
 
   return (
     <>
-      <Card
+      {isLoading && <div
+        style={{ height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <h1> 로딩중... 😎 </h1>
+      </div>}
+      {!isLoading && <Card
         className="ml-5"
         bg={mode.toLowerCase()}
         text={mode.toLowerCase() === "light" ? "dark" : "white"}
@@ -57,7 +66,8 @@ function EduApp({ portfolioOwnerId, isEditable }) {
             )}
           </div>
         </Card.Body>
-      </Card>
+      </Card>}
+
     </>
   );
 }
